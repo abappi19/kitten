@@ -1,4 +1,4 @@
-# Self Agent
+# Self Workflow
 
 ## Purpose
 

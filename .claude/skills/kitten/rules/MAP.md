@@ -90,7 +90,7 @@ Load this file before reading any other file in this skill. All remote files use
 | SYM_RCP | rules/composition-patterns — React component architecture rules |
 | SYM_RBP | rules/react-best-practices — React & Next.js performance rules |
 | SYM_RNS | rules/react-native-skills — React Native performance rules |
-| SYM_RAGENT | agents/rules.md — rule routing agent |
+| SYM_RAGENT | workflows/rule-finder.md — rule finder workflow |
 
 ## Patterns & Principles
 | Symbol | Value |

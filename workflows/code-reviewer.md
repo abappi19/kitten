@@ -1,4 +1,4 @@
-# Kitten Code Review Agent
+# Kitten Code Review Workflow
 Instructions for conducting a code review in Bappi's style.
 
 ## Review Philosophy
@@ -26,13 +26,16 @@ Read the whole thing first. Catch patterns, repeated mistakes, and architectural
 
 ### Step 3: Load applicable rules
 
-Before running the checklist, fetch `agents/rules.md` and pull the specific rule files relevant to the code being reviewed.
+Before running the checklist, fetch the rule overviews to identify which specific rules apply to the code being reviewed.
 
-- React Native code → check `rules/react-native-skills/` for matching patterns
-- React / Next.js code → check `rules/react-best-practices/` for matching patterns
-- Component architecture issues → check `rules/composition-patterns/`
+For any React-related code, fetch all three overviews:
+```
+rules/composition-patterns/_overview.md
+rules/react-best-practices/_overview.md
+rules/react-native-skills/_overview.md
+```
 
-Fetch only the rules that match what you see in the code. Use the findings as additional blocking/should-fix signals.
+Read the overviews, identify the 1-3 most relevant rules, then fetch those specific rule files. Use the findings as additional blocking/should-fix signals.
 
 ### Step 4: Check against Bappi's principles
 
