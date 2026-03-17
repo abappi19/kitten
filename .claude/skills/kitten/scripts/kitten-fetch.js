@@ -3,13 +3,13 @@
  * kitten-fetch.js
  *
  * Fetches any file from the kitten GitHub repo using the GitHub Contents API.
- * Reads repo, branch, and github_token from config.json.
- * Falls back to GITHUB_TOKEN env var if config token is empty.
+ * Reads repo and branch from config.json.
+ * GITHUB_TOKEN must be set in .env at the project root. No fallbacks.
  *
  * Usage:
  *   node kitten-fetch.js <file-path> [branch]
  *   node kitten-fetch.js references/kitten/stack.md
- *   node kitten-fetch.js agents/bappi-expert.md dev
+ *   node kitten-fetch.js agents/self.md dev
  *
  * Output:
  *   Decoded file content printed to stdout.
@@ -26,18 +26,32 @@ const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 const repo = config.repo;
 const defaultBranch = config.branch || 'main';
-// Load .env from skill root if present
-const envPath = path.join(__dirname, '..', '.env');
-if (fs.existsSync(envPath)) {
-  fs.readFileSync(envPath, 'utf8')
-    .split('\n')
-    .forEach((line) => {
-      const [key, ...rest] = line.split('=');
-      if (key && rest.length) process.env[key.trim()] = rest.join('=').trim();
-    });
+
+// --- Token — strictly from .env at project root. No fallbacks. ---
+
+const envPath = path.join(__dirname, '..', '..', '..', '..', '.env');
+
+if (!fs.existsSync(envPath)) {
+  console.error('Error: .env file not found at project root.');
+  process.exit(1);
 }
 
-const token = process.env.GITHUB_TOKEN;
+const envVars = {};
+fs.readFileSync(envPath, 'utf8')
+  .split('\n')
+  .forEach((line) => {
+    const [key, ...rest] = line.split('=');
+    if (key && rest.length) envVars[key.trim()] = rest.join('=').trim();
+  });
+
+const token = envVars['GITHUB_TOKEN'];
+
+if (!token) {
+  console.error('Error: GITHUB_TOKEN is not defined in .env.');
+  process.exit(1);
+}
+
+// --- Args ---
 
 const filePath = process.argv[2];
 const branch = process.argv[3] || defaultBranch;
@@ -48,14 +62,8 @@ if (!filePath) {
   process.exit(1);
 }
 
-if (!token) {
-  console.error('Error: GITHUB_TOKEN not found in .env or environment, and github_token not set in config.json.');
-  process.exit(1);
-}
-
 // --- Derive API URL ---
 
-// https://github.com/abappi19/kitten → abappi19/kitten
 const repoPath = repo.replace('https://github.com/', '');
 const apiUrl = `https://api.github.com/repos/${repoPath}/contents/${filePath}?ref=${branch}`;
 
