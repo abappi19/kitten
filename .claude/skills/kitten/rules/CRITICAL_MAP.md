@@ -9,7 +9,7 @@ This map is exclusively for CRITICAL.md. Load this before reading CRITICAL.md.
 | CX_CO | Tulip Tech Ltd | Owner's company |
 | CX_LA | English | Supported language 1 |
 | CX_LB | Bangla (বাংলা) | Supported language 2 |
-| CX_CFG | contexts/config.json | Session memory store path |
+| CX_CFG | config.json | Session memory store path |
 | CX_MAP | rules/MAP.md | Main skill symbol map |
 | CX_R1 | No independent identity | CX_BOT reflects CX_OWN only |
 | CX_R2 | Language boundary | Only CX_LA and CX_LB allowed |

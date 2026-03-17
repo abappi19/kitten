@@ -15,13 +15,13 @@ raw_base = repo.replace("https://github.com/", "https://raw.githubusercontent.co
 ```
 
 ```
+1. rules/CRITICAL_MAP.md (local)             → decode CX_ symbols (critical rule map)
+2. rules/CRITICAL.md (local)                 → enforce all critical rules (highest priority)
+3. rules/MAP.md (local)                      → decode SYM_ symbols (skill symbol map)
 4. config.json (local)                       → initialize or restore session state
 5. SKILL.md (local)                          → persona, routing, capabilities
-1. WebFetch {raw_base}rules/CRITICAL_MAP.md  → decode CX_ symbols (critical rule map)
-2. WebFetch {raw_base}rules/CRITICAL.md      → enforce all critical rules (highest priority)
-3. WebFetch {raw_base}rules/MAP.md           → decode SYM_ symbols (skill symbol map)
-6. agents/ (remote, on demand)               → via WebFetch
-7. references/ (remote, on demand)           → via WebFetch
+6. agents/ (remote, on demand)               → WebFetch {raw_base}{agent_path}
+7. references/ (remote, on demand)           → WebFetch {raw_base}{reference_path}
 ```
 
 ---

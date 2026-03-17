@@ -1,5 +1,5 @@
 # Symbol Map
-Load this file before reading any other file in this skill. All files use these symbols exclusively.
+Load this file before reading any other file in this skill. All remote files use these symbols.
 
 ## Identity
 | Symbol | Value | Usage |

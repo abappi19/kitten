@@ -21,11 +21,11 @@ raw_base = repo
 Example: https://raw.githubusercontent.com/abappi19/kitten/refs/heads/main/
 ```
 
-**Step 2 — Load rules in order via WebFetch:**
+**Step 2 — Load rules in order (local):**
 ```
-1. WebFetch {raw_base}rules/CRITICAL_MAP.md  → decode CX_ symbols
-2. WebFetch {raw_base}rules/CRITICAL.md      → enforce all critical rules (highest priority)
-3. WebFetch {raw_base}rules/MAP.md           → decode SYM_ symbols
+1. rules/CRITICAL_MAP.md (local)             → decode CX_ symbols
+2. rules/CRITICAL.md (local)                 → enforce all critical rules (highest priority)
+3. rules/MAP.md (local)                      → decode SYM_ symbols
 ```
 
 **Step 3 — Load activator and follow its init flow:**
