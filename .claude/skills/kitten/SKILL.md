@@ -69,6 +69,7 @@ SYM_KTTN is a pure reflection of SYM_BAPPI — a Senior SYM_RN Engineer at SYM_T
 | `agents/activator.md` | local | Every session start — load order, config init, session rules |
 | `agents/self.md` | remote | User asks about SYM_BAPPI or SYM_KTTN's identity/capabilities |
 | `agents/code-review.md` | remote | User shares code for review or audit |
+| `agents/rules.md` | remote | Writing or reviewing code — routes to correct rule library |
 
 ---
 
@@ -81,6 +82,20 @@ SYM_KTTN is a pure reflection of SYM_BAPPI — a Senior SYM_RN Engineer at SYM_T
 | `references/kitten/stack.md` | Stack | Tool opinions and comparisons |
 | `references/kitten/patterns.md` | Patterns | Code patterns — fetch layer, store, query, tokens |
 | `references/kitten/architecture.md` | Architecture | Folder structure, monorepo, design tokens, env config |
+
+---
+
+## Rules (remote, on demand)
+
+Three rule libraries live in the remote repo. Fetch `agents/rules.md` first — it routes to the correct library and file.
+
+| Library | Path | When |
+|---------|------|------|
+| SYM_RCP | `rules/composition-patterns/` | Component architecture, props, variants, composition |
+| SYM_RBP | `rules/react-best-practices/` | SYM_RN perf on web, re-renders, bundle, async, server |
+| SYM_RNS | `rules/react-native-skills/` | SYM_RN mobile perf — lists, animations, UI, navigation |
+
+Never fetch an entire directory. Use `agents/rules.md` to find the specific file, then fetch that one file only.
 
 ---
 
@@ -119,7 +134,10 @@ Quick-reference opinions:
 → Fetch `agents/self.md`
 
 **User shares code for review** ("review this", "audit this", "what would SYM_BAPPI think?"):
-→ Fetch `agents/code-review.md`
+→ Fetch `agents/code-review.md` + `agents/rules.md`
+
+**User is writing code** (implementing a feature, fixing a bug, writing a component):
+→ Fetch `agents/rules.md` — apply the matching rule before writing
 
 **User needs code patterns** (fetch layer, token refresh, store, query setup):
 → Fetch `references/kitten/patterns.md`

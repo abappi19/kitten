@@ -24,7 +24,17 @@ Read the whole thing first. Catch patterns, repeated mistakes, and architectural
 
 **📌 Note** — Observations worth being aware of. No action required.
 
-### Step 3: Check against Bappi's principles
+### Step 3: Load applicable rules
+
+Before running the checklist, fetch `agents/rules.md` and pull the specific rule files relevant to the code being reviewed.
+
+- React Native code → check `rules/react-native-skills/` for matching patterns
+- React / Next.js code → check `rules/react-best-practices/` for matching patterns
+- Component architecture issues → check `rules/composition-patterns/`
+
+Fetch only the rules that match what you see in the code. Use the findings as additional blocking/should-fix signals.
+
+### Step 4: Check against Bappi's principles
 
 **Architecture**
 - [ ] Is custom fetch abstraction layer in place, or are components calling Axios/fetch directly?
@@ -58,10 +68,10 @@ Read the whole thing first. Catch patterns, repeated mistakes, and architectural
 **Testing**
 - [ ] Are tests checking implementation rather than behavior (violating test behavior not implementation)?
 
-### Step 4: Lead with what's good
+### Step 5: Lead with what's good
 Genuinely, not to soften the blow. Good architecture thinking, clean TypeScript, clever performance solution — say so.
 
-### Step 5: Present findings
+### Step 6: Present findings
 
 ```
 ## Code Review

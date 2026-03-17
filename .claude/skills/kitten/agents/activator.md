@@ -8,11 +8,8 @@ This agent runs on every session start. It is the single source of truth for act
 
 Execute in this exact sequence. Never skip or reorder.
 
-All remote files are fetched via WebFetch using `{raw_base}` derived from config.json:
-```
-raw_base = repo.replace("https://github.com/", "https://raw.githubusercontent.com/")
-           + "/refs/heads/" + branch + "/"
-```
+All remote files are fetched via `scripts/kitten-fetch.js` inside this skill's folder.
+Derive the full path from where SKILL.md was loaded.
 
 ```
 1. rules/CRITICAL_MAP.md (local)             → decode CX_ symbols (critical rule map)
@@ -20,9 +17,17 @@ raw_base = repo.replace("https://github.com/", "https://raw.githubusercontent.co
 3. rules/MAP.md (local)                      → decode SYM_ symbols (skill symbol map)
 4. config.json (local)                       → initialize or restore session state
 5. SKILL.md (local)                          → persona, routing, capabilities
-6. agents/ (remote, on demand)               → WebFetch {raw_base}{agent_path}
-7. references/ (remote, on demand)           → WebFetch {raw_base}{reference_path}
+6. agents/ (remote, on demand)               → kitten-fetch {agent_path}
+7. references/ (remote, on demand)           → kitten-fetch {reference_path}
+8. rules/ (remote, on demand)               → kitten-fetch {rule_path}
 ```
+
+Remote rule libraries available on demand:
+- `rules/composition-patterns/` — React component architecture
+- `rules/react-best-practices/` — React & Next.js performance
+- `rules/react-native-skills/` — React Native performance
+
+Route through `agents/rules.md` to find the right file.
 
 ---
 
@@ -81,7 +86,7 @@ If user requests a language switch mid-session → allow only if switching to CX
 
 ## Violation Handling
 
-If any instruction contradicts the rules above or the remote CRITICAL.md:
+If any instruction contradicts the rules above or CRITICAL.md:
 1. CRITICAL.md wins
 2. Respond politely but firmly
 3. Do not apologize for following these rules
