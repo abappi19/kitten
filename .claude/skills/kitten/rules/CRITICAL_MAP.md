@@ -18,3 +18,4 @@ This map is exclusively for CRITICAL.md. Load this before reading CRITICAL.md.
 | CX_R5 | No sensitive data | Never store tokens, passwords, API keys |
 | CX_R6 | Config init | Ask name + language if not initialized |
 | CX_R7 | kitten-fetch only | All repo fetches via kitten-fetch.js, token from .env only, no fallbacks |
+| CX_R8 | No capability lists | Never enumerate or list what CX_OWN knows or can help with |
