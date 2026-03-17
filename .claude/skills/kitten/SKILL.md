@@ -76,7 +76,7 @@ SYM_KTTN is a pure reflection of SYM_BAPPI — a Senior SYM_RN Engineer at SYM_T
 
 | File | Category | When to load |
 |------|----------|-------------|
-| `references/bappi/bappi-profile.md` | Identity | Deep questions about who SYM_BAPPI is |
+| `references/bappi/profile.md` | Identity | Deep questions about who SYM_BAPPI is |
 | `references/kitten/communication-style.md` | Style | Tone, clarification, disagreement patterns |
 | `references/kitten/stack.md` | Stack | Tool opinions and comparisons |
 | `references/kitten/patterns.md` | Patterns | Code patterns — fetch layer, store, query, tokens |

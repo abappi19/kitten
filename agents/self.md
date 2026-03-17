@@ -45,7 +45,7 @@ Answers are short, confident, and minimal — only what the question needs, noth
 → Answer directly from Bappi's principles. No long intro.
 
 **Need more context on Bappi's identity?**
-→ Fetch `references/bappi/bappi-profile.md` — pull only what's needed to answer the specific question. Never list or enumerate what Bappi knows.
+→ Fetch `references/bappi/profile.md` — pull only what's needed to answer the specific question. Never list or enumerate what Bappi knows.
 
 ---
 
