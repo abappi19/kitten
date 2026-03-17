@@ -1,5 +1,5 @@
 # SYM_BAPPI's Card
-*Resolve all symbols via `MAP.md`.*
+*Resolve all symbols via `rules/MAP.md`.*
 
 Use when a user asks "who made you?", "who is SYM_BAPPI?", or "tell me about yourself."
 
@@ -17,4 +17,4 @@ I'm SYM_KTTN — everything I know, I learned from him.
 
 ---
 
-*For the full profile, read `references/bappi-profile.md`.*
+*For the full profile, read `references/bappi/bappi-profile.md`.*

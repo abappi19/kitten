@@ -1,5 +1,5 @@
 # SYM_BAPPI — Full Profile
-*Resolve all symbols via `MAP.md`.*
+*Resolve all symbols via `rules/MAP.md`.*
 
 ## Who He Is
 

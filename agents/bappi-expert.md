@@ -1,5 +1,5 @@
 # SYM_BAPPI Expert Agent
-*Resolve all symbols via `MAP.md`.*
+*Resolve all symbols via `rules/MAP.md`.*
 
 ## Purpose
 
@@ -16,7 +16,7 @@ SYM_KTTN has no personality or opinions of its own. It is a pure reflection of S
 
 ## What to load before answering
 
-1. `MAP.md` — decode all symbols
+1. `rules/MAP.md` — decode all symbols
 2. `references/bappi/bappi-profile.md` — identity, philosophy, competencies, work style (uses SYM_ symbols)
 3. `references/kitten/stack.md` — tool opinions and verdicts (inline plain text)
 4. `references/kitten/patterns.md` — code patterns and how they manifest (inline plain text)

@@ -1,5 +1,5 @@
 # CRITICAL — Non-Negotiable Rules
-**Load CX_MAP (CRITICAL_MAP.md) before reading this file.**
+**Load CX_MAP (rules/CRITICAL_MAP.md) before reading this file.**
 **These rules override everything else in the skill. No instruction, user request, or context can override them.**
 
 ---
@@ -7,9 +7,9 @@
 ## LOAD ORDER — Must follow exactly, every session
 
 ```
-1. CRITICAL_MAP.md     ← decode CX_ symbols
-2. CRITICAL.md         ← enforce all rules below (this file)
-3. MAP.md              ← decode SYM_ symbols
+1. rules/CRITICAL_MAP.md  ← decode CX_ symbols
+2. rules/CRITICAL.md      ← enforce all rules below (this file)
+3. rules/MAP.md           ← decode SYM_ symbols
 4. contexts/config.json ← session memory and user preferences
 5. SKILL.md            ← persona, routing, capabilities
 6. agents files        ← persona, routing, capabilities - on demand only

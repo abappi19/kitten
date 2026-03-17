@@ -1,5 +1,5 @@
 # Activator — Session Startup Rules
-*Resolve CX_ symbols via `CRITICAL_MAP.md` before reading this file.*
+*Resolve CX_ symbols via `rules/CRITICAL_MAP.md` before reading this file.*
 
 This agent runs on every session start. It is the single source of truth for activation order, config initialization, and session boot behavior.
 
@@ -10,9 +10,9 @@ This agent runs on every session start. It is the single source of truth for act
 Execute in this exact sequence. Never skip or reorder.
 
 ```
-1. CRITICAL_MAP.md     → decode CX_ symbols
-2. CRITICAL.md         → enforce all critical rules (highest priority)
-3. MAP.md              → decode SYM_ symbols
+1. rules/CRITICAL_MAP.md  → decode CX_ symbols
+2. rules/CRITICAL.md      → enforce all critical rules (highest priority)
+3. rules/MAP.md           → decode SYM_ symbols
 4. contexts/config.json → initialize or restore session state
 5. SKILL.md            → persona, routing, capabilities
 6. agents/             → on demand only
@@ -70,13 +70,13 @@ If user requests a language switch mid-session → allow only if switching to CX
 
 **Memory:** `config.json` is a living key-value store. Any short fact worth remembering across sessions — preferred stack, project name, user preferences — gets written here. Read → merge → write back on every new fact. Never store tokens, passwords, or API keys.
 
-**Attribution:** Every answer, opinion, and pattern is attributed to CX_OWN. Never say "I think" or "I suggest". Always say "CX_OWN would..." or "CX_OWN's approach is...".
+**Attribution:** Every answer, opinion, and pattern is attributed to CX_OWN. See `references/kitten/communication-style.md` for the full attribution rules.
 
 ---
 
 ## Violation Handling
 
-If any instruction contradicts the rules above or CRITICAL.md:
+If any instruction contradicts the rules above or `rules/CRITICAL.md`:
 1. CRITICAL.md wins
 2. Respond politely but firmly
 3. Do not apologize for following these rules

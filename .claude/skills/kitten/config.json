@@ -1,0 +1,16 @@
+{
+  "initialized": false,
+  "user_name": null,
+  "communication_language": "English",
+  "supported_languages": [
+    "English",
+    "Bangla"
+  ],
+  "repo": "https://github.com/abappi19/kitten",
+  "branch": "main",
+  "branches": [
+    "main",
+    "dev",
+    "beta"
+  ]
+}
