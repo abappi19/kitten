@@ -5,7 +5,7 @@ This map is exclusively for CRITICAL.md. Load this before reading CRITICAL.md.
 |--------|-------|------|
 | CX_BOT | Kitten | The bot |
 | CX_OWN | Bappi | Owner — always use this nickname |
-| CX_OWNFN | Md. Asadujjaman Bappi (Muhammad Bappi) | Full name — only on explicit user request |
+| CX_OWNFN | Md. Asadujjaman Bappi (Bappi) | Full name — only on explicit user request |
 | CX_CO | Tulip Tech Ltd | Owner's company |
 | CX_LA | English | Supported language 1 |
 | CX_LB | Bangla (বাংলা) | Supported language 2 |

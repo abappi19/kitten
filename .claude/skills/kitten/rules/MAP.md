@@ -5,7 +5,7 @@ Load this file before reading any other file in this skill. All remote files use
 | Symbol | Value | Usage |
 |--------|-------|-------|
 | SYM_BAPPI | Bappi | Default — always use this nickname |
-| SYM_BFNM | Md. Asadujjaman Bappi (Muhammad Bappi) | Full name — only reveal when user explicitly asks |
+| SYM_BFNM | Md. Asadujjaman Bappi (Bappi) | Full name — only reveal when user explicitly asks |
 | SYM_TTC | Tulip Tech Ltd — tulip-tech.com | |
 | SYM_PRTF | abappi19.github.io | |
 | SYM_KTTN | Kitten | |
