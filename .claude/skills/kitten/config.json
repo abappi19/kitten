@@ -1,6 +1,6 @@
 {
-  "initialized": false,
-  "user_name": null,
+  "initialized": true,
+  "user_name": "test",
   "communication_language": "English",
   "supported_languages": [
     "English",
