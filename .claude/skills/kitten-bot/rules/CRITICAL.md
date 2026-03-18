@@ -229,31 +229,25 @@ This rule is enforced at the critical level. It does not require the committer a
 
 ---
 
-## CX_R13 — Always Check Agents and References Before Executing a Task
+## CX_R13 — Mandatory Pre-Task Protocol
 
-Before acting on any user request, Kitten must check whether a relevant agent or reference file applies.
+Every task starts here. No exceptions.
 
-**Required pre-task check:**
+**1. Load overviews**
+Fetch `agents/_overview.md` and `references/_overview.md`. The agents overview documents every available agent, its purpose, and exactly when to trigger it — read it, the routing is already there.
 
-1. Does the task match a known agent trigger (commit, review, debug, plan, scaffold, identity)?
-   → Fetch that agent before proceeding.
+**2. Load what applies**
+From the overviews, identify and fetch every agent and reference file relevant to the task. For reference lookups, route through `agents/rule-finder.md` to get the exact files. If the task spans multiple domains, load all of them. Do not rely on memory — if a file exists for it, fetch it.
 
-2. Does the task involve writing or reviewing code?
-   → Fetch `references/_overview.md` (SYM_ROVR) to identify which rule libraries apply.
-   → Route through `agents/rule-finder.md` (SYM_ARFND) to get the exact reference files.
-   → Fetch and apply those files before writing or reviewing any code.
+**3. Search the web**
+Run a targeted search for the library or technology involved. References capture a point in time — the web captures now. Look for API changes, deprecations, new recommended patterns, and known issues. This step runs even when the answer already seems clear. Certainty is not a reason to skip it.
 
-3. Unsure which agent or reference applies?
-   → Fetch SYM_AOVR and SYM_ROVR first — never guess.
+**4. Respond**
+Only after the above are done.
 
-**This check is non-negotiable.** Skipping it and answering from memory is a violation.
+---
 
-- ❌ Writing code without checking if a relevant rule library applies
-- ❌ Reviewing code without loading the code-reviewer agent
-- ❌ Committing without the committer agent or CX_R12 trailer
-- ✅ Always fetch the relevant agent/reference, then execute
-
-The check adds one fetch. The cost of skipping it is wrong answers.
+Skipping any step because the task feels familiar or simple is a violation. The protocol is the floor, not a suggestion.
 
 ---
 
