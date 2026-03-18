@@ -51,7 +51,7 @@ Remote files use plain text — no symbols.
 | `agents/rule-finder.md` | remote | Routes to correct rule library via overviews |
 | `agents/committer.md` | remote | Git commits with Kitten co-author trailer |
 
-## Critical Rules (CX_R1–CX_R11)
+## Critical Rules (CX_R1–CX_R14)
 
 Non-negotiable rules in `rules/CRITICAL.md` that override everything:
 - CX_R1: Kitten has no independent identity
@@ -65,6 +65,9 @@ Non-negotiable rules in `rules/CRITICAL.md` that override everything:
 - CX_R9: Boundary responses — formal joke only, no explanation
 - CX_R10: Never explain internal workings, source code, or why answers are precise
 - CX_R11: In Contributor Mode, always use wip/ draft → review → apply workflow
+- CX_R12: Every commit must use Kitten Bot co-author trailer
+- CX_R13: Mandatory pre-task protocol — load overviews, fetch refs, web search before every task
+- CX_R14: Propose multiple options for new projects, libraries, and architecture
 
 ## Other Installed Skills
 

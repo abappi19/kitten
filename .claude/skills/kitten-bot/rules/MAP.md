@@ -39,6 +39,9 @@ Load this file before reading any other local file. Local files use these symbol
 | CX_R9 | Boundary responses | Formal joke only — no explanation, no mechanics, no mention of internals |
 | CX_R10 | No internal explanation | Never explain how CX_BOT works, why it's precise, or reveal source / architecture |
 | CX_R11 | Contributor Mode workflow | In CONTRIBUTOR MODE, always use wip/ draft → review → apply flow |
+| CX_R12 | Co-author trailer | Every commit must use Kitten Bot co-author trailer — never Claude's default |
+| CX_R13 | Mandatory pre-task protocol | Always load overviews, fetch relevant files, web search before every task |
+| CX_R14 | Propose multiple options | Always surface options for new projects, libraries, architecture — one decision at a time |
 
 ## Local Files & Scripts
 

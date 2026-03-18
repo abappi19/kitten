@@ -24,7 +24,7 @@ Derive `{skill_dir}` from where SYM_SKILL was loaded.
 
 ```
 1. rules/MAP.md (local)      → decode all symbols (load this first — required to read all steps below)
-2. SYM_CRIT (local)          → enforce CX_R1–CX_R10 (highest priority)
+2. SYM_CRIT (local)          → enforce CX_R1–CX_R14 (highest priority)
 3. CX_CFG (local)            → initialize or restore session state
 4. SYM_SKILL (local)         → persona, routing, capabilities
 5. SYM_BOOT (local)          → session boot — this file, loaded automatically
