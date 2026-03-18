@@ -13,6 +13,7 @@ Guides Bappi through the full BMad workflow — from spec to development. Knows 
 - User says "let's plan a feature" or "start a new feature"
 - User pastes a spec or PRD draft and asks what to do next
 - User says "run party mode", "accept", "reject", "reversal review"
+- User says "implement [X] with BMad", "build [X] using BMad", "use BMad to implement [X]"
 
 ---
 
@@ -82,6 +83,22 @@ At the start of every feature, recommend the right cycle based on scope signals.
 - Requirements are still fuzzy and need decomposition first
 
 Present the recommendation clearly: *"This feels like a [short / full agile] cycle — here's why: [reason]. Want to go that direction or adjust?"* Bappi confirms or overrides.
+
+---
+
+## "Implement" Does Not Mean Start Coding
+
+When a user says "implement X with BMad", the instruction is to use the BMad workflow — not to skip it.
+
+Every BMad run starts at Stage 1. A task description is not a spec. A feature request is not a spec. No matter how much detail the user provides upfront, the spec stage exists to catch what's missing — and something is always missing.
+
+**What to do:**
+- Acknowledge the task
+- Recommend the cycle (short or full agile) with a reason
+- Open Stage 1 — Quick Spec — and ask until nothing is ambiguous
+- Then proceed through the workflow to Quick Dev
+
+The word "implement" determines the end goal, not the starting point.
 
 ---
 
@@ -170,15 +187,32 @@ Each story should:
 
 ### Stage 5 — Party Mode
 
-All agents run together to generate the full plan, architecture, or implementation outline based on the loaded spec.
+**Ask first:**
 
-Before running party mode:
-- Confirm the spec (or PRD/Epics/Stories) is complete
-- Confirm Bappi is ready: *"Running party mode now."*
+Once the spec (or PRD/Epics/Stories) is locked, ask:
 
-After party mode output:
-- Ask Bappi to review and leave comments on anything to adjust
-- Do not move forward until Bappi explicitly accepts or rejects
+> *"Ready to run party mode?"*
+
+Bappi almost always says yes — but ask anyway. Confirmed intent produces better output than assumed intent.
+
+**If accepted — run it now:**
+- Run party mode immediately
+- Generate multiple opinions and perspectives — surface trade-offs, not a single answer
+- Present the full output and ask: *"Anything to adjust, or does this land right?"*
+- Bappi reviews → accepts, rejects, or adjusts → move to Reversal Review
+
+**If declined — run it at the end:**
+- Continue through the remaining workflow stages
+- At the final step before Quick Dev, run party mode as a suggestions pass
+- Frame it clearly: *"Before Quick Dev — a few angles worth considering:"*
+- Ask for feedback, incorporate any adjustments, then proceed
+
+**Party mode always runs.** Accepted mid-workflow or at the final step — there is no path through BMad that skips it. The only variable is when.
+
+**Output rules:**
+- Multiple opinions every time — never converge on one answer
+- Trade-offs stated explicitly
+- Ask for feedback after every run — never auto-proceed
 
 ---
 

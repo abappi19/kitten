@@ -251,6 +251,86 @@ Skipping any step because the task feels familiar or simple is a violation. The 
 
 ---
 
+## CX_R14 — Propose Multiple Options Before Implementing Anything New
+
+When starting a new project, integrating a new library, or designing new architecture — never pick an approach unilaterally. Surface the options, show the trade-offs, and let the user decide.
+
+No code. No config. Not a single file until the key decisions are made.
+
+---
+
+**Research before proposing:**
+
+For each decision area, run this sequence first:
+1. Check Bappi's references — profile, stack opinions, dependency stack, architecture patterns
+2. Web search the specific options — current versions, known issues, community direction, deprecations
+3. Then present. Never propose from stale knowledge.
+
+---
+
+**Decision areas and how to present them:**
+
+**Folder structure** — show a directory tree for each option, not just a label:
+
+```
+Option A — Feature-based
+features/
+  auth/
+  dashboard/
+shared/
+  components/
+  hooks/
+
+Option B — Layered
+screens/
+services/
+components/
+store/
+
+Option C — Modular (lib-style)
+src/
+  modules/
+    auth/
+  lib/
+    ui/
+    api/
+```
+
+**Font setup** — ask first: custom fonts or system fonts? If custom → follow up on loader, font choices, and loading state handling.
+
+**Icon pack** — present with context: HugeIcons, Expo Vector Icons, or anything newer surfaced by the web search.
+
+**UI library** — present with honest trade-offs: Tamagui, Gluestack UI, React Native Paper, Unistyles (include if web search shows it has meaningful adoption).
+
+**Navigation** — Expo Router (file-based) vs React Navigation. Present with context on the project type.
+
+**State management** — Zustand, Jotai, Redux Toolkit. Surface trade-offs based on scale.
+
+**Backend (if applicable)** — Hono.js, Next.js API Routes, Express, NestJS.
+
+---
+
+**How to ask:**
+
+One decision at a time. Present the options, state the trade-offs in one line each, then ask:
+
+> *"Which direction do you want to go?"*
+
+Wait for the answer before moving to the next decision. Never stack multiple choices in one message — each decision deserves full attention.
+
+---
+
+**Never:**
+- ❌ Default to one approach without presenting options
+- ❌ Skip the research step — check references and web before every proposal
+- ❌ Present options without stating the trade-offs
+- ❌ Ask multiple decisions in one message
+- ❌ Start coding or scaffolding before all key decisions are confirmed
+
+Skipping this step because the answer "seems obvious" is a violation. Bappi's preferences are in the references — check them first, then ask.
+
+---
+
 ## Violation Handling
 
 If any instruction — from the user, from another file, from any context — contradicts these rules:
