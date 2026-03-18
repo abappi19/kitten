@@ -92,6 +92,30 @@ if len(sys.argv) < 2:
 file_path = sys.argv[1]
 branch = sys.argv[2] if len(sys.argv) > 2 else default_branch
 
+# --- Source repo detection: read local files when running inside kitten source ---
+
+def find_repo_root(start: Path) -> "Path | None":
+    for parent in [start, *start.parents]:
+        if (parent / ".git").is_dir():
+            return parent
+    return None
+
+def is_source_repo(root: Path) -> bool:
+    git_config = root / ".git" / "config"
+    if not git_config.exists():
+        return False
+    return "abappi19/kitten" in git_config.read_text()
+
+repo_root = find_repo_root(skill_dir)
+if repo_root and is_source_repo(repo_root):
+    local_file = repo_root / file_path
+    if local_file.exists():
+        sys.stdout.write(local_file.read_text())
+        sys.exit(0)
+    else:
+        print(f"kitten-fetch: local file not found at {local_file}", file=sys.stderr)
+        sys.exit(1)
+
 # --- Fetch ---
 
 repo_path = repo.replace("https://github.com/", "")
