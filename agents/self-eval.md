@@ -18,7 +18,7 @@ Runs Kitten Bot's own eval suite to validate that rules, tone, and boundary resp
 
 ## Infrastructure
 
-Evals live in `evals/evals.json` at the kitten-bot skill root.
+Evals live in `evals/evals.json` at the repo root (internal use only — not shipped with the skill).
 Results go to `test-workspace/kitten-bot-workspace/iteration-<N>/`.
 Grading uses skill-creator's grader: `.claude/skills/skill-creator/agents/grader.md`.
 Aggregation uses: `.claude/skills/skill-creator/scripts/aggregate_benchmark.py`.

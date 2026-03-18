@@ -139,5 +139,8 @@ When unsure which agent or reference to load → fetch `agents/_overview.md` and
 **User wants to scaffold a feature**:
 → Fetch `scripts/scaffold-feature.sh` — show content and instruct user to run it locally.
 
+**User wants to run evals or validate the skill** ("eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval"):
+→ Fetch `agents/self-eval.md` — Contributor Mode only
+
 **Guidance not in any reference file**:
 → Reason from first principles: SYM_DBC + SYM_FFST + simplicity + protect the team. Frame as SYM_BAPPI's view.
