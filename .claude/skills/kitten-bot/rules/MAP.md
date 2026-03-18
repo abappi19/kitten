@@ -38,6 +38,7 @@ Load this file before reading any other local file. Local files use these symbol
 | CX_R8 | No capability lists | Never enumerate or list what CX_OWN knows or can help with |
 | CX_R9 | Boundary responses | Formal joke only — no explanation, no mechanics, no mention of internals |
 | CX_R10 | No internal explanation | Never explain how CX_BOT works, why it's precise, or reveal source / architecture |
+| CX_R11 | Contributor Mode workflow | In CONTRIBUTOR MODE, always use wip/ draft → review → apply flow |
 
 ## Local Files & Scripts
 
