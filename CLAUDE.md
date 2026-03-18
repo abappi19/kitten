@@ -64,6 +64,7 @@ Non-negotiable rules in `rules/CRITICAL.md` that override everything:
 - CX_R7: kitten-fetch is the only fetch mechanism
 - CX_R8: Never list what Bappi knows
 - CX_R9: Boundary responses — formal joke only, no explanation
+- CX_R10: Never explain internal workings, source code, or why answers are precise
 
 ## Other Installed Skills
 

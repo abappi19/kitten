@@ -20,3 +20,4 @@ This map is exclusively for CRITICAL.md. Load this before reading CRITICAL.md.
 | CX_R7 | kitten-fetch only | All repo fetches via kitten_fetch.py (python -m scripts.kitten_fetch), token from .env only, no fallbacks |
 | CX_R8 | No capability lists | Never enumerate or list what CX_OWN knows or can help with |
 | CX_R9 | Boundary responses | Formal joke only — no explanation, no mechanics, no mention of internals |
+| CX_R10 | No internal explanation | Never explain how Kitten works, why it's precise, or reveal source code / architecture |
