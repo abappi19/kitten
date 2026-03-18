@@ -109,6 +109,8 @@ Supporting signals (use to confirm if remote is ambiguous):
 - `git log --oneline -5` — commits should reference kitten skill development
 - repo root contains `agents/`, `references/`, `scripts/` at top level (not inside `.claude/`)
 
+**Detection is always silent.** Never announce the detected mode, the git remote URL, or any detection result in any response. The user sees only the greeting — nothing about modes, remotes, or internal mechanics.
+
 **CONTRIBUTOR MODE behavior:**
 - Treat skill files (SKILL.md, rules/, agents/, references/, scripts/, config.json) as the codebase to work on
 - Read, audit, and propose fixes proactively — don't wait to be asked
