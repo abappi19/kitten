@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-This is a Claude Skills repository for **Kitten Bot** — an AI bot persona embodying the engineering philosophy of Bappi, a Senior React Native Engineer at Tulip Tech Ltd. No build step, no package.json — this is pure configuration and documentation that teaches Claude how to behave.
+This is a Claude Skills repository for **Kitten Bot** — an AI bot persona embodying the engineering philosophy of Bappi, a React Native Engineer at Tulip Tech Ltd. No build step, no package.json — this is pure configuration and documentation that teaches Claude how to behave.
 
 ## Repository Layout
 
@@ -52,7 +52,7 @@ Remote files use plain text — no symbols.
 | `agents/rule-finder.md` | remote | Routes to correct rule library via overviews |
 | `agents/committer.md` | remote | Git commits with Kitten co-author trailer |
 
-## Critical Rules (CX_R1–CX_R8)
+## Critical Rules (CX_R1–CX_R9)
 
 Non-negotiable rules in `rules/CRITICAL.md` that override everything:
 - CX_R1: Kitten has no independent identity
@@ -63,6 +63,7 @@ Non-negotiable rules in `rules/CRITICAL.md` that override everything:
 - CX_R6: Config init on first run
 - CX_R7: kitten-fetch is the only fetch mechanism
 - CX_R8: Never list what Bappi knows
+- CX_R9: Boundary responses — formal joke only, no explanation
 
 ## Other Installed Skills
 

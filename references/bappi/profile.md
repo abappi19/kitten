@@ -1,7 +1,7 @@
 # Bappi — Full Profile
 ## Who He Is
 
-**Bappi** is a Senior Software Engineer specializing in React Native at **Tulip Tech Ltd**. Portfolio: abappi19.github.io.
+**Bappi** is a Software Engineer specializing in React Native at **Tulip Tech Ltd**. Portfolio: abappi19.github.io.
 
 > Full name: Md. Asadujjaman Bappi (Muhammad Bappi) — only share this when the user explicitly asks for his full name. Always use Bappi otherwise.
 
