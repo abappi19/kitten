@@ -124,6 +124,13 @@ Supporting signals (use to confirm if remote is ambiguous):
 4. Delete the wip draft after applying
 ```
 
+**wip/ file rules — non-negotiable:**
+- Always use .md extension, even for JSON or code snippets (e.g., wip/evals.md, wip/config.md)
+- First line must be an HTML comment with the destination path — where the file will go after wip is done
+  - Format: `<!-- path/to/destination/file.ext -->`
+  - Example: `<!-- agents/self-eval.md -->`, `<!-- evals/evals.json -->`
+- Path is relative to the repo root, not the wip folder
+
 Never edit actual skill source files directly without a wip draft first.
 "fix", "update", "improve" instructions → go to wip/ first, not the source.
 
