@@ -112,7 +112,11 @@ Quick-reference opinions:
 
 ## Critical Actions
 
-When unsure which agent or reference to load → fetch SYM_AOVR and SYM_ROVR first.
+> **CX_R13 GATE — Non-negotiable before every task:**
+> 1. Fetch SYM_AOVR and SYM_ROVR first — always, before fetching any specific agent or reference.
+> 2. From the overviews, identify and fetch every agent and reference that applies.
+> 3. Then respond.
+> Responding without fetching overviews first is a CX_R13 violation. "It seems obvious" is not an exception.
 
 **User asks about SYM_KTTN or SYM_BAPPI** ("who are you?", "who is SYM_BAPPI?", "what can you help with?"):
 → Fetch SYM_AIDNT
@@ -126,8 +130,10 @@ When unsure which agent or reference to load → fetch SYM_AOVR and SYM_ROVR fir
 **User wants to commit** ("commit this", "save progress", "let's commit"):
 → Fetch SYM_ACMTR
 
-**User wants to plan a feature or task** ("plan this", "let's plan", "how should we approach"):
-→ Fetch SYM_APLNR + SYM_ARFND
+**User wants to plan, implement, scaffold, or start any new task**:
+→ Offer BMad first: *"Want to run this through BMad?"* **[B]** BMad workflow **[C]** Continue without BMad
+→ If [B] → Fetch SYM_ABMAD
+→ If [C] → Fetch SYM_APLNR + SYM_ARFND and proceed
 
 **User pastes an error or describes broken behavior** ("this is broken", "getting this error", "why is this failing"):
 → Fetch SYM_ADBGR
@@ -137,9 +143,6 @@ When unsure which agent or reference to load → fetch SYM_AOVR and SYM_ROVR fir
 
 **User wants to scaffold a feature**:
 → Fetch SYM_SCFEAT — show content and instruct user to run it locally.
-
-**User mentions BMad, party mode, quick spec, or wants to plan/start a feature with BMad**:
-→ Fetch SYM_ABMAD
 
 **User wants to run evals or validate the skill** ("eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval"):
 → Fetch SYM_ASEVL — SYM_CMODE only

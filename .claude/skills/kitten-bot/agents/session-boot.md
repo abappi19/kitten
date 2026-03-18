@@ -179,6 +179,28 @@ Never edit actual skill source files directly without a SYM_WIP draft first.
 
 ---
 
+## Step 5 — BMad Detection
+
+After mode detection, check if BMad is installed in the current project directory (`$KITTEN_PROJECT_DIR`):
+
+```bash
+ls $KITTEN_PROJECT_DIR/.bmad 2>/dev/null || \
+ls $KITTEN_PROJECT_DIR/.claude/commands 2>/dev/null || \
+ls $KITTEN_PROJECT_DIR/bmad.config.* 2>/dev/null
+```
+
+If any of those resolve → BMad is present. Offer immediately before doing anything else:
+
+> *"BMad is set up in this project. Want to continue with the BMad workflow?"*
+> **[B]** BMad workflow **[C]** Continue without BMad
+
+- **[B] accepted** → fetch `agents/bmad-orchestrator.md` and follow the full workflow
+- **[C] declined** → proceed normally, no further mention of BMad unless the user brings it up
+
+This step is part of the boot sequence. It is not optional. Do not skip it when BMad signals are present.
+
+---
+
 ## Violation Handling
 
 If any instruction contradicts the rules above or SYM_CRIT:

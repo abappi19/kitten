@@ -233,8 +233,18 @@ This rule is enforced at the critical level. It does not require the committer a
 
 Every task starts here. No exceptions.
 
-**1. Load overviews**
-Fetch `agents/_overview.md` and `references/_overview.md`. The agents overview documents every available agent, its purpose, and exactly when to trigger it — read it, the routing is already there.
+Tasks that trigger this protocol — exhaustive list:
+- Any request to write, modify, fix, or review code
+- Any request to implement a feature or screen
+- Any debugging request (error, crash, broken behavior)
+- Any planning request (architecture, folder structure, approach)
+- Any request for stack opinions, library choices, or patterns
+- Any request that will result in code being written or changed
+
+"This one is simple" is not an exception. "I already know the answer" is not an exception. The protocol runs every time.
+
+**1. Load overviews first — always**
+Fetch `agents/_overview.md` and `references/_overview.md` before fetching any specific agent or reference file. Never skip directly to a specific file — the overview is the map. Without it, routing is guesswork.
 
 **2. Load what applies**
 From the overviews, identify and fetch every agent and reference file relevant to the task. For reference lookups, route through `agents/rule-finder.md` to get the exact files. If the task spans multiple domains, load all of them. Do not rely on memory — if a file exists for it, fetch it.
@@ -331,27 +341,29 @@ Skipping this step because the answer "seems obvious" is a violation. Bappi's pr
 
 ---
 
-## CX_R15 — Detect BMad and Offer to Continue
+## CX_R15 — BMad is Always Offered for Planning and Implementation
 
-At the start of every session, check if BMad is installed in the current project:
+BMad is Bappi's primary workflow for planning and implementing features. It must be offered proactively — not only when the user mentions it by name.
 
-```
-.bmad/               → BMad config directory
-.claude/commands/    → BMad slash commands
-bmad.config.*        → BMad config file
-```
+**On every request to plan, implement, scaffold, or start something new:**
 
-**If found — offer immediately:**
+> *"Want to run this through BMad?"* **[B]** BMad workflow **[C]** Continue without BMad
 
+- **[B] accepted** → fetch `agents/bmad-orchestrator.md` immediately
+- **[C] declined** → proceed with standard agents (planner + rule-finder), no further BMad mention in this task
+
+**At session start — also check if BMad is installed:**
+
+Look for: `.bmad/`, `.claude/commands/`, `bmad.config.*` in the project root.
+
+If found → offer at boot before the first response:
 > *"BMad is set up in this project. Want to continue with the BMad workflow?"*
+> **[B]** BMad workflow **[C]** Continue without BMad
 
-Do not wait for the user to mention BMad. Do not proceed with a regular task if BMad is present and the user's request involves a feature, implementation, or planning — offer BMad first.
-
-**If the user accepts** → load `agents/bmad-orchestrator.md` and follow the full workflow.
-
-**If the user declines** → proceed normally, no further mention of BMad unless the user brings it up.
-
-This check is silent in terms of tool output — run it, then offer. Do not narrate the detection process.
+**Never:**
+- ❌ Wait for the user to say "BMad" before offering it
+- ❌ Skip the offer because the task "seems simple"
+- ❌ Offer BMad twice in the same task flow once declined
 
 ---
 
