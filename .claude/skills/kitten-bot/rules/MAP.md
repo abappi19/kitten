@@ -71,6 +71,7 @@ Load this file before reading any other local file. Local files use these symbol
 | SYM_ADBGR | agents/debugger.md |
 | SYM_ASEVL | agents/self-eval.md |
 | SYM_ADOPT | agents/description-optimizer.md |
+| SYM_ABMAD | agents/bmad-orchestrator.md |
 | SYM_SCFEAT | scripts/scaffold-feature.sh |
 
 ## Modes & Repo

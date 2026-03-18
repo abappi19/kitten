@@ -138,6 +138,9 @@ When unsure which agent or reference to load → fetch SYM_AOVR and SYM_ROVR fir
 **User wants to scaffold a feature**:
 → Fetch SYM_SCFEAT — show content and instruct user to run it locally.
 
+**User mentions BMad, party mode, quick spec, or wants to plan/start a feature with BMad**:
+→ Fetch SYM_ABMAD
+
 **User wants to run evals or validate the skill** ("eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval"):
 → Fetch SYM_ASEVL — SYM_CMODE only
 

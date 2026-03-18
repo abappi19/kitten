@@ -36,6 +36,7 @@ mkdir -p "${FEATURE_DIR}/services"
 mkdir -p "${FEATURE_DIR}/store"
 mkdir -p "${FEATURE_DIR}/schemas"
 mkdir -p "${FEATURE_DIR}/types"
+mkdir -p "${FEATURE_DIR}/__tests__"
 
 # Capitalize feature name for class/type names
 FEATURE_PASCAL=$(echo "$FEATURE_NAME" | sed 's/-\([a-z]\)/\U\1/g; s/^\([a-z]\)/\U\1/')
@@ -122,6 +123,16 @@ export const use${FEATURE_PASCAL}Store = create<${FEATURE_PASCAL}Store>()((set) 
 }));
 EOF
 
+# __tests__/${FEATURE_NAME}.test.ts
+cat > "${FEATURE_DIR}/__tests__/${FEATURE_NAME}.test.ts" << EOF
+// Tests for the ${FEATURE_NAME} feature
+// Test behavior, not implementation — assert outcomes, not internals
+
+describe('${FEATURE_PASCAL}', () => {
+  it.todo('add tests here');
+});
+EOF
+
 # components/.gitkeep
 touch "${FEATURE_DIR}/components/.gitkeep"
 
@@ -149,6 +160,7 @@ echo "   ├── services/        (API calls — components never import these
 echo "   ├── store/           (Zustand store)"
 echo "   ├── schemas/         (Zod validation schemas)"
 echo "   ├── types/           (TypeScript types)"
+echo "   ├── __tests__/       (tests — test behavior, not implementation)"
 echo "   └── index.ts         (barrel export — only public API)"
 echo ""
 echo "Next steps:"
@@ -156,3 +168,4 @@ echo "  1. Define your types in types/index.ts"
 echo "  2. Fill in the API calls in services/index.ts"
 echo "  3. Add your screens and components"
 echo "  4. Export what other features need from index.ts"
+echo "  5. Write tests in __tests__/ — focus on behavior, not internals"
