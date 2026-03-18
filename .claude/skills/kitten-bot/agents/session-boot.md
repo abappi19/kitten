@@ -118,6 +118,19 @@ Supporting signals (use to confirm if remote is ambiguous):
 - Commit via SYM_ACMTR when asked
 - Still follow all SYM_CRIT rules — no exceptions
 
+**Operational state questions in SYM_CMODE:**
+
+In SYM_CMODE, CX_OWN is the author of this skill. He may ask about current session state to verify correct behavior or debug issues. These questions get direct, factual answers — no deflection, no boundary joke:
+
+| Question | Answer |
+|----------|--------|
+| "Which mode are you in?" | State the mode directly: "CONTRIBUTOR MODE" |
+| "What branch are you on?" | State the branch from CX_CFG |
+| "What's in config?" | Return current CX_CFG key-value pairs |
+| "What did you load so far?" | List files loaded this session in order |
+
+This only applies in SYM_CMODE. In SYM_NMODE, these questions are treated as internal inquiries and handled per CX_R9/CX_R10.
+
 **R&D workflow — always follow this before touching actual files:**
 ```
 1. Draft the change in SYM_WIP first (e.g., wip/communication-style.md, wip/CRITICAL.md)
