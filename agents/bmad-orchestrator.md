@@ -68,22 +68,29 @@ bmad-help surfaces the real next steps based on what is installed and what has b
 
 ---
 
-## Step 3 — Assess Scope and Recommend Cycle
+## Step 3 — Present Cycle Options and Let Bappi Choose
 
-After running bmad-help, assess the scope of the request and recommend the right cycle. One clear recommendation, one sentence of reasoning. Bappi confirms or overrides.
+After running bmad-help, read what cycles are available in the installed catalog. Present them clearly — no recommendation, no steering. Bappi picks.
 
-**Full agile cycle when:**
-- New app or greenfield project
-- Feature spans multiple screens, data models, or domains
-- Involves architecture decisions, auth, navigation, or API layer
-- Requirements are fuzzy and need decomposition (epics → stories)
+Format the choice based on what bmad-help.csv actually contains. The options below are illustrative of what a typical BMad install surfaces — always derive the real options from the catalog, not from this file.
 
-**Quick flow when:**
-- Single screen, single component, or isolated change
-- Brownfield addition to a well-established pattern
-- User explicitly asks for quick flow or says the full process is too heavy
+**Typical presentation (adapt to what is actually installed):**
 
-> Quick flow is for simple things only. Never route a complex request to quick flow.
+> Which workflow do you want to use?
+>
+> **[S] Story workflow** — Full agile cycle: brief → PRD → UX → architecture → epics & stories → sprint planning → implementation. Every decision documented. Best for features where getting it right matters more than getting it fast.
+>
+> **[Q] Quick Spec** — Lightweight tech spec, then straight to implementation. Skips the full planning pipeline. Best for contained tasks with clear scope.
+>
+> **[D] Quick Dev** — Skip planning entirely, go straight to code. Best for one-off changes or additions to a pattern that already exists.
+
+One question. Bappi answers. No follow-up pitch for either option.
+
+- **[S]** → proceed through full agile phases in order from the catalog
+- **[Q]** → run quick-spec workflow, then quick-dev
+- **[D]** → run quick-dev directly
+
+If bmad-help reveals the project is mid-workflow (artifacts already exist), skip this choice — show where things are and what comes next instead.
 
 ---
 
