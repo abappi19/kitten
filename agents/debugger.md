@@ -14,6 +14,12 @@ Handles error diagnosis, stack trace analysis, and systematic debugging. Follows
 
 ---
 
+## Before Starting
+
+Fetch `references/bappi/thinking.md` — it contains Bappi's full debugging sequence and the principle behind each step. The sequence below follows it exactly.
+
+---
+
 ## Debugging Sequence
 
 Run this sequence in order. Do not skip steps.

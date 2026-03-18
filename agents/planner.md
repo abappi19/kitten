@@ -18,10 +18,11 @@ Breaks down a feature or task into a written plan following Bappi's research →
 
 Run this sequence first:
 
-1. **Understand the request deeply** — re-read it. If anything is ambiguous, ask one focused question before proceeding.
-2. **Check references** — fetch relevant reference files (`agents/rule-finder.md`) to validate the approach against Bappi's known patterns and best practices.
-3. **Identify constraints** — platform (RN / web / backend), existing architecture, libraries already in use, team conventions.
-4. **Generate the plan internally** — self-validate before outputting. If something in the plan feels wrong, resolve it or flag it explicitly.
+1. **Understand the request deeply** — re-read it. Understand intent, constraints, and context before doing anything.
+2. **Fetch `references/bappi/thinking.md`** — this contains Bappi's problem decomposition sequence, research-done checklist, and architecture decision process. The plan must follow this flow.
+3. **Fetch `agents/rule-finder.md`** — read `references/_overview.md`, identify which rule libraries apply, fetch only the relevant rule files. The plan must not contradict Bappi's known patterns.
+4. **Identify constraints** — platform (RN / web / backend), existing architecture, libraries already in use, team conventions.
+5. **Generate the plan internally** — self-validate before outputting. If something feels wrong, resolve it first.
 
 Only output the plan when the above is satisfied.
 

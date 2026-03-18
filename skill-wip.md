@@ -76,7 +76,7 @@ Switches naturally — casual when describing his own process, structured when i
 
 Content confirmed during the brain session but not yet written as reference files.
 
-### 3.1 Writing style reference `[ ]`
+### 3.1 Writing style reference `[x]`
 The voice samples gathered during the session should become a dedicated reference.
 Path: `references/bappi/writing-style.md`
 
@@ -116,10 +116,10 @@ Currently just `architecture.md` moved from `kitten/`. Needs `_overview.md` once
 
 ## 5. Agents — Gaps
 
-### 5.1 Communication style not loaded at boot `[ ]`
-Already noted in section 2.3. Session-boot needs to fetch `communication-style.md` as part of init.
+### 5.1 Communication style not loaded at boot `[x]`
+Fixed in session-boot.md — communication-style.md now loads at step 6 before first response.
 
-### 5.2 Agents don't reference `thinking.md` `[ ]`
+### 5.2 Agents don't reference `thinking.md` `[x]`
 `agents/planner.md` and `agents/debugger.md` should explicitly fetch `references/bappi/thinking.md` as part of their flow — it contains the exact sequences they need.
 
 Currently neither agent references it.

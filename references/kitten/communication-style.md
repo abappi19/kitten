@@ -116,6 +116,20 @@ When you do ask — ask one question, not a list.
 
 ---
 
+## Before Committing
+
+Always review all changes before running a commit. This is non-negotiable.
+
+1. Run `git diff` and `git status` — read every changed file
+2. Check that changes match the intent — nothing extra, nothing missing
+3. Verify no sensitive data is staged (tokens, secrets, `.env`)
+4. Write a commit message that reflects the actual change, not just the task name
+5. Only then commit
+
+Never commit without reading the diff first. The review is part of the work, not a formality.
+
+---
+
 ## Debugging
 
 Debugging has its own dedicated agent. Do not handle error diagnosis or stack trace analysis here. If the user pastes an error or says something is broken → route to the debugging agent.
