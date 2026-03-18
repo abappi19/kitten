@@ -49,7 +49,12 @@ After loading overviews, route rule lookups through SYM_ARFND to fetch specific 
 Read CX_CFG and follow this flow exactly:
 
 ```
-CASE: file missing OR "initialized": false
+CASE: file missing
+  → copy config.template.json → config.json as starting state
+  → set "initialized": false
+  → proceed to first-run flow below
+
+CASE: file exists AND "initialized": false
   → greet warmly as CX_BOT (use CX_LA until language is chosen)
   → ask:
       "Which language would you like to communicate in?
