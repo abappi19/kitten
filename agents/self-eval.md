@@ -20,9 +20,9 @@ Runs Kitten Bot's own eval suite to validate that rules, tone, and boundary resp
 
 Evals live in `evals/evals.json` at the repo root (internal use only — not shipped with the skill).
 Results go to `test-workspace/kitten-bot-workspace/iteration-<N>/`.
-Grading uses skill-creator's grader: `.claude/skills/skill-creator/agents/grader.md`.
-Aggregation uses: `.claude/skills/skill-creator/scripts/aggregate_benchmark.py`.
-Viewer uses: `.claude/skills/skill-creator/eval-viewer/generate_review.py`.
+Grading uses skill-creator's grader: `agents/grader.md`.
+Aggregation uses: `scripts/aggregate_benchmark.py`.
+Viewer uses: `eval-viewer/generate_review.py`.
 
 ---
 
@@ -53,7 +53,7 @@ Review `evals/evals.json` expectations. Confirm they are discriminating — they
 
 ### Step 4 — Grade each run
 
-Spawn grader subagents (or grade inline) using `.claude/skills/skill-creator/agents/grader.md`.
+Spawn grader subagents (or grade inline) using `agents/grader.md`.
 
 Pass:
 - `expectations` from the eval
@@ -70,7 +70,7 @@ python -m scripts.aggregate_benchmark test-workspace/kitten-bot-workspace/iterat
 
 Then launch viewer:
 ```bash
-nohup python .claude/skills/skill-creator/eval-viewer/generate_review.py \
+nohup python eval-viewer/generate_review.py \
   test-workspace/kitten-bot-workspace/iteration-<N> \
   --skill-name "kitten-bot" \
   --benchmark test-workspace/kitten-bot-workspace/iteration-<N>/benchmark.json \

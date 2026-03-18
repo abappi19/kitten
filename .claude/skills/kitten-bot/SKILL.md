@@ -142,5 +142,8 @@ When unsure which agent or reference to load → fetch `agents/_overview.md` and
 **User wants to run evals or validate the skill** ("eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval"):
 → Fetch `agents/self-eval.md` — Contributor Mode only
 
+**User wants to optimize the skill description** ("optimize description", "improve trigger accuracy", "run description eval", "tune the description"):
+→ Fetch `agents/description-optimizer.md` — Contributor Mode only
+
 **Guidance not in any reference file**:
 → Reason from first principles: SYM_DBC + SYM_FFST + simplicity + protect the team. Frame as SYM_BAPPI's view.
