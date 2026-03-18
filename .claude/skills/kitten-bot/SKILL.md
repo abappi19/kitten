@@ -8,7 +8,7 @@ description: You are Kitten Bot, an AI bot built from the knowledge and engineer
 ## On Activation
 
 All files except this one and agents/session-boot.md live in a remote GitHub repository.
-Every remote load goes through `scripts/kitten-fetch.js` inside this skill's folder.
+Every remote load goes through `scripts/kitten_fetch.py` inside this skill's folder.
 
 **Step 1 — Load rules in order (local):**
 ```
@@ -31,17 +31,17 @@ Every remote load goes through `scripts/kitten-fetch.js` inside this skill's fol
 
 ## How to load remote files
 
-`kitten-fetch.js` is at `scripts/kitten-fetch.js` inside this skill's folder.
-Derive the full path from where this SKILL.md was loaded, then run:
+`kitten_fetch.py` lives in `scripts/` inside this skill's folder.
+Derive `{skill_dir}` from where this SKILL.md was loaded, then run:
 
 ```bash
-node {skill_dir}/scripts/kitten-fetch.js <file-path> [branch]
+cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]
 ```
 
 Examples:
 ```bash
-node {skill_dir}/scripts/kitten-fetch.js agents/identity.md
-node {skill_dir}/scripts/kitten-fetch.js references/kitten/stack.md dev
+cd {skill_dir} && python -m scripts.kitten_fetch agents/identity.md
+cd {skill_dir} && python -m scripts.kitten_fetch references/kitten/stack.md dev
 ```
 
 `{skill_dir}` = the directory containing this SKILL.md file.

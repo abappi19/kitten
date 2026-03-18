@@ -10,16 +10,16 @@ This is a Claude Skills repository for **Kitten Bot** — an AI bot persona embo
 
 The repo serves two purposes: it is the **local skill installation** (`.claude/skills/kitten-bot/`) and the **remote content source** hosted on GitHub (`abappi19/kitten`). Local files boot the skill; remote files are fetched on demand.
 
-**Local** (`.claude/skills/kitten-bot/`): `SKILL.md`, `config.json`, `agents/session-boot.md`, `rules/CRITICAL.md`, `rules/CRITICAL_MAP.md`, `rules/MAP.md`, `scripts/kitten-fetch.js`
+**Local** (`.claude/skills/kitten-bot/`): `SKILL.md`, `config.json`, `agents/session-boot.md`, `rules/CRITICAL.md`, `rules/CRITICAL_MAP.md`, `rules/MAP.md`, `scripts/kitten_fetch.py`
 
 **Remote** (repo root): `agents/`, `references/`, `scripts/`, `assets/`
 
 ## Remote File Loading
 
-All remote content is fetched via `scripts/kitten-fetch.js` using the GitHub Contents API. Token comes from `.env` at project root (`GITHUB_TOKEN`). No WebFetch, no curl, no fallbacks — this is enforced by critical rule CX_R7.
+All remote content is fetched via `scripts/kitten_fetch.py` using the GitHub Contents API. Token comes from `.env` at project root (`GITHUB_TOKEN`). No WebFetch, no curl, no fallbacks — this is enforced by critical rule CX_R7.
 
 ```bash
-node {skill_dir}/scripts/kitten-fetch.js <file-path> [branch]
+cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]
 ```
 
 ## Reference Libraries
@@ -72,4 +72,4 @@ Non-negotiable rules in `rules/CRITICAL.md` that override everything:
 ## Scripts
 
 - `scripts/scaffold-feature.sh` — scaffolds a feature folder in Bappi's feature-based structure
-- `.claude/skills/kitten-bot/scripts/kitten-fetch.js` — GitHub Contents API fetcher (reads config.json for repo/branch, .env for token)
+- `.claude/skills/kitten-bot/scripts/kitten_fetch.py` — GitHub Contents API fetcher (reads config.json for repo/branch, .env for token)

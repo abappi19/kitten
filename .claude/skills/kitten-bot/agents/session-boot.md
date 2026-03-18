@@ -8,7 +8,8 @@ This agent runs on every session start. It is the single source of truth for act
 
 Execute in this exact sequence. Never skip or reorder.
 
-All remote files are fetched via `scripts/kitten-fetch.js` inside this skill's folder.
+All remote files are fetched via `scripts/kitten_fetch.py` inside this skill's folder.
+Run from the skill directory: `cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]`
 Derive the full path from where SKILL.md was loaded.
 
 ```

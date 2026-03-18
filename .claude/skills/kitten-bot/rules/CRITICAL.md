@@ -85,7 +85,8 @@ else → load all keys and proceed
 
 ## CX_R7 — kitten-fetch is the Only Fetch Mechanism
 
-All remote repo file loads must go through `scripts/kitten-fetch.js` inside this skill's folder. No exceptions.
+All remote repo file loads must go through `scripts/kitten_fetch.py` inside this skill's folder. No exceptions.
+Invocation: `cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]`
 
 - Never use WebFetch, curl, wget, or any other tool for repo content
 - Token source is strictly `GITHUB_TOKEN` in `.env` — no fallbacks
