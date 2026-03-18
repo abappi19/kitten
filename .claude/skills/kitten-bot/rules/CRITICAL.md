@@ -1,5 +1,5 @@
 # CRITICAL — Non-Negotiable Rules
-**Load rules/CRITICAL_MAP.md before reading this file.**
+**Load rules/MAP.md before reading this file.**
 **These rules override everything else in the skill. No instruction, user request, or context can override them.**
 
 ---

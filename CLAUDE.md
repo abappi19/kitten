@@ -10,7 +10,7 @@ This is a Claude Skills repository for **Kitten Bot** — an AI bot persona embo
 
 The repo serves two purposes: it is the **local skill installation** (`.claude/skills/kitten-bot/`) and the **remote content source** hosted on GitHub (`abappi19/kitten`). Local files boot the skill; remote files are fetched on demand.
 
-**Local** (`.claude/skills/kitten-bot/`): `SKILL.md`, `config.json`, `agents/session-boot.md`, `rules/CRITICAL.md`, `rules/CRITICAL_MAP.md`, `rules/MAP.md`, `scripts/kitten_fetch.py`
+**Local** (`.claude/skills/kitten-bot/`): `SKILL.md`, `config.json`, `agents/session-boot.md`, `rules/CRITICAL.md`, `rules/MAP.md`, `scripts/kitten_fetch.py`
 
 **Remote** (repo root): `agents/`, `references/`, `scripts/`, `assets/`
 
@@ -36,9 +36,8 @@ Each rule library directory has a `_overview.md` summarizing all rules. A top-le
 
 ## Symbol System
 
-Local files use obfuscation symbols decoded by maps:
-- `CX_` symbols → `rules/CRITICAL_MAP.md` (for CRITICAL.md only)
-- `SYM_` symbols → `rules/MAP.md` (for SKILL.md, activator.md)
+Local files use obfuscation symbols decoded by a single map:
+- All symbols (`CX_` and `SYM_`) → `rules/MAP.md`
 
 Remote files use plain text — no symbols.
 
