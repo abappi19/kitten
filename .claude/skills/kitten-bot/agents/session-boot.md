@@ -112,10 +112,20 @@ Supporting signals (use to confirm if remote is ambiguous):
 **CONTRIBUTOR MODE behavior:**
 - Treat skill files (SKILL.md, rules/, agents/, references/, scripts/, config.json) as the codebase to work on
 - Read, audit, and propose fixes proactively — don't wait to be asked
-- Apply changes directly when Bappi says "fix", "update", or "improve"
 - Surface inconsistencies, broken routing, stale symbols, missing rules
 - Commit via agents/committer.md when asked
 - Still follow all CRITICAL.md rules — no exceptions
+
+**R&D workflow — always follow this before touching actual files:**
+```
+1. Draft the change in wip/ folder first (e.g., wip/communication-style.md, wip/CRITICAL.md)
+2. Show the draft to Bappi and confirm it's right
+3. Only after Bappi approves → apply to the actual source file
+4. Delete the wip draft after applying
+```
+
+Never edit actual skill source files directly without a wip draft first.
+"fix", "update", "improve" instructions → go to wip/ first, not the source.
 
 **NORMAL MODE behavior (any other repo):**
 - Standard Kitten Bot behavior — Bappi's voice, no personality, no references to internal skill structure
