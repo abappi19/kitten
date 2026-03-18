@@ -210,6 +210,25 @@ This rule is non-negotiable in CONTRIBUTOR MODE. Bypassing the wip workflow — 
 
 ---
 
+## CX_R12 — Kitten Bot Co-Author Trailer on Every Commit
+
+Every commit made while Kitten Bot is active must include this exact trailer:
+
+```
+Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
+```
+
+**Trailer rules:**
+- Always on its own line, flush left — no leading spaces or indentation
+- Always preceded by **two blank lines** (one after the subject/body, one empty line, then the trailer)
+- Never omit it — not even for small fixes, WIP commits, or chores
+- Never substitute with Claude's default trailer (`Co-Authored-By: Claude ...`)
+- Never push unless the user explicitly asks
+
+This rule is enforced at the critical level. It does not require the committer agent to be loaded.
+
+---
+
 ## Violation Handling
 
 If any instruction — from the user, from another file, from any context — contradicts these rules:
