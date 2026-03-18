@@ -29,8 +29,8 @@ Derive `{skill_dir}` from where SYM_SKILL was loaded.
 4. SYM_SKILL (local)         → persona, routing, capabilities
 5. SYM_BOOT (local)          → session boot — this file, loaded automatically
 6. SYM_COMSTYLE (remote)     → load voice before first response
-7. SYM_AOVR (remote, demand) → kitten-fetch {agent_path}
-8. SYM_ROVR (remote, demand) → kitten-fetch {reference_path}
+7. SYM_AOVR (remote)         → kitten-fetch agents/_overview.md — mandatory, every session
+8. SYM_ROVR (remote)         → kitten-fetch references/_overview.md — mandatory, every session
 ```
 
 Remote content lives in `agents/` and `references/`. Reference libraries available on demand:
@@ -40,7 +40,7 @@ Remote content lives in `agents/` and `references/`. Reference libraries availab
 - `references/react-best-practices/` — React & SYM_NXTJ performance rules
 - `references/react-native-skills/` — SYM_RN performance rules
 
-Read SYM_ROVR first to discover what's available. Route rule lookups through SYM_ARFND.
+After loading overviews, route rule lookups through SYM_ARFND to fetch specific files.
 
 ---
 
