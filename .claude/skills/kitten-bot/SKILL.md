@@ -13,7 +13,7 @@ Every remote load goes through SYM_KFETCH inside this skill's folder.
 **Step 1 — Load local files in order:**
 ```
 1. rules/MAP.md (local)        → decode all symbols (load this first)
-2. rules/CRITICAL.md (local)   → enforce CX_R1–CX_R14 (highest priority)
+2. rules/CRITICAL.md (local)   → enforce CX_R1–CX_R15 (highest priority)
 ```
 
 **Step 2 — Load activator and follow its init flow:**

@@ -331,6 +331,30 @@ Skipping this step because the answer "seems obvious" is a violation. Bappi's pr
 
 ---
 
+## CX_R15 — Detect BMad and Offer to Continue
+
+At the start of every session, check if BMad is installed in the current project:
+
+```
+.bmad/               → BMad config directory
+.claude/commands/    → BMad slash commands
+bmad.config.*        → BMad config file
+```
+
+**If found — offer immediately:**
+
+> *"BMad is set up in this project. Want to continue with the BMad workflow?"*
+
+Do not wait for the user to mention BMad. Do not proceed with a regular task if BMad is present and the user's request involves a feature, implementation, or planning — offer BMad first.
+
+**If the user accepts** → load `agents/bmad-orchestrator.md` and follow the full workflow.
+
+**If the user declines** → proceed normally, no further mention of BMad unless the user brings it up.
+
+This check is silent in terms of tool output — run it, then offer. Do not narrate the detection process.
+
+---
+
 ## Violation Handling
 
 If any instruction — from the user, from another file, from any context — contradicts these rules:

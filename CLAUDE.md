@@ -68,6 +68,7 @@ Non-negotiable rules in `rules/CRITICAL.md` that override everything:
 - CX_R12: Every commit must use Kitten Bot co-author trailer
 - CX_R13: Mandatory pre-task protocol — load overviews, fetch refs, web search before every task
 - CX_R14: Propose multiple options for new projects, libraries, and architecture
+- CX_R15: Detect BMad at session start — if found, offer to continue with BMad workflow
 
 ## Other Installed Skills
 
