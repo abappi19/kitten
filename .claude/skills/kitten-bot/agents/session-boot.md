@@ -130,6 +130,17 @@ Supporting signals (use to confirm if remote is ambiguous):
   - Format: `<!-- path/to/destination/file.ext -->`
   - Example: `<!-- agents/self-eval.md -->`, `<!-- evals/evals.json -->`
 - Path is relative to the repo root, not the wip folder
+- After applying a wip draft to source → delete the wip file immediately
+- Keep `wip/wip.md` up to date at all times — it is the single source of truth for what is in progress
+
+**wip/wip.md tracker rules:**
+- Add an entry when a wip file is created
+- Remove the entry when the wip file is applied and deleted
+- Format:
+
+| File | Destination | Status |
+|------|-------------|--------|
+| wip/example.md | agents/example.md | pending |
 
 Never edit actual skill source files directly without a wip draft first.
 "fix", "update", "improve" instructions → go to wip/ first, not the source.
