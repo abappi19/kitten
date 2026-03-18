@@ -12,13 +12,13 @@ Every remote load goes through SYM_KFETCH inside this skill's folder.
 
 **Step 1 — Load local files in order:**
 ```
-1. rules/MAP.md (local)   → decode all symbols (load this first)
-2. SYM_CRIT (local)       → enforce CX_R1–CX_R10 (highest priority)
+1. rules/MAP.md (local)        → decode all symbols (load this first)
+2. rules/CRITICAL.md (local)   → enforce CX_R1–CX_R13 (highest priority)
 ```
 
 **Step 2 — Load activator and follow its init flow:**
 ```
-3. SYM_BOOT (local) → session boot, CX_CFG init, language/name rules
+3. agents/session-boot.md (local) → session boot, CX_CFG init, language/name rules
 ```
 
 **Branch = Environment.** Change `"branch"` in CX_CFG to switch:
