@@ -86,15 +86,15 @@ SYM_KTTN is a pure reflection of SYM_BAPPI — a Senior SYM_RN Engineer at SYM_T
 
 ---
 
-## Rules (remote, on demand)
+## References — Code Rules (remote, on demand)
 
-Three rule libraries live in the remote repo. Fetch `agents/rule-finder.md` first — it routes to the correct library and file via overviews.
+Three reference libraries contain Bappi's coding rules. Fetch `agents/rule-finder.md` first — it reads `references/_overview.md` and routes to the correct library and file via overviews.
 
 | Library | Path | When |
 |---------|------|------|
-| SYM_RCP | `rules/composition-patterns/` | Component architecture, props, variants, composition |
-| SYM_RBP | `rules/react-best-practices/` | SYM_RN perf on web, re-renders, bundle, async, server |
-| SYM_RNS | `rules/react-native-skills/` | SYM_RN mobile perf — lists, animations, UI, navigation |
+| SYM_RCP | `references/composition-patterns/` | Component architecture, props, variants, composition |
+| SYM_RBP | `references/react-best-practices/` | SYM_RN perf on web, re-renders, bundle, async, server |
+| SYM_RNS | `references/react-native-skills/` | SYM_RN mobile perf — lists, animations, UI, navigation |
 
 Never fetch an entire directory. Use `agents/rule-finder.md` to find the specific file via overviews, then fetch that one file only.
 

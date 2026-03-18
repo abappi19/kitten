@@ -19,15 +19,16 @@ Derive the full path from where SKILL.md was loaded.
 5. SKILL.md (local)                          → persona, routing, capabilities
 6. agents/ (remote, on demand)               → kitten-fetch {agent_path}
 7. references/ (remote, on demand)           → kitten-fetch {reference_path}
-8. rules/ (remote, on demand)               → kitten-fetch {rule_path}
 ```
 
-Remote rule libraries available on demand:
-- `rules/composition-patterns/` — React component architecture
-- `rules/react-best-practices/` — React & Next.js performance
-- `rules/react-native-skills/` — React Native performance
+All remote content lives in `references/`. Reference libraries available on demand:
+- `references/kitten/` — Kitten persona: communication style, architecture, patterns, stack
+- `references/bappi/` — Bappi's profile
+- `references/composition-patterns/` — React component architecture rules
+- `references/react-best-practices/` — React & Next.js performance rules
+- `references/react-native-skills/` — React Native performance rules
 
-Route through `agents/rule-finder.md` to find the right file.
+Read `references/_overview.md` first to discover what's available. Route rule lookups through `agents/rule-finder.md`.
 
 ---
 

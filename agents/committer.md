@@ -19,7 +19,7 @@ Handles git commits with Kitten's co-author trailer. Triggers whenever the user 
 Every commit made through Kitten must include this trailer at the end of the commit message:
 
 ```
-Co-Authored-By: Kitten by Bappi <53597251+abappi19@users.noreply.github.com>
+Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 ```
 
 ---

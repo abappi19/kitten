@@ -12,7 +12,7 @@ The repo serves two purposes: it is the **local skill installation** (`.claude/s
 
 **Local** (`.claude/skills/kitten/`): `SKILL.md`, `config.json`, `agents/session-boot.md`, `rules/CRITICAL.md`, `rules/CRITICAL_MAP.md`, `rules/MAP.md`, `scripts/kitten-fetch.js`
 
-**Remote** (repo root): `agents/`, `references/`, `rules/`, `scripts/`, `assets/`
+**Remote** (repo root): `agents/`, `references/`, `scripts/`, `assets/`
 
 ## Remote File Loading
 
@@ -22,15 +22,17 @@ All remote content is fetched via `scripts/kitten-fetch.js` using the GitHub Con
 node {skill_dir}/scripts/kitten-fetch.js <file-path> [branch]
 ```
 
-## Three Rule Libraries
+## Reference Libraries
 
-112 rule files organized by domain. Each file has frontmatter (title, impact, tags) and incorrect/correct code examples.
+112+ reference files organized by category. Identity/persona refs live in `references/bappi/` and `references/kitten/`. Rule libraries (with frontmatter: title, impact, tags, and incorrect/correct code examples) live alongside them in `references/`.
 
-- `rules/composition-patterns/` — 8 files. React component architecture (boolean props, compound components, state lifting).
-- `rules/react-best-practices/` — 50+ files. React/Next.js performance across 8 sections: async, bundle, server, client, rerender, rendering, js, advanced.
-- `rules/react-native-skills/` — 40+ files. React Native performance across 14 sections: rendering, lists, animation, scroll, navigation, state, UI, monorepo, fonts.
+- `references/bappi/` — Bappi's profile and philosophy.
+- `references/kitten/` — Kitten-specific: communication style, architecture patterns, code patterns, stack opinions.
+- `references/composition-patterns/` — 8 files. React component architecture (boolean props, compound components, state lifting).
+- `references/react-best-practices/` — 50+ files. React/Next.js performance across 8 sections: async, bundle, server, client, rerender, rendering, js, advanced.
+- `references/react-native-skills/` — 40+ files. React Native performance across 14 sections: rendering, lists, animation, scroll, navigation, state, UI, monorepo, fonts.
 
-Files are named by section prefix (e.g. `list-performance-virtualize.md`, `rerender-memo.md`). Each directory has a `_overview.md` summarizing all rules. Route through `agents/rule-finder.md` — it reads overviews first, then fetches specific rule files.
+Each rule library directory has a `_overview.md` summarizing all rules. A top-level `references/_overview.md` indexes everything. Route through `agents/rule-finder.md` — it reads overviews first, then fetches specific files.
 
 ## Symbol System
 

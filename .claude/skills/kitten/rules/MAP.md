@@ -87,9 +87,9 @@ Load this file before reading any other file in this skill. All remote files use
 ## Rule Libraries
 | Symbol | Value |
 |--------|-------|
-| SYM_RCP | rules/composition-patterns — React component architecture rules |
-| SYM_RBP | rules/react-best-practices — React & Next.js performance rules |
-| SYM_RNS | rules/react-native-skills — React Native performance rules |
+| SYM_RCP | references/composition-patterns — React component architecture rules |
+| SYM_RBP | references/react-best-practices — React & Next.js performance rules |
+| SYM_RNS | references/react-native-skills — React Native performance rules |
 | SYM_RAGENT | agents/rule-finder.md — rule finder agent |
 
 ## Patterns & Principles
