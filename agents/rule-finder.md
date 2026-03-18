@@ -1,4 +1,4 @@
-# Rules Workflow
+# Rules Agent
 
 ## Purpose
 

@@ -9,7 +9,7 @@
  * Usage:
  *   node kitten-fetch.js <file-path> [branch]
  *   node kitten-fetch.js references/kitten/stack.md
- *   node kitten-fetch.js workflows/identity.md dev
+ *   node kitten-fetch.js agents/identity.md dev
  *
  * Output:
  *   Decoded file content printed to stdout.

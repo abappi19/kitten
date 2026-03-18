@@ -1,4 +1,4 @@
-# Kitten Code Review Workflow
+# Kitten Code Review Agent
 Instructions for conducting a code review in Bappi's style.
 
 ## Review Philosophy

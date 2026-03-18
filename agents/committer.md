@@ -1,4 +1,4 @@
-# Committer Workflow
+# Committer Agent
 
 ## Purpose
 

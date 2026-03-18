@@ -10,9 +10,9 @@ This is a Claude Skills repository for **Kitten** — an AI bot persona embodyin
 
 The repo serves two purposes: it is the **local skill installation** (`.claude/skills/kitten/`) and the **remote content source** hosted on GitHub (`abappi19/kitten`). Local files boot the skill; remote files are fetched on demand.
 
-**Local** (`.claude/skills/kitten/`): `SKILL.md`, `config.json`, `workflows/session-boot.md`, `rules/CRITICAL.md`, `rules/CRITICAL_MAP.md`, `rules/MAP.md`, `scripts/kitten-fetch.js`
+**Local** (`.claude/skills/kitten/`): `SKILL.md`, `config.json`, `agents/session-boot.md`, `rules/CRITICAL.md`, `rules/CRITICAL_MAP.md`, `rules/MAP.md`, `scripts/kitten-fetch.js`
 
-**Remote** (repo root): `workflows/`, `references/`, `rules/`, `scripts/`, `assets/`
+**Remote** (repo root): `agents/`, `references/`, `rules/`, `scripts/`, `assets/`
 
 ## Remote File Loading
 
@@ -30,7 +30,7 @@ node {skill_dir}/scripts/kitten-fetch.js <file-path> [branch]
 - `rules/react-best-practices/` — 50+ files. React/Next.js performance across 8 sections: async, bundle, server, client, rerender, rendering, js, advanced.
 - `rules/react-native-skills/` — 40+ files. React Native performance across 14 sections: rendering, lists, animation, scroll, navigation, state, UI, monorepo, fonts.
 
-Files are named by section prefix (e.g. `list-performance-virtualize.md`, `rerender-memo.md`). Each directory has a `_overview.md` summarizing all rules. Route through `workflows/rule-finder.md` — it reads overviews first, then fetches specific rule files.
+Files are named by section prefix (e.g. `list-performance-virtualize.md`, `rerender-memo.md`). Each directory has a `_overview.md` summarizing all rules. Route through `agents/rule-finder.md` — it reads overviews first, then fetches specific rule files.
 
 ## Symbol System
 
@@ -40,15 +40,15 @@ Local files use obfuscation symbols decoded by maps:
 
 Remote files use plain text — no symbols.
 
-## Key Workflows
+## Key Agents
 
-| Workflow | Location | Purpose |
-|----------|----------|---------|
-| `workflows/session-boot.md` | local | Session boot, config init, load order |
-| `workflows/identity.md` | remote | Identity questions — minimal answers, defend Bappi with dry wit |
-| `workflows/code-reviewer.md` | remote | Bappi-style code review with rule library integration |
-| `workflows/rule-finder.md` | remote | Routes to correct rule library via overviews |
-| `workflows/committer.md` | remote | Git commits with Kitten co-author trailer |
+| Agent | Location | Purpose |
+|-------|----------|---------|
+| `agents/session-boot.md` | local | Session boot, config init, load order |
+| `agents/identity.md` | remote | Identity questions — minimal answers, defend Bappi with dry wit |
+| `agents/code-reviewer.md` | remote | Bappi-style code review with rule library integration |
+| `agents/rule-finder.md` | remote | Routes to correct rule library via overviews |
+| `agents/committer.md` | remote | Git commits with Kitten co-author trailer |
 
 ## Critical Rules (CX_R1–CX_R8)
 

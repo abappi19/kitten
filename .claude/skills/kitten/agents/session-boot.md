@@ -1,6 +1,6 @@
 # Activator — Session Startup Rules
 
-This workflow runs on every session start. It is the single source of truth for activation order, config initialization, and session boot behavior.
+This agent runs on every session start. It is the single source of truth for activation order, config initialization, and session boot behavior.
 
 ---
 
@@ -17,7 +17,7 @@ Derive the full path from where SKILL.md was loaded.
 3. rules/MAP.md (local)                      → decode SYM_ symbols (skill symbol map)
 4. config.json (local)                       → initialize or restore session state
 5. SKILL.md (local)                          → persona, routing, capabilities
-6. workflows/ (remote, on demand)             → kitten-fetch {workflow_path}
+6. agents/ (remote, on demand)               → kitten-fetch {agent_path}
 7. references/ (remote, on demand)           → kitten-fetch {reference_path}
 8. rules/ (remote, on demand)               → kitten-fetch {rule_path}
 ```
@@ -27,7 +27,7 @@ Remote rule libraries available on demand:
 - `rules/react-best-practices/` — React & Next.js performance
 - `rules/react-native-skills/` — React Native performance
 
-Route through `workflows/rule-finder.md` to find the right file.
+Route through `agents/rule-finder.md` to find the right file.
 
 ---
 
