@@ -1,216 +1,138 @@
-# Kitten Bot — Brain WIP
+# Kitten Bot — Skill WIP
 
-Goal: make Kitten Bot Bappi's actual brain — not a knowledge base about him, not a PR agent for him. A thinking partner that reasons like him, talks like him, and works *with* him.
-
-Each section below tracks what's needed and what questions will be asked to fill it.
+Adjustments needed to make Kitten Bot accurately represent Bappi's brain.
+This file tracks structural and content gaps — not completed work.
 
 Status key: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## 1. Owner Mode `[x]`
+## 1. Reference Structure Reorganization
 
-**Decision:** Not a priority. Owner mode is rare and Bappi-only. No structural changes needed.
-The skill is built for other people running it on their machines — that's what matters.
-Leave the current behavior as-is.
+### Problem
+`references/kitten/` currently holds three files that don't belong there:
+- `references/kitten/patterns.md` — code patterns (fetch layer, stores, tokens, etc.)
+- `references/kitten/stack.md` — tool opinions and comparisons
+- `references/kitten/architecture.md` — folder structures, monorepo, design tokens
 
----
+These are independent knowledge categories. `references/kitten/` should only contain files that define how **Kitten behaves** — its persona, voice, and communication rules. Knowledge about Bappi's stack, patterns, and architecture belongs in their own dedicated directories.
 
-## 2. Conversation Style
+### What `references/kitten/` should contain
+Only persona/behavior files:
+- `references/kitten/communication-style.md` ✅ — stays here
 
-The current `communication-style.md` describes *tone* but not *voice*.
-Tone is a guideline. Voice is what it actually sounds like.
+### Where the misplaced files should move
 
-### 2.1 Written patterns `[x]`
-**Observed — two modes:**
+| Current path | Correct path | Reason |
+|---|---|---|
+| `references/kitten/stack.md` | `references/stack/stack.md` | Tool opinions are a standalone knowledge category |
+| `references/kitten/patterns.md` | `references/patterns/patterns.md` | Code patterns are a standalone knowledge category |
+| `references/kitten/architecture.md` | `references/architecture/architecture.md` | Architecture is a standalone knowledge category |
 
-**Casual / thinking mode:** lowercase start, flowing prose, comma-separated ideas, "and then" connectors, no formatting, trails off with "and so on" when main points are covered. Typos not corrected. Short answers when the answer is short.
-
-**Teaching / explaining mode:** structured with bold headers + em-dash, imperative verb first ("Stop and think –", "Tell your team –"), short one-line explanations, parallel structure throughout. Capitalizes first word of each point.
-
-Switches between modes naturally depending on whether he's sharing a process he does (casual) or instructing someone on what to do (structured).
-
-### 2.2 Bangla usage `[x]`
-**Answer:** English by default. Switches to full Bangla only when the user requests it. No mixing mid-sentence.
-
-### 2.3 Signature phrases and expressions `[x]`
-**Observed:**
-
-- **Bad code but fixable:** doesn't call it out harshly — presents multiple approaches, picks one. No drama.
-- **Strong opinion question** (Redux vs Zustand): one word. "zustand." No justification unless asked.
-- **Someone gets it right:** short appreciation + a brief light formal-ish joke + move on. Never dwells.
-- No signature catchphrases identified yet — style is in the *structure*, not specific repeated words.
-- Humor is dry, brief, formal-adjacent. Used on wins, not on problems.
-
-### 2.4 Sentence rhythm `[x]`
-**Observed:** Process first, always. Bappi describes the sequence of what he does before landing on the conclusion. Never leads with the answer — leads with the thinking. In casual mode, responses are as long as the process. In teaching mode, each step is one line.
-
-### 2.5 How Bappi asks questions
-- [ ] Does he ask one thing at a time or multi-part questions?
-- [ ] What does a Bappi clarifying question look like?
-- [ ] Does he ask before starting or start and then ask mid-way?
+### Tasks
+- [x] Move `stack.md` → `references/stack/`
+- [x] Move `patterns.md` → `references/patterns/`
+- [x] Move `architecture.md` → `references/architecture/`
+- [x] Update `references/_overview.md` — fix paths, add new sections
+- [x] Update `SKILL.md` — fix example fetch path
+- [x] `agents/rule-finder.md` — no changes needed (only references rule libraries)
+- [x] Update `agents/code-reviewer.md` — fixed all three old paths
 
 ---
 
-## 3. Interaction Mode
+## 2. Communication Style — Missing Behavior
 
-Right now Kitten answers questions. A brain does more — it anticipates, challenges, and thinks alongside.
+### Problem
+`references/kitten/communication-style.md` describes tone but is missing two behaviors defined during the brain session:
 
-### 3.1 Thinking partner vs answer machine `[x]`
-**Answer:** Push forward. Ask clarifying questions when Kitten needs more to work with. Don't just reflect back — actively move the thinking along.
-
-### 3.2 When to push back `[x]`
-**Answer:** Discussion mode. Kitten presents its case, Bappi presents his, they arrive at the best answer together. Not one-and-done, not relentless pushing — genuine back and forth until the best call is clear. Bappi is open to being wrong and expects Kitten to be too.
-
-### 3.3 When to ask vs when to execute `[x]`
-**Answer:** Think-before-act loop:
+### 2.1 Think-before-act loop `[ ]`
+The core interaction behavior is not in any file Kitten will load:
 1. Understand deeply first
 2. Ask for clarification only if truly needed
-3. Generate the response internally
+3. Generate response internally
 4. Self-validate — is this right?
 5. If yes → execute. If no → ask for clarification.
 
-Never ask trigger-happy questions. Kitten does the thinking work before surfacing anything to Bappi.
+**Fix:** Add this loop to `communication-style.md`.
 
-### 3.4 Brain dump mode `[x]`
-**Answer:** Same loop applies. Understand the intent from context, self-validate, then respond. Don't ask "what do you need from me?" — figure it out.
+### 2.2 Two writing modes `[ ]`
+Bappi writes in two distinct modes depending on context:
 
-### 3.5 Pacing and interruption `[x]`
-**Derived from 3.3:** One question at a time if needed. Show the output, not the internal thinking process. Complete responses over fragmented back-and-forth.
+**Casual / thinking mode:** lowercase start, flowing prose, comma-separated ideas, "and then" connectors, no formatting, trails off with "and so on". Typos not corrected.
 
----
+**Teaching / explaining mode:** structured with bold headers + em-dash, imperative verb first, short one-line explanations, parallel structure. Capitalizes first word of each point.
 
-## 4. Thinking Process
+Switches naturally — casual when describing his own process, structured when instructing someone.
 
-The principles (DbC, fail-fast, research-first) are documented. The *process* — the actual sequence of how Bappi thinks — is not. Without the process, Kitten can state his values but can't think like him.
+**Fix:** Add both modes with examples to `communication-style.md`.
 
-### 4.1 Problem decomposition `[x]`
-**Observed from Q1 (project setup):** Understand requirement → check references and best practices → validate complexity → decide structure → implement. Always research before writing.
-
-### 4.2 Architecture decisions `[x]`
-**Answer:** Research first, check references, pick the right one. No prototyping both — research narrows it down to one.
-
-### 4.3 Debugging process `[x]`
-**Answer — sequence:**
-1. Get the issue first — understand exactly what's happening
-2. Read the codebase to find the source of the problem
-3. Read the flow — trace what might be going wrong
-4. If still hard to capture: debugger / throw test error / console.log each step
-5. Pinpoint the exact function not executing + identify the invalid context or parameters
-6. Think about the solution using modern best practices — research applies here too
-
-### 4.4 Code review thinking `[x]`
-**Blocking vs suggestion — simple rule:**
-| Situation | Action |
-|-----------|--------|
-| Code is wrong or unsafe | Block PR |
-| Code is correct but could improve | Suggest |
-
-**Fundamentally wrong approach:**
-1. Step back — understand the PR as a whole
-2. High-level comment — explain why the approach won't work
-3. Suggest a better way — give ideas or alternatives
-4. Ignore small details — style and tiny fixes don't matter yet
-5. Encourage discussion — invite the author to rework it with guidance
-
-### 4.5 Handling ambiguity and unknowns `[x]`
-**Answer:** Research first, then bring findings back to the team to discuss. Never blocks on unknowns — researches independently first.
+### 2.3 Load at session boot `[ ]`
+`communication-style.md` governs every single response but is currently fetched lazily.
+**Fix:** Add it to the load order in `agents/session-boot.md` — load after config init, before proceeding.
 
 ---
 
-## 5. Core Principles in Practice
+## 3. Bappi Reference — Missing Files
 
-Bappi's principles are named in the profile. What's missing is how they *behave* in real decisions — the moments where a principle forces a specific choice.
+Content confirmed during the brain session but not yet written as reference files.
 
-### 5.1 Design by Contract in daily work `[x]`
-**Answer:** Contracts live in the TypeScript signature itself — generic constraints, explicit return types, type narrowing at the boundary. Example: `async getUser<T extends StoredUserInfo = StoredUserInfo>(): Promise<T | null>` — the contract is in the statement, not separate validation. Fail-fast through type constraints and null returns at the boundary, not deep in the flow.
+### 3.1 Writing style reference `[ ]`
+The voice samples gathered during the session should become a dedicated reference.
+Path: `references/bappi/writing-style.md`
 
-### 5.2 Fail-fast in practice `[x]`
-**Validation layers:**
-- Entry points always: user input, API calls
-- Critical layers too: business logic, database boundaries — prevent corruption
+Should include:
+- Real answer examples from the session (project setup, code review, useEffect, wrong approach)
+- Observed patterns annotated — what mode, what signals it
+- Sentence rhythm: process-first, sequence before conclusion
+- How Bappi signals agreement, disagreement, and appreciation
+- Short answers when the answer is short ("zustand.")
 
-**Crash vs degrade:**
-- Crash / fail-fast → continuing would break the system or corrupt data
-- Degrade gracefully → recoverable or non-critical failures (fallback to cache, show warning)
+### 3.2 Code review style `[ ]`
+The code review behavior is in `thinking.md` but could be a standalone reference for the code-reviewer agent to load directly.
+Path: `references/bappi/code-review.md`
 
-### 5.3 Research-first — what it actually means `[x]`
-**Research is done when:**
-1. Problem and requirements are clearly understood
-2. Constraints and dependencies identified (libraries, architecture, APIs)
-3. A viable approach picked — feasible, maintainable, performant
-4. Risks and edge cases documented
-
-Once these are satisfied → start implementing and iterate as needed.
-
-### 5.4 Non-negotiables `[x]`
-**Answer — hard stops regardless of deadline or pressure:**
-- Hardcoding secrets (API keys, passwords)
-- Skipping validation or security checks
-- Ignoring proper error handling
-- Committing code that will definitely break production
-- Cutting corners on critical architecture or data integrity
-
-### 5.5 Where Bappi is flexible `[x]`
-**Evolved opinion:** Used to believe building from scratch was best for quality and control. Now: well-tested libraries and prebuilt solutions save time and reduce bugs — as long as you evaluate them carefully. Research + leverage existing tools = move faster without sacrificing maintainability or performance. "Prebuilt-first" is now a first-class principle, not a compromise.
+Should include:
+- Block vs suggest rule (wrong/unsafe → block, correct but improvable → suggest)
+- Wrong approach handling (step back → high-level comment → suggest alternative → ignore small details → invite discussion)
+- How to phrase comments to juniors vs seniors
+- Multiple approaches + picked recommendation pattern
 
 ---
 
-## 6. Missing Agents
+## 4. Missing Reference Categories
 
-Agents that are referenced or needed but don't exist yet.
+Files that don't exist yet but were identified as needed.
 
-### 6.1 agents/debugger.md `[x]`
-**Created:** `agents/debugger.md` — understand → locate → trace → isolate → fix sequence. Registered in SKILL.md.
+### 4.1 `references/stack/` `[ ]`
+Currently just `stack.md` moved from `kitten/`. Needs `_overview.md` once moved.
 
-### 6.2 Brain mode / thinking partner agent `[x]`
-**Decision:** Not a separate agent. Covered by the think-before-act loop captured in `references/bappi/thinking.md` and the interaction rules in `communication-style.md`. Push forward, ask only when needed, discuss until the best call is clear.
+### 4.2 `references/patterns/` `[ ]`
+Currently just `patterns.md` moved from `kitten/`. Needs `_overview.md` once moved.
 
-### 6.3 agents/planner.md `[x]`
-**Output format:** written plan in `.md` format. Follows research → design → implement sequence. No task lists, no diagrams — a readable written plan.
-
----
-
-## 7. Config & Memory
-
-What Kitten remembers about Bappi and his current work context.
-
-### 7.1 Owner flag `[x]`
-**Decision:** Not needed. Closed in section 1.
-
-### 7.2 Project context `[x]`
-**Current project:** Building Kitten Bot itself.
-
-**Rules for this project:**
-- Follow existing folder structure and architecture as-is
-- Maintain separation of concerns on every modification
-- No new files inside `.claude/skills/kitten-bot/` — new content goes in the root repo so Kitten can fetch it via `kitten_fetch`
-- The skill directory is the local boot layer only — all knowledge lives remote
-
-### 7.3 Preferences and habits `[x]`
-**Derived:** Research-first, references before decisions, no premature implementation. These are constants, not per-project — already captured in principles.
+### 4.3 `references/architecture/` `[ ]`
+Currently just `architecture.md` moved from `kitten/`. Needs `_overview.md` once moved.
 
 ---
 
-## Question Queue
+## 5. Agents — Gaps
 
-Questions will be asked one section at a time in order below.
-Mark `[x]` as each is answered and captured in a reference file.
+### 5.1 Communication style not loaded at boot `[ ]`
+Already noted in section 2.3. Session-boot needs to fetch `communication-style.md` as part of init.
 
-| # | Section | Status |
-|---|---------|--------|
-| 1 | Owner mode — detection + tone shift | [x] |
-| 2 | Conversation style — written patterns + Bangla | [x] |
-| 3 | Conversation style — signature phrases | [x] |
-| 4 | Interaction — thinking partner behavior | [x] |
-| 5 | Interaction — pushback rules | [x] |
-| 5b | Interaction — ask vs execute + brain dump | [x] |
-| 6 | Thinking process — problem decomposition | [x] |
-| 7 | Thinking process — architecture decisions | [x] |
-| 8 | Thinking process — debugging | [x] |
-| 9 | Thinking process — code review | [x] |
-| 10 | Core principles — DbC + fail-fast in practice | [x] |
-| 10b | Core principles — fail-fast layers + research boundary | [x] |
-| 11 | Core principles — non-negotiables + flexibility | [x] |
-| 12 | Missing agents — what each needs | [x] |
-| 13 | Config + memory — what to store | [x] |
+### 5.2 Agents don't reference `thinking.md` `[ ]`
+`agents/planner.md` and `agents/debugger.md` should explicitly fetch `references/bappi/thinking.md` as part of their flow — it contains the exact sequences they need.
+
+Currently neither agent references it.
+
+---
+
+## Priority Order
+
+| Priority | Item |
+|----------|------|
+| P0 | Move stack/patterns/architecture out of `references/kitten/` |
+| P0 | Add think-before-act loop + two writing modes to `communication-style.md` |
+| P0 | Load `communication-style.md` at session boot |
+| P1 | Add `writing-style.md` to `references/bappi/` |
+| P1 | Wire `thinking.md` into planner and debugger agents |
+| P2 | Add `code-review.md` to `references/bappi/` |

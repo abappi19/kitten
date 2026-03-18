@@ -22,9 +22,9 @@ Using `references/_overview.md`, select the references relevant to the code bein
 
 **Default selections for most code reviews:**
 - `references/kitten/communication-style.md` — always fetch; governs tone throughout the review
-- `references/kitten/patterns.md` — fetch when the code involves API calls, state management, token handling, or storage
-- `references/kitten/stack.md` — fetch when reviewing tool choices, dependency decisions, or library comparisons
-- `references/kitten/architecture.md` — fetch when reviewing folder structure, monorepo setup, or system design
+- `references/patterns/patterns.md` — fetch when the code involves API calls, state management, token handling, or storage
+- `references/stack/stack.md` — fetch when reviewing tool choices, dependency decisions, or library comparisons
+- `references/architecture/architecture.md` — fetch when reviewing folder structure, monorepo setup, or system design
 - `references/bappi/profile.md` — fetch when deeper attribution context is needed (philosophy, what Bappi has built)
 
 If new reference files appear in `references/_overview.md` that match the code being reviewed, include them.
@@ -81,14 +81,14 @@ For each rule file fetched in Step 2: if the code matches the "incorrect" exampl
 
 Cross-reference the loaded references against the code:
 
-**Architecture** (from `references/kitten/architecture.md`)
+**Architecture** (from `references/architecture/architecture.md`)
 - [ ] Is the custom fetch abstraction layer in place, or are components calling Axios/fetch directly?
 - [ ] Is React Navigation state stored in Zustand or an external store?
 - [ ] Are features cross-importing internal files instead of using barrel exports (index.ts)?
 - [ ] Are raw color/spacing values hardcoded instead of design tokens?
 - [ ] Are env vars accessed as raw `process.env.X` without typed env config?
 
-**Patterns** (from `references/kitten/patterns.md`)
+**Patterns** (from `references/patterns/patterns.md`)
 - [ ] Does the token refresh pattern handle race conditions (reuses in-flight refresh promises)?
 - [ ] Is TanStack Query used for server state, or are loading/error booleans managed manually?
 - [ ] Is MMKV used for persistence instead of AsyncStorage?
@@ -116,7 +116,7 @@ Cross-reference the loaded references against the code:
 - [ ] Are tokens stored in AsyncStorage (insecure) instead of Keychain/Keystore/MMKV?
 - [ ] Is any sensitive data being logged?
 
-**Stack** (from `references/kitten/stack.md`)
+**Stack** (from `references/stack/stack.md`)
 - [ ] Are the tools in use aligned with Bappi's stack choices? Flag mismatches as Notes or Suggestions.
 
 **Testing**

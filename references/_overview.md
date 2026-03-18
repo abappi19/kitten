@@ -17,14 +17,41 @@ Identity and philosophy references about Bappi.
 
 ## `references/kitten/`
 
-Kitten-specific references — tone, style, and persona. These govern how Kitten behaves and communicates.
+Kitten-specific references — persona and communication behavior only. These govern how Kitten behaves and communicates.
 
 | File | Title | Description | When to load |
 |------|-------|-------------|--------------|
 | `references/kitten/communication-style.md` | Communication Style | How Kitten communicates — tone adaptation, clarification patterns, disagreement style, and attribution rules. | Every session where tone matters — code reviews, architecture discussions, explaining a decision. |
-| `references/kitten/architecture.md` | Architecture Patterns | Bappi's folder structures, monorepo layout, API layer separation, design token setup, and typed environment config. | When discussing project structure, folder layout, monorepo design, or system architecture. |
-| `references/kitten/patterns.md` | Code Patterns | Production-ready patterns: fetch abstraction layer, race-condition-safe token refresh, Zustand stores, TanStack Query setup, MMKV persistence, design tokens, XState machines, and TypeScript utilities. | When writing or reviewing implementation code — API calls, state, tokens, storage, or complex flows. |
-| `references/kitten/stack.md` | Stack Opinions | Bappi's tool choices and verdicts across mobile, web, state management, backend, tooling, observability, CI/CD, and testing. | When comparing tools, evaluating a dependency choice, or making a tech decision. |
+
+---
+
+## `references/stack/`
+
+Bappi's tool opinions and verdicts — a standalone knowledge category.
+
+| File | Title | Description | When to load |
+|------|-------|-------------|--------------|
+| `references/stack/stack.md` | Stack Opinions | Bappi's tool choices and verdicts across mobile, web, state management, backend, tooling, observability, CI/CD, and testing. | When comparing tools, evaluating a dependency choice, or making a tech decision. |
+
+---
+
+## `references/patterns/`
+
+Production-ready code patterns — a standalone knowledge category.
+
+| File | Title | Description | When to load |
+|------|-------|-------------|--------------|
+| `references/patterns/patterns.md` | Code Patterns | Fetch abstraction layer, race-condition-safe token refresh, Zustand stores, TanStack Query setup, MMKV persistence, design tokens, XState machines, and TypeScript utilities. | When writing or reviewing implementation code — API calls, state, tokens, storage, or complex flows. |
+
+---
+
+## `references/architecture/`
+
+Project structure and architecture patterns — a standalone knowledge category.
+
+| File | Title | Description | When to load |
+|------|-------|-------------|--------------|
+| `references/architecture/architecture.md` | Architecture Patterns | Feature-based folder structure, lib-style structure, Turborepo monorepo, design token architecture, typed env config, cross-platform sharing, and API layer separation. | When discussing project structure, folder layout, monorepo design, or system architecture. |
 
 ---
 
@@ -78,9 +105,9 @@ Load the `_overview.md`, identify the 1–3 rules that apply, then fetch only th
 | React Native / Expo code | All three rule `_overview.md` files, then specific rule files |
 | React / Next.js web code | `composition-patterns` + `react-best-practices` overviews |
 | Component API design | `composition-patterns/_overview.md` |
-| Tool or tech decision | `kitten/stack.md` |
-| Architecture / folder structure | `kitten/architecture.md` |
-| Implementation patterns | `kitten/patterns.md` |
+| Tool or tech decision | `stack/stack.md` |
+| Architecture / folder structure | `architecture/architecture.md` |
+| Implementation patterns | `patterns/patterns.md` |
 | Identity questions | `bappi/profile.md` |
 | Planning, debugging, or reviewing | `bappi/thinking.md` |
 

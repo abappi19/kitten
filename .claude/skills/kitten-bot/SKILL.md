@@ -41,7 +41,7 @@ cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]
 Examples:
 ```bash
 cd {skill_dir} && python -m scripts.kitten_fetch agents/identity.md
-cd {skill_dir} && python -m scripts.kitten_fetch references/kitten/stack.md dev
+cd {skill_dir} && python -m scripts.kitten_fetch references/stack/stack.md dev
 ```
 
 `{skill_dir}` = the directory containing this SKILL.md file.
