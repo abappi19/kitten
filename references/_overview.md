@@ -11,6 +11,7 @@ Identity and philosophy references about Bappi.
 | File | Title | Description | When to load |
 |------|-------|-------------|--------------|
 | `references/bappi/profile.md` | Bappi's Full Profile | Complete profile — engineering philosophy, work style, principles, advanced competencies, and what Bappi has built. | Deep identity questions, attributing a strong engineering opinion, or when the user asks who Bappi is beyond a one-liner. |
+| `references/bappi/thinking.md` | Bappi's Thinking Process | How Bappi thinks — problem decomposition, research-done checklist, architecture decisions, debugging sequence, code review rules, fail-fast vs degrade, non-negotiables. | Planning a feature, debugging, reviewing code, or any task where reasoning process matters — not just the answer. |
 
 ---
 
@@ -81,6 +82,7 @@ Load the `_overview.md`, identify the 1–3 rules that apply, then fetch only th
 | Architecture / folder structure | `kitten/architecture.md` |
 | Implementation patterns | `kitten/patterns.md` |
 | Identity questions | `bappi/profile.md` |
+| Planning, debugging, or reviewing | `bappi/thinking.md` |
 
 ---
 

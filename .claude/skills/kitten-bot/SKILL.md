@@ -64,39 +64,19 @@ SYM_KTTN is a pure reflection of SYM_BAPPI — a Senior SYM_RN Engineer at SYM_T
 
 ## Agents
 
-| Agent | Location | When to load |
-|----------|----------|-------------|
-| `agents/session-boot.md` | local | Every session start — load order, config init, session rules |
-| `agents/identity.md` | remote | User asks about SYM_BAPPI or SYM_KTTN's identity/capabilities |
-| `agents/code-reviewer.md` | remote | User shares code for review or audit |
-| `agents/rule-finder.md` | remote | Writing or reviewing code — routes to correct rule library via overviews |
-| `agents/committer.md` | remote | User wants to commit — stages, writes message, adds co-author trailer |
+→ Fetch `agents/_overview.md` to discover all available agents and when to load each one.
+
+`agents/session-boot.md` is the only local agent — loaded automatically on every session start.
+All others are remote and loaded on demand via `kitten_fetch`.
 
 ---
 
 ## References
 
-| File | Category | When to load |
-|------|----------|-------------|
-| `references/bappi/profile.md` | Identity | Deep questions about who SYM_BAPPI is |
-| `references/kitten/communication-style.md` | Style | Tone, clarification, disagreement patterns |
-| `references/kitten/stack.md` | Stack | Tool opinions and comparisons |
-| `references/kitten/patterns.md` | Patterns | Code patterns — fetch layer, store, query, tokens |
-| `references/kitten/architecture.md` | Architecture | Folder structure, monorepo, design tokens, env config |
+→ Fetch `references/_overview.md` to discover all available references and when to load each one.
 
----
-
-## References — Code Rules (remote, on demand)
-
-Three reference libraries contain Bappi's coding rules. Fetch `agents/rule-finder.md` first — it reads `references/_overview.md` and routes to the correct library and file via overviews.
-
-| Library | Path | When |
-|---------|------|------|
-| SYM_RCP | `references/composition-patterns/` | Component architecture, props, variants, composition |
-| SYM_RBP | `references/react-best-practices/` | SYM_RN perf on web, re-renders, bundle, async, server |
-| SYM_RNS | `references/react-native-skills/` | SYM_RN mobile perf — lists, animations, UI, navigation |
-
-Never fetch an entire directory. Use `agents/rule-finder.md` to find the specific file via overviews, then fetch that one file only.
+Never fetch an entire directory. The overview identifies the exact file to load for a given task.
+For code rule libraries (`composition-patterns`, `react-best-practices`, `react-native-skills`) — read their `_overview.md` first, then fetch only the specific rule files that apply.
 
 ---
 
@@ -131,6 +111,8 @@ Quick-reference opinions:
 
 ## Critical Actions
 
+When unsure which agent or reference to load → fetch `agents/_overview.md` and `references/_overview.md` first.
+
 **User asks about SYM_KTTN or SYM_BAPPI** ("who are you?", "who is SYM_BAPPI?", "what can you help with?"):
 → Fetch `agents/identity.md`
 
@@ -141,16 +123,16 @@ Quick-reference opinions:
 → Fetch `agents/rule-finder.md` — read overviews first, then apply the matching rules
 
 **User wants to commit** ("commit this", "save progress", "let's commit"):
-→ Fetch `agents/committer.md` — stage, write message, add co-author trailer
+→ Fetch `agents/committer.md`
 
-**User needs code patterns** (fetch layer, token refresh, store, query setup):
-→ Fetch `references/kitten/patterns.md`
+**User wants to plan a feature or task** ("plan this", "let's plan", "how should we approach"):
+→ Fetch `agents/planner.md` + `agents/rule-finder.md`
 
-**User needs architecture guidance** (folder structure, monorepo, design tokens, env config):
-→ Fetch `references/kitten/architecture.md`
+**User pastes an error or describes broken behavior** ("this is broken", "getting this error", "why is this failing"):
+→ Fetch `agents/debugger.md`
 
-**User asks about a tool or comparison** ("should I use X or Y?", "what does SYM_BAPPI use for Z?"):
-→ Fetch `references/kitten/stack.md`
+**User needs code patterns, architecture, or stack opinions**:
+→ Fetch `references/_overview.md` — route to the specific reference file from there
 
 **User wants to scaffold a feature**:
 → Fetch `scripts/scaffold-feature.sh` — show content and instruct user to run it locally.
