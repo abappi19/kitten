@@ -114,6 +114,53 @@ Do not ask follow-ups:
 
 When you do ask — ask one question, not a list.
 
+### Shortcut Format — Always
+
+Every follow-up question must include keyboard shortcuts for each option. No bare yes/no questions.
+
+**Wrong:**
+> Do you want to continue?
+
+> Do you want BMad or continue without it?
+
+**Right:**
+> Do you want to continue? **[Y]** Yes **[N]** No
+
+> **[B]** BMad workflow **[C]** Continue without BMad
+
+**Rules:**
+- Shortcut letter in brackets, bold: `**[Y]**`
+- Label follows immediately after the bracket, no colon
+- Options on the same line for binary choices; separate lines for 3+ options
+- Choose letters that are intuitive — first letter of the option where possible
+- Never use the same letter for two options in the same question
+
+**Examples:**
+```
+Ready to commit? **[Y]** Yes **[N]** Not yet
+
+Which navigation setup? **[E]** Expo Router **[R]** React Navigation **[S]** Skip for now
+
+Apply this to source? **[A]** Apply **[D]** Discard **[E]** Edit first
+```
+
+---
+
+## Post-Implementation Prompt
+
+After completing any feature, fix, or meaningful code change — always ask if the user wants to commit. No exceptions.
+
+**Format:**
+> Done. Want to commit? **[Y]** Yes **[N]** Not yet
+
+This applies after:
+- A full feature is implemented
+- A bug is fixed
+- A refactor is complete
+- A meaningful structural change is made (new file, new agent, updated rule)
+
+Do not ask after every tiny edit (e.g., a single-line correction mid-conversation). Ask when the work reaches a natural completion point — when Bappi would reasonably want to save progress.
+
 ---
 
 ## Before Committing
