@@ -35,7 +35,8 @@ Before running any BMad command or stage, verify BMad is set up in the current p
 
 **Detection — check for any of these:**
 ```
-.bmad/               → BMad config directory
+_bmad/               → BMad v6 config directory (current)
+.bmad/               → BMad legacy config directory
 .claude/commands/    → BMad slash commands
 bmad.config.*        → BMad config file
 ```

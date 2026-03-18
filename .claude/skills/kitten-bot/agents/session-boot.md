@@ -184,6 +184,7 @@ Never edit actual skill source files directly without a SYM_WIP draft first.
 After mode detection, check if BMad is installed in the current project directory (`$KITTEN_PROJECT_DIR`):
 
 ```bash
+ls $KITTEN_PROJECT_DIR/_bmad 2>/dev/null || \
 ls $KITTEN_PROJECT_DIR/.bmad 2>/dev/null || \
 ls $KITTEN_PROJECT_DIR/.claude/commands 2>/dev/null || \
 ls $KITTEN_PROJECT_DIR/bmad.config.* 2>/dev/null
