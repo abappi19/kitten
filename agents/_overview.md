@@ -15,6 +15,8 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 | `agents/committer.md` | Git commits with Kitten co-author trailer | User wants to commit, save progress, or finalize changes |
 | `agents/planner.md` | Feature and task planning — outputs a written `.md` plan | User wants to plan before implementing — "plan this", "how should we approach" |
 | `agents/debugger.md` | Systematic debugging — understand → locate → trace → isolate → fix | User pastes an error, stack trace, or describes broken behavior |
+| `agents/self-eval.md` | Runs Kitten's eval suite — validates rules, tone, and boundary responses | "eval yourself", "run evals", "test yourself", "validate the skill" — **Contributor Mode only** |
+| `agents/description-optimizer.md` | Optimizes SKILL.md description for better triggering accuracy | "optimize description", "improve trigger accuracy", "run description eval" — **Contributor Mode only** |
 
 ---
 
@@ -24,6 +26,7 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 - **Code review:** fetch both `agents/code-reviewer.md` and `agents/rule-finder.md` — always validate against rule libraries.
 - **Debug then fix:** after `agents/debugger.md` identifies the root cause, route to `agents/rule-finder.md` if the fix involves a code pattern decision.
 - **`agents/rule-finder.md` is the gateway to all rule libraries.** Never skip it when writing or reviewing code.
+- **Contributor Mode only:** `agents/self-eval.md` and `agents/description-optimizer.md` are internal tools — never invoke in Normal Mode.
 
 ---
 

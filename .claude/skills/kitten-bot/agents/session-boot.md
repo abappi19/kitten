@@ -33,7 +33,7 @@ Derive `{skill_dir}` from where SKILL.md was loaded.
 8. references/ (remote, on demand)                        → kitten-fetch {reference_path}
 ```
 
-All remote content lives in `references/`. Reference libraries available on demand:
+Remote content lives in `agents/` and `references/`. Reference libraries available on demand:
 - `references/kitten/` — Kitten persona: communication style, architecture, patterns, stack
 - `references/bappi/` — Bappi's profile
 - `references/composition-patterns/` — React component architecture rules
