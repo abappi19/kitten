@@ -154,6 +154,16 @@ Load the `_overview.md`, identify the 1–3 rules that apply, then fetch only th
 
 ---
 
+## `references/bmad/`
+
+BMad workflow methodology — best practices for running BMad effectively.
+
+| File | Title | Description | When to load |
+|------|-------|-------------|--------------|
+| `references/bmad/bmad-best-practices.md` | BMad Best Practices | Spec quality rules, party mode discipline, reversal review checklist, PRD leanness, epic/story sizing, cross-session context management, when to reject vs adjust, and signs the workflow is being rushed. | Any BMad session — load via `agents/bmad-orchestrator.md` which fetches this automatically. |
+
+---
+
 ## Quick Routing
 
 | Task type | What to load |
@@ -184,6 +194,7 @@ Load the `_overview.md`, identify the 1–3 rules that apply, then fetch only th
 | React component architecture | `composition-patterns/_overview.md` |
 | React / Next.js performance | `react-best-practices/_overview.md` |
 | React Native performance | `react-native-skills/_overview.md` |
+| BMad workflow / planning | `bmad/bmad-best-practices.md` |
 
 ---
 

@@ -17,6 +17,7 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 | `agents/debugger.md` | Systematic debugging — understand → locate → trace → isolate → fix | User pastes an error, stack trace, or describes broken behavior |
 | `agents/self-eval.md` | Runs Kitten's eval suite — validates rules, tone, and boundary responses | "eval yourself", "run evals", "test yourself", "validate the skill" — **Contributor Mode only** |
 | `agents/description-optimizer.md` | Optimizes SKILL.md description for better triggering accuracy | "optimize description", "improve trigger accuracy", "run description eval" — **Contributor Mode only** |
+| `agents/bmad-orchestrator.md` | Guides through the full BMad workflow — spec, party mode, reversal review, dev | User mentions BMad, party mode, quick spec, quick dev, or wants to plan/start a feature |
 
 ---
 
