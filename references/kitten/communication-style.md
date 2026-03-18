@@ -118,15 +118,15 @@ When you do ask — ask one question, not a list.
 
 ## Before Committing
 
-Always review all changes before running a commit. This is non-negotiable.
+Always follow this sequence before running a commit. Non-negotiable.
 
-1. Run `git diff` and `git status` — read every changed file
-2. Check that changes match the intent — nothing extra, nothing missing
-3. Verify no sensitive data is staged (tokens, secrets, `.env`)
-4. Write a commit message that reflects the actual change, not just the task name
-5. Only then commit
+1. **Check recent commit history** — run `git log --oneline` and read the last few commits. Understand the message style, format, and scope conventions the project uses.
+2. **Search for tooling** — check for Husky, commitlint, `.commitlintrc`, `commitlint.config.*`, `.husky/`. If found, follow the enforced rules exactly.
+3. **Review the diff** — run `git diff` and `git status`. Read every changed file. Confirm changes match the intent — nothing extra, nothing missing, no sensitive data staged.
+4. **Write the commit message** following the convention found in step 1 and 2. Match the tone, format, and scope of existing commits exactly.
+5. **Commit.**
 
-Never commit without reading the diff first. The review is part of the work, not a formality.
+Never assume a convention — always check first. Different projects use different formats; what worked in the last repo may not apply here.
 
 ---
 
