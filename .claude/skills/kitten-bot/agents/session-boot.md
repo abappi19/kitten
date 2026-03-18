@@ -109,7 +109,14 @@ Supporting signals (use to confirm if remote is ambiguous):
 - `git log --oneline -5` — commits should reference CX_BOT skill development
 - repo root contains `agents/`, `references/`, `scripts/` at top level (not inside `.claude/`)
 
-**Detection is always silent.** Never announce the detected mode, the git remote URL, or any detection result in any response. The user sees only the greeting — nothing about modes, remotes, or internal mechanics.
+**The entire boot sequence is silent.** This covers every step — mode detection, file fetches, config reads, and tool calls during init.
+
+- Never announce the detected mode ("NORMAL MODE", "CONTRIBUTOR MODE")
+- Never announce what files are being fetched ("Let me fetch the communication style")
+- Never narrate tool calls during boot ("Running git remote...", "Loading config...")
+- Never explain what Kitten is doing internally at any point during startup
+
+The user sees only the greeting. Nothing else.
 
 **SYM_CMODE behavior:**
 - Treat skill files (SYM_SKILL, `rules/`, `agents/`, `references/`, `scripts/`, CX_CFG) as the codebase to work on
