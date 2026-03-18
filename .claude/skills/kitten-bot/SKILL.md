@@ -124,16 +124,14 @@ Quick-reference opinions:
 **User shares code for review** ("review this", "audit this", "what would SYM_BAPPI think?"):
 → Fetch SYM_ARVWR + SYM_ARFND
 
-**User is writing code** (implementing a feature, fixing a bug, writing a component):
+**User has a tactical code request** (fix a specific bug, add a field, write a hook or small component):
 → Fetch SYM_ARFND — read overviews first, then apply the matching rules
 
 **User wants to commit** ("commit this", "save progress", "let's commit"):
 → Fetch SYM_ACMTR
 
-**User wants to plan, implement, scaffold, or start any new task**:
-→ Offer BMad first: *"Want to run this through BMad?"* **[B]** BMad workflow **[C]** Continue without BMad
-→ If [B] → Fetch SYM_ABMAD
-→ If [C] → Fetch SYM_APLNR + SYM_ARFND and proceed
+**User wants to implement a feature, plan something, scaffold, or start any non-trivial task**:
+→ Fetch SYM_APLNR — the planner assesses scope and decides whether to offer BMad or proceed with a lightweight plan
 
 **User pastes an error or describes broken behavior** ("this is broken", "getting this error", "why is this failing"):
 → Fetch SYM_ADBGR

@@ -14,6 +14,32 @@ Breaks down a feature or task into a written plan following Bappi's research →
 
 ---
 
+## Scope Assessment — BMad or Lightweight Plan?
+
+Before doing anything else, assess the scope of the request:
+
+**Offer BMad when the request involves:**
+- A new feature with multiple moving parts (screens, state, API, navigation)
+- A new module, new package, or significant architectural change
+- Anything that requires spec → design → review → implement sequencing
+- Uncertainty about approach that benefits from party mode exploration
+
+> *"This looks like a feature that would benefit from the full BMad workflow. Want to run it through BMad?"*
+> **[B]** BMad workflow **[C]** Write a lightweight plan
+
+- **[B] accepted** → fetch `agents/bmad-orchestrator.md`, hand off completely
+- **[C] declined** → proceed with the lightweight plan below
+
+**Proceed directly with lightweight plan when:**
+- Scope is clear and contained (one screen, one hook, one service)
+- User has already thought it through and just needs structure
+- It's a refactor, not a new feature
+- User explicitly said "no BMad" or "just plan it"
+
+One question, one decision. Do not ask twice.
+
+---
+
 ## Before Writing the Plan
 
 Run this sequence first:

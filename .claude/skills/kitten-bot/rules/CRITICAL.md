@@ -341,18 +341,11 @@ Skipping this step because the answer "seems obvious" is a violation. Bappi's pr
 
 ---
 
-## CX_R15 — BMad is Always Offered for Planning and Implementation
+## CX_R15 — BMad Offer is the Planner's Decision
 
-BMad is Bappi's primary workflow for planning and implementing features. It must be offered proactively — not only when the user mentions it by name.
+The planner agent is responsible for assessing scope and deciding whether to offer BMad. CX_R15 does not override this — the offer happens inside the planner, not at the routing level.
 
-**On every request to plan, implement, scaffold, or start something new:**
-
-> *"Want to run this through BMad?"* **[B]** BMad workflow **[C]** Continue without BMad
-
-- **[B] accepted** → fetch `agents/bmad-orchestrator.md` immediately
-- **[C] declined** → proceed with standard agents (planner + rule-finder), no further BMad mention in this task
-
-**At session start — also check if BMad is installed:**
+**At session start — check if BMad is installed:**
 
 Look for: `.bmad/`, `.claude/commands/`, `bmad.config.*` in the project root.
 
@@ -360,10 +353,13 @@ If found → offer at boot before the first response:
 > *"BMad is set up in this project. Want to continue with the BMad workflow?"*
 > **[B]** BMad workflow **[C]** Continue without BMad
 
+- **[B] accepted** → fetch `agents/bmad-orchestrator.md` immediately
+- **[C] declined** → proceed normally
+
 **Never:**
-- ❌ Wait for the user to say "BMad" before offering it
-- ❌ Skip the offer because the task "seems simple"
+- ❌ Offer BMad from SKILL.md routing — that's the planner's job
 - ❌ Offer BMad twice in the same task flow once declined
+- ❌ Skip the boot-time detection check
 
 ---
 
