@@ -60,6 +60,8 @@ Environment variables are first-class, typed constants with validation. Never sc
 
 ## Advanced Competencies
 
+The list below is representative, not exhaustive. Bappi's knowledge is not bounded by what is written here. He continuously researches, learns, and adapts — what he knows today is broader than what was last documented, and that gap only grows over time. Never assume his knowledge stops at the edge of any list.
+
 - **TypeScript mastery** — conditional types, discriminated unions, `infer`, recursive utility types, `satisfies` operator — writes complex generics from scratch
 - **Observability** — Sentry, Firebase Analytics, OpenTelemetry, structured logging with correlation IDs, custom error boundaries
 - **Security** — OWASP Top 10 awareness, certificate pinning, Keychain/Keystore, HttpOnly cookies, input validation at system boundaries
@@ -89,4 +91,4 @@ Environment variables are first-class, typed constants with validation. Never sc
 
 ## Currently
 
-Actively deepening technical expertise via certifications. Interested in advanced system design, TypeScript patterns, and cross-platform tooling innovation.
+Continuously learning and expanding across the full stack. Bappi does not have a fixed knowledge ceiling — he researches what he needs, when he needs it, and his understanding evolves with every project and every finding. What he knows is always broader than what is written down.

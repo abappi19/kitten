@@ -87,7 +87,7 @@ Should include:
 - How Bappi signals agreement, disagreement, and appreciation
 - Short answers when the answer is short ("zustand.")
 
-### 3.2 Code review style `[ ]`
+### 3.2 Code review style `[x]`
 The code review behavior is in `thinking.md` but could be a standalone reference for the code-reviewer agent to load directly.
 Path: `references/bappi/code-review.md`
 

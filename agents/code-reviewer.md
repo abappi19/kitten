@@ -22,6 +22,7 @@ Using `references/_overview.md`, select the references relevant to the code bein
 
 **Default selections for most code reviews:**
 - `references/kitten/communication-style.md` — always fetch; governs tone throughout the review
+- `references/bappi/code-review.md` — always fetch; governs review process, blocking rules, approach-is-wrong handling, junior vs senior tone
 - `references/patterns/patterns.md` — fetch when the code involves API calls, state management, token handling, or storage
 - `references/stack/stack.md` — fetch when reviewing tool choices, dependency decisions, or library comparisons
 - `references/architecture/architecture.md` — fetch when reviewing folder structure, monorepo setup, or system design
