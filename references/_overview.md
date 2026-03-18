@@ -52,7 +52,7 @@ Identity, philosophy, and real-world engineering knowledge extracted from Bappi'
 
 | File | Title | Description | When to load |
 |------|-------|-------------|--------------|
-| `references/bappi/tooling.md` | Tooling Setup | Biome config (tabs, 4-width, 120-line, double quotes), Husky hooks, Commitlint (wip/hotfix types), Changesets, bun, EAS build profiles, verify script, knip, syncpack, VSCode config. | Setting up project tooling, writing commit messages, troubleshooting lint/format/hook failures. |
+| `references/bappi/tooling.md` | Tooling Setup | ESLint + Prettier (preferred) or Biome (alternative), lint-staged, Husky hooks, Commitlint (wip/hotfix types), Changesets, bun, EAS build profiles, verify script, knip, syncpack, VSCode config. | Setting up project tooling, writing commit messages, troubleshooting lint/format/hook failures. |
 | `references/bappi/backend.md` | Backend Patterns (NestJS) | Microservices architecture, gateway controller pattern, RabbitMQ transport, TypeORM, Redis, AWS S3, Firebase push, Ably websockets, throttling, Swagger, Dockerfile, Jenkins pipeline. | Working on or reviewing NestJS backend code — microservice architecture, module setup, infrastructure. |
 | `references/bappi/nextjs.md` | Next.js & Web Patterns | ISR patterns, App Router, Tamagui cross-platform, Tailwind setup, syncpack/knip for monorepo health, web-specific service patterns. | Working on Next.js web apps, cross-platform Tamagui setups, or web-specific concerns in a monorepo. |
 | `references/bappi/cicd.md` | CI/CD Patterns | EAS build profiles, GitHub Actions for mobile builds, Jenkins for backend microservices (parallel Docker builds), release-please, branch→environment mapping. | Setting up CI/CD, configuring EAS builds, writing GitHub Actions workflows, deployment strategy. |
@@ -182,7 +182,7 @@ BMad workflow methodology — best practices for running BMad effectively.
 | Storage (tokens, AsyncStorage) | `bappi/storage.md` |
 | Environment variables | `bappi/env-config.md` |
 | UI components / theme | `bappi/ui-patterns.md` |
-| Tooling (Biome, Husky, commits) | `bappi/tooling.md` |
+| Tooling (ESLint, Prettier, Biome, Husky, commits) | `bappi/tooling.md` |
 | Monorepo / Turborepo | `bappi/monorepo.md` |
 | NestJS backend | `bappi/backend.md` |
 | Next.js / web | `bappi/nextjs.md` |

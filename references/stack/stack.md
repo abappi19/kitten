@@ -118,17 +118,22 @@ Use for: session storage, rate limiting, pub/sub, cache invalidation, job queues
 
 Why: intelligent build caching (only rebuilds what changed), parallel execution, clear task dependency graph.
 
+### ESLint + Prettier
+**Verdict:** Default choice. ESLint for linting, Prettier for formatting. Run together via lint-staged on commit.
+
+Use flat config (`eslint.config.mjs`) with `typescript-eslint` + `eslint-config-prettier` + `eslint-plugin-prettier`.
+
 ### Biome
-**Verdict:** Replacing ESLint + Prettier where possible.
+**Verdict:** A valid alternative — single tool for lint + format, significantly faster, no config conflicts.
 
-Why: single tool for linting and formatting, significantly faster, no config conflicts.
+Offer Biome if the user prefers a simpler setup or explicitly asks for it. Don't push it as the default. ESLint + Prettier gives more control and plugin flexibility.
 
-### Husky + lint-staged
+### Husky + lint-staged + commitlint
 **Verdict:** Git hooks for quality gates.
 
-Pre-commit: lint-staged (lint + format only staged files)
-Commit-msg: commitlint (enforce conventional commits)
-Pre-push: type-check
+Pre-commit: lint-staged (Prettier + ESLint --fix on staged files only)
+Commit-msg: commitlint (enforce conventional commits + wip/hotfix types)
+Pre-push (optional): type-check
 
 Keep hooks fast — slow hooks get disabled.
 

@@ -63,16 +63,27 @@ when_to_load: When starting a new project, choosing between two libraries, addin
 
 ## Tooling (Dev Dependencies)
 
-| Package | Purpose | Replaces |
-|---------|---------|---------|
-| `@biomejs/biome` | Lint + format | ESLint + Prettier |
-| `husky` | Git hooks | manual scripts |
-| `@commitlint/cli` | Commit message linting | — |
-| `@commitlint/config-conventional` | Conventional commit rules | — |
-| `@changesets/cli` | Changelog + version management | semantic-release |
-| `turbo` | Monorepo build orchestration | nx, lerna |
-| `knip` | Dead code + unused dep detection | depcheck |
-| `syncpack` | Monorepo dependency version sync | — |
+**Preferred lint/format stack:** ESLint + Prettier + lint-staged. Offer Biome as an alternative if the user prefers a single-tool setup.
+
+| Package | Version | Purpose | Notes |
+|---------|---------|---------|-------|
+| `eslint` | ^10 | Linting | **Preferred** |
+| `@eslint/js` | ^10 | ESLint recommended JS rules | With ESLint |
+| `typescript-eslint` | ^8 | TypeScript linting rules | With ESLint |
+| `eslint-config-prettier` | ^10 | Disables conflicting ESLint format rules | With ESLint |
+| `eslint-plugin-prettier` | ^5 | Runs Prettier as ESLint rule | With ESLint |
+| `eslint-plugin-react` | ^7 | React-specific lint rules | With ESLint |
+| `prettier` | ^3 | Code formatting | **Preferred** |
+| `@biomejs/biome` | ^2 | Lint + format (single tool) | Alternative to ESLint + Prettier |
+| `husky` | ^9 | Git hooks | manual scripts |
+| `lint-staged` | ^16 | Run linters on staged files only | With ESLint + Prettier |
+| `@commitlint/cli` | ^19 | Commit message linting | — |
+| `@commitlint/config-conventional` | ^19 | Conventional commit rules | — |
+| `@commitlint/types` | ^20 | TypeScript types for commitlint config | — |
+| `@changesets/cli` | — | Changelog + version management | semantic-release |
+| `turbo` | — | Monorepo build orchestration | nx, lerna |
+| `knip` | — | Dead code + unused dep detection | depcheck |
+| `syncpack` | — | Monorepo dependency version sync | — |
 | `typescript` | ^5.9 | Type checking | — |
 | `vitest` | ^2 | Web/monorepo test runner | Jest (for web) |
 
@@ -121,7 +132,7 @@ when_to_load: When starting a new project, choosing between two libraries, addin
 | `Animated` API | `react-native-reanimated` | Better performance, runs on UI thread |
 | `FlatList` for large data | `@shopify/flash-list` | Better recycling, less jank |
 | `Image` from RN | `expo-image` | Better caching, blurhash support |
-| ESLint + Prettier | Biome | Single tool, no conflicts |
+| `SafeAreaView` from RN core | `react-native-safe-area-context` | Deprecated in RN core, will be removed |
 | Jest for web projects | Vitest | Faster, native ESM |
 | `KeyboardAvoidingView` | `react-native-keyboard-controller` | More reliable, less configuration |
 | Global god-stores in Zustand | Feature-scoped stores | Easier to reason about, fewer re-renders |

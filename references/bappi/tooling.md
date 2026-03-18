@@ -1,15 +1,80 @@
 ---
 title: Bappi's Tooling Setup
-description: Biome config (formatting + linting), Husky git hooks, Commitlint conventions (including wip/hotfix types), Changesets release management, bun as package manager, EAS build profiles, the verify script, and dead code/dep-sync tools.
+description: ESLint + Prettier (flat config, preferred), lint-staged, Husky git hooks, Commitlint conventions (including wip/hotfix types), Changesets release management, bun as package manager, EAS build profiles, the verify script, and dead code/dep-sync tools. Biome is offered as an alternative if the user explicitly prefers it.
 type: reference
 when_to_load: When setting up a new project's tooling, reviewing DX config, writing commit messages, or troubleshooting lint/format/hook failures.
 ---
 
 # Bappi's Tooling Setup
 
-## Biome (Lint + Format)
+## Lint + Format
 
-Biome replaces both ESLint and Prettier. One tool, one config, no conflicts.
+**Default:** ESLint + Prettier. Always recommend this unless the user explicitly asks for Biome.
+
+> When setting up tooling for a new project, always default to ESLint + Prettier + lint-staged.
+> If the user asks about Biome or prefers a single-tool setup, offer it as an alternative — but note the preference.
+
+---
+
+## ESLint + Prettier (Preferred)
+
+ESLint handles linting, Prettier handles formatting. Run together via lint-staged on every commit.
+
+### ESLint Config (flat config)
+
+```mjs
+// eslint.config.mjs
+import eslint from "@eslint/js";
+import { defineConfig } from "eslint/config";
+import tseslint from "typescript-eslint";
+
+export default defineConfig(
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
+);
+```
+
+**Key packages:**
+- `eslint` ^10 — core linter
+- `@eslint/js` — recommended JS rules
+- `typescript-eslint` ^8 — TypeScript rules
+- `eslint-config-prettier` — disables ESLint formatting rules that conflict with Prettier
+- `eslint-plugin-prettier` — runs Prettier as an ESLint rule
+- `eslint-plugin-react` ^7 — React-specific rules
+
+### Prettier
+
+```json
+{
+    "singleQuote": true,
+    "trailingComma": "all",
+    "arrowParens": "avoid",
+    "endOfLine": "auto",
+    "tabWidth": 4
+}
+```
+
+**Summary:** single quotes, trailing commas everywhere, 4-space indent, no arrow parens for single-arg functions.
+
+### Scripts
+
+```json
+"scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "type-check": "tsc --noEmit",
+    "verify": "bun run lint && bun run type-check"
+}
+```
+
+`verify` is the pre-push gate — always lint + type-check together.
+
+---
+
+## Biome (Alternative — offer if user prefers)
+
+Biome replaces both ESLint and Prettier in a single tool. Offer this if the user explicitly prefers it or wants a simpler config.
 
 ```json
 {
@@ -49,42 +114,49 @@ Biome replaces both ESLint and Prettier. One tool, one config, no conflicts.
             "lineWidth": 120,
             "jsxQuoteStyle": "double"
         }
-    },
-    "json": {
-        "formatter": {
-            "indentWidth": 4,
-            "indentStyle": "tab",
-            "lineWidth": 120
-        }
-    },
-    "assist": {
-        "enabled": true,
-        "actions": {
-            "source": { "organizeImports": "off" }
-        }
     }
 }
 ```
 
-**Summary:** tabs, indent 4, line-width 120, double quotes, trailing commas ES5, `any` is a warning not an error.
-
-### Scripts
-
+**Biome scripts:**
 ```json
 "scripts": {
-    "lint": "bun run biome:check",
-    "lint:fix": "bun run biome:check:fix",
-    "format": "bun run biome:format",
-    "format:fix": "bun run biome:format:fix",
-    "biome:check": "biome check",
-    "biome:check:fix": "biome check --fix",
-    "biome:format": "biome format",
-    "biome:format:fix": "biome format --fix",
+    "lint": "biome check",
+    "lint:fix": "biome check --fix",
+    "format": "biome format --write",
     "verify": "bun run lint && bun run type-check"
 }
 ```
 
-`verify` is the pre-push gate — always lint + type-check together.
+**Biome pre-commit hook:**
+```sh
+pnpm exec biome check --fix && pnpm exec biome format --fix
+```
+
+**VSCode with Biome:**
+```json
+{
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.biome": "explicit"
+    }
+}
+```
+
+---
+
+## lint-staged
+
+```js
+// lint-staged.config.js
+module.exports = {
+  "*.{json,md,css,scss}": ["prettier --write", "eslint --fix"],
+  "*.{jsx,ts,tsx}": ["prettier --write", "eslint --fix"],
+};
+```
+
+Runs Prettier then ESLint on every staged file before commit.
 
 ---
 
@@ -93,20 +165,25 @@ Biome replaces both ESLint and Prettier. One tool, one config, no conflicts.
 Extends conventional commits and adds `wip` and `hotfix` types. Scope is always required.
 
 ```ts
-// commitlint.config.ts
-import type { UserConfig } from "@commitlint/types";
+// commitlint.config.mjs
+import { RuleConfigSeverity } from "@commitlint/types";
 
-const Configuration: UserConfig = {
+const Configuration = {
     extends: ["@commitlint/config-conventional"],
+    formatter: "@commitlint/format",
     rules: {
+        "type-enum": [
+            2,
+            "always",
+            [
+                "build", "chore", "ci", "docs", "feat", "fix",
+                "perf", "refactor", "revert", "style", "test",
+                "wip",     // work in progress — allowed in feature branches
+                "hotfix",  // emergency fix
+            ],
+        ],
         "scope-enum": [2, "always", ["app", "release"]],  // add feature scopes here
         "scope-empty": [2, "never"],                       // scope required
-        "type-enum": [2, "always", [
-            "build", "chore", "ci", "docs", "feat", "fix",
-            "perf", "refactor", "revert", "style", "test",
-            "wip",     // work in progress — allowed in feature branches
-            "hotfix",  // emergency fix
-        ]],
     },
 };
 
@@ -125,29 +202,28 @@ hotfix(api): handle 503 on startup
 
 ## Husky Git Hooks
 
-Three hooks, all enforced:
-
 **.husky/pre-commit:**
 ```sh
-#!/bin/sh
-bun run lint
-bun run format
-bun run type-check
+#!/usr/bin/env sh
+set -e
+export FORCE_COLOR=0
+export NO_COLOR=1
+
+bunx lint-staged
+```
+
+In monorepos, pre-commit may also run type-check and lint via Turborepo before lint-staged:
+```sh
+# Monorepo variant — check affected apps first
+bunx turbo run check-types --filter="..." --concurrency=11
+bunx turbo run lint --filter="..."
+bunx lint-staged
 ```
 
 **.husky/commit-msg:**
 ```sh
-#!/bin/sh
-bunx commitlint --edit "$1"
+npx --no -- commitlint --edit $1
 ```
-
-**.husky/post-merge:**
-```sh
-#!/bin/sh
-bun run prepare && bun install
-```
-
-`post-merge` ensures deps are installed when someone pulls changes that add/remove packages.
 
 `prepare` script in package.json: `"prepare": "husky"` — sets up hooks on install.
 
@@ -265,10 +341,10 @@ Used in monorepos to ensure consistent versions across all packages:
 `.vscode/settings.json` in every project:
 ```json
 {
-    "editor.defaultFormatter": "biomejs.biome",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll.biome": "explicit"
+        "source.fixAll.eslint": "explicit"
     }
 }
 ```
@@ -276,6 +352,6 @@ Used in monorepos to ensure consistent versions across all packages:
 `.vscode/extensions.json`:
 ```json
 {
-    "recommendations": ["biomejs.biome", "dbaeumer.vscode-eslint"]
+    "recommendations": ["esbenp.prettier-vscode", "dbaeumer.vscode-eslint"]
 }
 ```
