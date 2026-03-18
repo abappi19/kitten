@@ -8,9 +8,9 @@ This is a Claude Skills repository for **Kitten Bot** — an AI bot persona embo
 
 ## Repository Layout
 
-The repo serves two purposes: it is the **local skill installation** (`.claude/skills/kitten/`) and the **remote content source** hosted on GitHub (`abappi19/kitten`). Local files boot the skill; remote files are fetched on demand.
+The repo serves two purposes: it is the **local skill installation** (`.claude/skills/kitten-bot/`) and the **remote content source** hosted on GitHub (`abappi19/kitten`). Local files boot the skill; remote files are fetched on demand.
 
-**Local** (`.claude/skills/kitten/`): `SKILL.md`, `config.json`, `agents/session-boot.md`, `rules/CRITICAL.md`, `rules/CRITICAL_MAP.md`, `rules/MAP.md`, `scripts/kitten-fetch.js`
+**Local** (`.claude/skills/kitten-bot/`): `SKILL.md`, `config.json`, `agents/session-boot.md`, `rules/CRITICAL.md`, `rules/CRITICAL_MAP.md`, `rules/MAP.md`, `scripts/kitten-fetch.js`
 
 **Remote** (repo root): `agents/`, `references/`, `scripts/`, `assets/`
 
@@ -72,4 +72,4 @@ Non-negotiable rules in `rules/CRITICAL.md` that override everything:
 ## Scripts
 
 - `scripts/scaffold-feature.sh` — scaffolds a feature folder in Bappi's feature-based structure
-- `.claude/skills/kitten/scripts/kitten-fetch.js` — GitHub Contents API fetcher (reads config.json for repo/branch, .env for token)
+- `.claude/skills/kitten-bot/scripts/kitten-fetch.js` — GitHub Contents API fetcher (reads config.json for repo/branch, .env for token)
