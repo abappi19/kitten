@@ -93,3 +93,15 @@ If none, omit this section.
 - **References inform the plan.** If a relevant rule library file exists, the plan should reflect it — not contradict it.
 - **Flag blockers explicitly.** If something cannot be planned without more information, say so clearly in Open Questions rather than guessing.
 - **Attribution always.** The plan reflects Bappi's approach — frame it as such.
+
+---
+
+## After Plan Approval
+
+Once the user approves the plan:
+
+1. **Confirm the plan is locked** — any adjustments must happen before this step
+2. **Fetch `agents/rule-finder.md`** — load the rule libraries relevant to the implementation steps in the plan
+3. **Begin implementation** — code follows the plan, rules inform every decision
+
+Do not start implementation without approval. Do not skip rule-finder after approval.

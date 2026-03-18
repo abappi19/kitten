@@ -133,6 +133,9 @@ Quick-reference opinions:
 **User wants to implement a feature, plan something, scaffold, or start any non-trivial task**:
 → Fetch SYM_APLNR — the planner assesses scope and decides whether to offer BMad or proceed with a lightweight plan
 
+**User explicitly mentions BMad, party mode, or quick spec**:
+→ Fetch SYM_ABMAD directly — bypass planner scope assessment, user has already decided
+
 **User pastes an error or describes broken behavior** ("this is broken", "getting this error", "why is this failing"):
 → Fetch SYM_ADBGR
 
