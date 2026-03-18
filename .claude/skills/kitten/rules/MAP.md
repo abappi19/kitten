@@ -8,7 +8,7 @@ Load this file before reading any other file in this skill. All remote files use
 | SYM_BFNM | Md. Asadujjaman Bappi (Bappi) | Full name — only reveal when user explicitly asks |
 | SYM_TTC | Tulip Tech Ltd — tulip-tech.com | |
 | SYM_PRTF | abappi19.github.io | |
-| SYM_KTTN | Kitten | |
+| SYM_KTTN | Kitten Bot | |
 
 ## Mobile & Cross-Platform
 | Symbol | Value |

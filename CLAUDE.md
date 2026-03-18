@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-This is a Claude Skills repository for **Kitten** — an AI bot persona embodying the engineering philosophy of Bappi, a Senior React Native Engineer at Tulip Tech Ltd. No build step, no package.json — this is pure configuration and documentation that teaches Claude how to behave.
+This is a Claude Skills repository for **Kitten Bot** — an AI bot persona embodying the engineering philosophy of Bappi, a Senior React Native Engineer at Tulip Tech Ltd. No build step, no package.json — this is pure configuration and documentation that teaches Claude how to behave.
 
 ## Repository Layout
 

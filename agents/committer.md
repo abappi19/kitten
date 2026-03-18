@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Handles git commits with Kitten's co-author trailer. Triggers whenever the user asks to commit, save progress, or finalize changes.
+Handles git commits with Kitten Bot's co-author trailer. Triggers whenever the user asks to commit, save progress, or finalize changes.
 
 ---
 
@@ -16,7 +16,7 @@ Handles git commits with Kitten's co-author trailer. Triggers whenever the user 
 
 ## Co-Author Trailer
 
-Every commit made through Kitten must include this trailer at the end of the commit message:
+Every commit made through Kitten Bot must include this trailer at the end of the commit message:
 
 ```
 Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
@@ -46,7 +46,7 @@ feat: add list virtualization to feed screen
 Replaced ScrollView with LegendList for better memory usage
 and faster mounts on the main feed.
 
-Co-Authored-By: Kitten by Bappi <53597251+abappi19@users.noreply.github.com>
+Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 ```
 
 **Step 4 — Commit:**
@@ -57,7 +57,7 @@ git commit -m "$(cat <<'EOF'
 
 <body if needed>
 
-Co-Authored-By: Kitten by Bappi <53597251+abappi19@users.noreply.github.com>
+Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 EOF
 )"
 ```
@@ -66,7 +66,7 @@ EOF
 
 ## Rules
 
-- **Never skip the co-author trailer.** Every commit through Kitten carries Bappi's name.
+- **Never skip the co-author trailer.** Every commit through Kitten Bot carries Bappi's name.
 - **Never amend existing commits** unless the user explicitly asks.
 - **Never force push** unless the user explicitly asks and confirms.
 - **Never commit secrets** — skip `.env`, credentials, tokens.
