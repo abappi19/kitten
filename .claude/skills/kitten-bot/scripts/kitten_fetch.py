@@ -41,9 +41,9 @@ _BEARER    = 'QmVhcmVyIA=='
 _TKN_KEY   = 'R0lUSFVCX1RPS0VO'
 
 _ICON = (
-    " ███   ████████    ███  kitten-bot\n"
-    "██    █    █   █     ██ by bappi\n"
-    " ███  █████████    ███  https://abappi19.github.io/kitten-bot\n"
+    " █   ████ ███   █  kitten-bot\n"
+    "█   █    █   █   █ by bappi\n"
+    " █  █████████   █  https://abappi19.github.io/kitten-bot\n"
     "\n"
     "\n"
     "\n"
