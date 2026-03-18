@@ -3,264 +3,104 @@
 
 ## Purpose
 
-Guides Bappi through the full BMad workflow — from spec to development. Knows every stage, what runs in each, and when to move forward or hold back.
+Routes Bappi into the correct BMad workflow and agents. Does NOT simulate BMad. BMad has its own agents, skills, and workflow commands — this agent's job is to read what is installed, understand it, and hand off completely.
 
 ---
 
 ## When to Trigger
 
 - User mentions BMad, party mode, quick spec, or quick dev
-- User says "let's plan a feature" or "start a new feature"
-- User pastes a spec or PRD draft and asks what to do next
-- User says "run party mode", "accept", "reject", "reversal review"
-- User says "implement [X] with BMad", "build [X] using BMad", "use BMad to implement [X]"
-
----
-
-## Before Doing Anything
-
-Before guiding through any BMad stage, always:
-
-1. Fetch `references/bmad/bmad-best-practices.md` — load Bappi's BMad reference
-2. Web search: *"BMad AI development workflow best practices [current year]"* and *"BMad party mode orchestration tips"* — check for community updates, new patterns, or known issues with the approach
-3. Check if BMad is installed — see **BMad Not Installed** section below
-
-Do this even if the content feels familiar. The web search runs regardless.
+- User wants to plan or build a non-trivial feature and BMad is installed
+- User pastes a spec or PRD and asks what to do next
+- Session-boot detected BMad and user accepted [B]
 
 ---
 
 ## BMad Not Installed
 
-Before running any BMad command or stage, verify BMad is set up in the current project.
+Before anything else, check for BMad in `$KITTEN_PROJECT_DIR`:
 
-**Detection — check for any of these:**
+```bash
+ls $KITTEN_PROJECT_DIR/_bmad 2>/dev/null || \
+ls $KITTEN_PROJECT_DIR/.bmad 2>/dev/null || \
+ls $KITTEN_PROJECT_DIR/.claude/commands 2>/dev/null || \
+ls $KITTEN_PROJECT_DIR/bmad.config.* 2>/dev/null
 ```
-_bmad/               → BMad v6 config directory (current)
-.bmad/               → BMad legacy config directory
-.claude/commands/    → BMad slash commands
-bmad.config.*        → BMad config file
-```
 
-If none are found → BMad is not installed. Do not proceed with the workflow.
-
-**Response when BMad is missing:**
-
-Tell Bappi directly — no vague errors, no pretending commands will work:
+If none found → BMad is not installed.
 
 > *"BMad isn't set up in this project yet. Here's how to install it:"*
 
-Then:
-
-1. **Web search first** — search *"BMad install command [current year]"* and *"BMad method AI development setup"* to get the latest install instructions. Do not hardcode — the install method may have changed.
-2. **Show the install command** — display it in a code block so Bappi can copy and paste it directly:
-
-```bash
-# example — always fetch the real current command via web search first
-npx bmad-method@latest install
-```
-
-3. **Confirm the project type** — React Native / Expo, Next.js, or Node — if the install command differs per stack, show the right one
-4. **Wait for confirmation** — ask Bappi to run it and confirm it completed
-5. **Verify** — check that `.bmad/` or `.claude/commands/` now exists before continuing
-6. **Resume** — once installed, pick up from where Bappi left off
-
-Do not skip detection. Running BMad workflow steps in a project without BMad produces noise, not value.
+1. Web search *"BMad install command [current year]"* — do not hardcode the command
+2. Show the install command in a code block
+3. Confirm project type (RN/Expo, Next.js, Node) — show the right variant if it differs
+4. Wait for Bappi to run it and confirm
+5. Verify `_bmad/` or `.bmad/` now exists before continuing
 
 ---
 
-## Cycle Selection
+## Step 1 — Read BMad's Installed Content
 
-At the start of every feature, recommend the right cycle based on scope signals. Do not wait for Bappi to decide — read the spec and make a call.
-
-**Recommend short cycle when:**
-- Single screen, single flow, or isolated component
-- No new infrastructure or data model changes
-- Can be shipped in one focused session
-
-**Recommend full agile cycle when:**
-- Feature spans multiple screens or domains
-- Involves new data models, APIs, or architecture decisions
-- Needs coordination across multiple engineering areas
-- Requirements are still fuzzy and need decomposition first
-
-Present the recommendation clearly: *"This feels like a [short / full agile] cycle — here's why: [reason]. Want to go that direction or adjust?"* Bappi confirms or overrides.
-
----
-
-## "Implement" Does Not Mean Start Coding
-
-When a user says "implement X with BMad", the instruction is to use the BMad workflow — not to skip it.
-
-Every BMad run starts at Stage 1. A task description is not a spec. A feature request is not a spec. No matter how much detail the user provides upfront, the spec stage exists to catch what's missing — and something is always missing.
-
-**What to do:**
-- Acknowledge the task
-- Recommend the cycle (short or full agile) with a reason
-- Open Stage 1 — Quick Spec — and ask until nothing is ambiguous
-- Then proceed through the workflow to Quick Dev
-
-The word "implement" determines the end goal, not the starting point.
-
----
-
-## Bappi's BMad Workflow
-
-### Short-cycle (most features)
+Once BMad is confirmed installed, read its content to understand what is available. Do this in order:
 
 ```
-1. Quick Spec
-2. Party Mode
-3. Review / Adjust
-4. Reversal Review
-5. Party Mode (dev prep)
-6. Quick Dev
+1. Scan the _bmad/ directory tree — understand the structure (modules, agents, workflows, skills)
+2. Read _bmad/_config/bmad-help.csv — the full catalog of every workflow, agent, phase, command, and requirement flag
+3. Read the workflow.md inside the bmad-help skill — understand how to interpret and present the catalog
+4. Read any config.yaml files found under _bmad/ — extract output paths, language, and project knowledge location
+5. If a project-knowledge path resolves and docs exist — read them for project grounding context
 ```
 
-### Full Agile (big features or true agile work)
-
-```
-1. Quick Spec
-2. PRD
-3. Epics
-4. Stories
-5. Party Mode
-6. Review / Adjust
-7. Reversal Review
-8. Party Mode (dev prep)
-9. Quick Dev
-```
+Do not skip this reading step. The content of `_bmad/` is the source of truth — not any hardcoded knowledge in this file.
 
 ---
 
-## Stage Guide
+## Step 2 — Load bmad-help
 
-### Stage 1 — Quick Spec
+After reading the installed content, execute the bmad-help workflow:
 
-**Goal:** Load the full picture of what Bappi wants before touching any BMad command.
+- Read the full catalog (`bmad-help.csv`)
+- Detect what phase the project is in (check `_bmad-output/` for existing artifacts)
+- Identify what has been completed and what comes next
+- Apply the routing rules from `bmad-help/workflow.md` exactly
 
-- Ask focused questions one at a time — not a form, not a list
-- Keep asking until nothing is ambiguous
-- Do not move to party mode until the spec is solid
-- Confirm with Bappi before proceeding: *"Ready to run party mode?"*
-
-What to clarify:
-- What is the feature / what problem does it solve?
-- What are the acceptance criteria?
-- Are there constraints? (tech stack, existing patterns, deadlines)
-- Any edge cases Bappi already has in mind?
+bmad-help surfaces the real next steps based on what is installed and what has been done. Follow its output — do not override it.
 
 ---
 
-### Stage 2 — PRD (full agile only)
+## Step 3 — Assess Scope and Recommend Cycle
 
-A PRD is needed when the feature has multiple dimensions that need alignment before breaking into epics.
+After running bmad-help, assess the scope of the request and recommend the right cycle. One clear recommendation, one sentence of reasoning. Bappi confirms or overrides.
 
-Structure:
-- **Problem statement** — what pain does this solve?
-- **Goals** — measurable outcomes
-- **Scope** — what's in, what's out
-- **Constraints** — tech, time, dependencies
-- **Open questions** — things still to resolve
+**Full agile cycle when:**
+- New app or greenfield project
+- Feature spans multiple screens, data models, or domains
+- Involves architecture decisions, auth, navigation, or API layer
+- Requirements are fuzzy and need decomposition (epics → stories)
 
----
+**Quick flow when:**
+- Single screen, single component, or isolated change
+- Brownfield addition to a well-established pattern
+- User explicitly asks for quick flow or says the full process is too heavy
 
-### Stage 3 — Epics (full agile only)
-
-Break the PRD into epics — major functional areas or phases. Each epic should be independently valuable and deliverable.
-
-Rules:
-- An epic is not a task — it's a chunk of user-facing value
-- Each epic should map to a clear outcome
-- Order epics by dependency and priority
+> Quick flow is for simple things only. Never route a complex request to quick flow.
 
 ---
 
-### Stage 4 — Stories (full agile only)
+## Step 4 — Hand Off to BMad
 
-Break each epic into user stories. Format: *As a [user], I want [action] so that [outcome].*
+Point Bappi to the correct BMad agent and command for the next step. Every step has a real command from the catalog — if you cannot find it in the CSV, you are off-script.
 
-Each story should:
-- Be independently testable
-- Have clear acceptance criteria
-- Be small enough to complete in one session
+After each phase completes, run bmad-help again to show what comes next. Let BMad's agents drive the work. Never write the PRD, architecture, or epics yourself.
 
----
-
-### Stage 5 — Party Mode
-
-**Ask first:**
-
-Once the spec (or PRD/Epics/Stories) is locked, ask:
-
-> *"Ready to run party mode?"*
-
-Bappi almost always says yes — but ask anyway. Confirmed intent produces better output than assumed intent.
-
-**If accepted — run it now:**
-- Run party mode immediately
-- Generate multiple opinions and perspectives — surface trade-offs, not a single answer
-- Present the full output and ask: *"Anything to adjust, or does this land right?"*
-- Bappi reviews → accepts, rejects, or adjusts → move to Reversal Review
-
-**If declined — run it at the end:**
-- Continue through the remaining workflow stages
-- At the final step before Quick Dev, run party mode as a suggestions pass
-- Frame it clearly: *"Before Quick Dev — a few angles worth considering:"*
-- Ask for feedback, incorporate any adjustments, then proceed
-
-**Party mode always runs.** Accepted mid-workflow or at the final step — there is no path through BMad that skips it. The only variable is when.
-
-**Output rules:**
-- Multiple opinions every time — never converge on one answer
-- Trade-offs stated explicitly
-- Ask for feedback after every run — never auto-proceed
-
----
-
-### Stage 6 — Review / Adjust
-
-Bappi reviews the party mode output and either:
-
-- **Accepts** → move to Reversal Review
-- **Rejects** → note what's wrong, adjust the spec, re-run party mode
-- **Adjusts** → apply Bappi's comments, confirm changes, move to Reversal Review
-
-Never skip this stage. Never auto-accept.
-
----
-
-### Stage 7 — Reversal Review
-
-A structured pre-development review to catch problems before a single line of code is written.
-
-Check for:
-- **Architectural conflicts** — does the plan clash with existing patterns or structure?
-- **Missing edge cases** — what scenarios aren't covered?
-- **Scope creep** — did party mode add things that weren't in the spec?
-- **Dependency risks** — external services, APIs, or libraries that could block progress?
-- **Reversibility** — are there decisions baked in that will be hard to undo?
-
-Present findings clearly. If blockers exist → resolve before moving to dev. If all clear → confirm with Bappi and proceed.
-
----
-
-### Stage 8 — Party Mode (Dev Prep)
-
-Run party mode again with the reviewed and accepted plan. This time the output is the development-ready brief — structured for Quick Dev.
-
----
-
-### Stage 9 — Quick Dev
-
-Execute development against the dev-ready brief from Stage 8. Follow CX_R13 — load relevant agents and references before writing any code.
+Each workflow runs in a fresh context window — remind Bappi of this before each step.
 
 ---
 
 ## Rules
 
-- Never skip the reversal review — it exists to prevent expensive mistakes
-- Never auto-accept party mode output — Bappi reviews every time
-- Never run party mode on an incomplete spec — ask until it's solid
-- Always confirm stage transitions with Bappi before moving
-- Always recommend the cycle — don't make Bappi decide blind
-- Web search runs at every activation — even when content is fully loaded
+- **Never simulate BMad.** No invented "Quick Spec", "Party Mode", or "Reversal Review" from Kitten. BMad's agents run the workflow — not Kitten.
+- **Always read `_bmad/` first.** The installed content is the source of truth. Never rely on hardcoded agent names, commands, or phases.
+- **Every step has a real command.** If you cannot point to a command in the CSV, you are guessing.
+- **Never write PRD, architecture, or epics yourself.** BMad agents do that.
+- **bmad-help runs after every completed phase.** It knows what was done and what comes next.
