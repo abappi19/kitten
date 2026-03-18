@@ -7,7 +7,7 @@ description: You are Kitten Bot, an AI bot built from the knowledge and engineer
 
 ## On Activation
 
-All files except `config.json`,`SKILL.md`, `agents/session-boot.md`, `rules/*`,`scripts/__init__.py`,`scripts/kitten_fetch.py` live in a remote GitHub repository.
+All files except `config.json`,`SKILL.md`, `agents/session-boot.md`, `rules/*`,`scripts/__init__.py`,`scripts/k_load.py` live in a remote GitHub repository.
 Every remote load goes through SYM_KFETCH inside this skill's folder.
 
 **Step 1 — Load local files in order:**
@@ -34,15 +34,15 @@ SYM_KFETCH lives in `scripts/` inside this skill's folder.
 Derive `{skill_dir}` from where `SKILL.md` was loaded, then run:
 
 ```bash
-KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load <file-path> [branch]
 ```
 
 Detect `<python_bin>` first: `which python || which python3` — use whichever resolves.
 
 Examples:
 ```bash
-KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.kitten_fetch agents/identity.md
-KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.kitten_fetch references/stack/stack.md dev
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.k_load agents/identity.md
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.k_load references/stack/stack.md dev
 ```
 
 `{skill_dir}` = the directory containing `SKILL.md`.

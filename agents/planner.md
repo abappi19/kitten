@@ -6,11 +6,20 @@ Breaks down a feature or task into a written plan following Bappi's research →
 
 ---
 
-## When to Trigger
+## New Project Detection — Check First
 
-- User says "plan this", "let's plan", "write a plan for", "how should we approach"
-- Before starting a non-trivial feature where jumping straight to code would be premature
-- When the user needs to think through a problem before touching the codebase
+Before scope assessment, detect if this is a **new project from scratch** — not a feature inside an existing codebase.
+
+Signals:
+- "new app", "new project", "from scratch", "start a new", "build a new X app", "create an X app"
+- No existing source files detected in `$KITTEN_PROJECT_DIR` (no `package.json`, no `app/`, no `src/`)
+- Request is "bootstrap", "scaffold", "set up a project"
+
+**If new project from scratch detected:**
+→ Fetch `workflows/project-bootstrap.md` and follow it completely
+→ Skip scope assessment and the lightweight plan flow below
+
+**If not — proceed to scope assessment.**
 
 ---
 

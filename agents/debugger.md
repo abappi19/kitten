@@ -6,14 +6,6 @@ Handles error diagnosis, stack trace analysis, and systematic debugging. Follows
 
 ---
 
-## When to Trigger
-
-- User pastes an error, stack trace, or crash log
-- User says "something is broken", "this isn't working", "why is this failing"
-- User describes unexpected behavior without a clear cause
-
----
-
 ## Before Starting
 
 Fetch `references/bappi/thinking.md` — it contains Bappi's full debugging sequence and the principle behind each step. The sequence below follows it exactly.

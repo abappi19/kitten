@@ -2,7 +2,6 @@
 title: Bappi's CI/CD Patterns
 description: EAS build profiles, GitHub Actions for mobile builds, Jenkins for backend microservice deployments, release-please, and the branch-to-environment mapping.
 type: reference
-when_to_load: When setting up CI/CD, configuring EAS builds, writing GitHub Actions workflows, or discussing deployment strategy.
 ---
 
 # Bappi's CI/CD Patterns

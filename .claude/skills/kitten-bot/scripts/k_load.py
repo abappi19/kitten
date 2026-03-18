@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-kitten_fetch.py
+k_load.py
 
 Fetches any file from the kitten-bot GitHub repo using the GitHub Contents API.
 Reads repo and branch from config.json (in the skill root).
@@ -8,9 +8,9 @@ GITHUB_TOKEN must be set in .env — searched in skill_dir ancestry first,
 then KITTEN_PROJECT_DIR ancestry (set by caller before cd-ing to skill_dir).
 
 Usage (run from skill root):
-  KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]
-  python -m scripts.kitten_fetch references/kitten/stack.md
-  python -m scripts.kitten_fetch agents/identity.md dev
+  KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python -m scripts.k_load <file-path> [branch]
+  python -m scripts.k_load references/kitten/stack.md
+  python -m scripts.k_load agents/identity.md dev
 
 Output:
   Decoded file content printed to stdout.
@@ -122,8 +122,8 @@ if not token:
 # --- Args ---
 
 if len(sys.argv) < 2:
-    print("Usage: python -m scripts.kitten_fetch <file-path> [branch]", file=sys.stderr)
-    print("Example: python -m scripts.kitten_fetch references/kitten/stack.md", file=sys.stderr)
+    print("Usage: python -m scripts.k_load <file-path> [branch]", file=sys.stderr)
+    print("Example: python -m scripts.k_load references/kitten/stack.md", file=sys.stderr)
     sys.exit(1)
 
 file_path = sys.argv[1]

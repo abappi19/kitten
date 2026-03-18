@@ -2,7 +2,6 @@
 title: Bappi's Monorepo Patterns
 description: Turborepo setup, workspace structures, what belongs in packages/, inter-package dependencies, cross-platform code sharing, yarn/pnpm workspaces, and the shared config package pattern.
 type: reference
-when_to_load: When designing or working inside a monorepo — structure, package boundaries, Turborepo pipeline, or shared package architecture.
 ---
 
 # Bappi's Monorepo Patterns

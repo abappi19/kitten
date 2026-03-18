@@ -270,7 +270,7 @@ Pass only fields the client actually uses to reduce serialized data transfer at 
 
 ## Advanced — Hooks
 
-### advanced-event-handler-ref.md
+### advanced-event-handler-refs.md
 **Impact:** LOW
 Store callbacks in refs for stable subscriptions that don't re-run on handler changes.
 
@@ -278,6 +278,6 @@ Store callbacks in refs for stable subscriptions that don't re-run on handler ch
 **Impact:** LOW-MEDIUM
 Use module-level guard instead of useEffect([]) for app-wide init that must run only once.
 
-### advanced-use-effect-event.md
+### advanced-use-latest.md
 **Impact:** LOW
 Access latest values in callbacks without adding them to dependency arrays using useEffectEvent.

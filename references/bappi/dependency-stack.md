@@ -2,7 +2,6 @@
 title: Bappi's Canonical Dependency Stack
 description: The complete, opinionated list of packages Bappi uses — mobile, tooling, and backend. Includes the version ranges, purpose, and what each replaces or avoids.
 type: reference
-when_to_load: When starting a new project, choosing between two libraries, adding a dependency, or reviewing if a package is part of Bappi's stack.
 ---
 
 # Bappi's Canonical Dependency Stack

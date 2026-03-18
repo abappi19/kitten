@@ -2,7 +2,6 @@
 title: Bappi's API Layer
 description: Custom FetchClient class with automatic token injection, 401/403 refresh intercept, exponential backoff, response parsing, and endpoint constant structure. Also covers the Axios apiClient pattern used in older projects.
 type: reference
-when_to_load: When implementing API calls, reviewing network layer code, designing a fetch abstraction, or handling auth token refresh.
 ---
 
 # Bappi's API Layer

@@ -2,7 +2,6 @@
 title: Bappi's Storage Patterns
 description: Storage layer decisions — SecureStore for tokens, AsyncStorageService singleton wrapper, MMKV where it appears, storage key constants, and query cache persistence. What goes where and why.
 type: reference
-when_to_load: When implementing any storage — tokens, user data, app preferences, query cache, or reviewing how persisted data is managed.
 ---
 
 # Bappi's Storage Patterns

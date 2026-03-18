@@ -2,7 +2,6 @@
 title: Bappi's Next.js & Web Patterns
 description: Next.js ISR patterns, OTT web architecture, Tamagui cross-platform integration, Tailwind setup, syncpack/knip for monorepo health, and web-specific service patterns.
 type: reference
-when_to_load: When working on Next.js web apps, cross-platform Tamagui setups, or web-specific concerns in a monorepo.
 ---
 
 # Bappi's Next.js & Web Patterns

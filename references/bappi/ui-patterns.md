@@ -2,7 +2,6 @@
 title: Bappi's UI Patterns
 description: Button, Text, Layout primitives, theme token structure, React Navigation theme integration, flash messages, cross-platform Tamagui toast, Expo image usage, and FlashList for performant lists.
 type: reference
-when_to_load: When building or reviewing UI components, setting up a theme, working with lists, images, or toast notifications.
 ---
 
 # Bappi's UI Patterns

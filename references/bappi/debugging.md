@@ -2,7 +2,6 @@
 title: Bappi's Debugging Patterns
 description: Structured error logging in catch blocks, Reactotron setup, Flash Message for user-facing errors, platform-aware error context, and the debugging sequence Bappi follows when something breaks.
 type: reference
-when_to_load: When debugging, tracing errors, reviewing error handling code, or setting up observability in a project.
 ---
 
 # Bappi's Debugging Patterns

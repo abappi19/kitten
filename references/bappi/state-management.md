@@ -2,7 +2,6 @@
 title: Bappi's State Management (Zustand)
 description: Zustand store patterns — typed interface, persist middleware, non-persisted flow state, outside-React access, and the hard separation between client state (Zustand) and server state (TanStack Query).
 type: reference
-when_to_load: When designing or reviewing state management — stores, persistence, auth state, flow state, or anything involving Zustand.
 ---
 
 # Bappi's State Management (Zustand)

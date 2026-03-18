@@ -2,7 +2,6 @@
 title: Bappi's Environment Config Patterns
 description: How Bappi manages environment variables in Expo apps — getEnvVars() factory, EXPO_PUBLIC_ prefix, per-environment objects, app.config.ts runtime config, and the flat constants pattern for simpler apps.
 type: reference
-when_to_load: When setting up env vars, reviewing how config is accessed, or working with app.config.ts / eas.json.
 ---
 
 # Bappi's Environment Config Patterns

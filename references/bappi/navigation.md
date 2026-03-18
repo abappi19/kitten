@@ -2,7 +2,6 @@
 title: Bappi's Navigation Patterns
 description: Expo Router file structure, route groups, tab navigators, nested stacks, multi-role routing, post-mutation navigation rules, auth guards, and cross-platform navigation differences.
 type: reference
-when_to_load: When implementing or reviewing navigation — route structure, auth guards, tab setup, deep linking, or navigation after mutations.
 ---
 
 # Bappi's Navigation Patterns

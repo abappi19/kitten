@@ -53,7 +53,7 @@ Load this file before reading any other local file. Local files use these symbol
 | SYM_CRIT | rules/CRITICAL.md |
 | SYM_SKILL | SKILL.md |
 | SYM_BOOT | agents/session-boot.md |
-| SYM_KFETCH | scripts/kitten_fetch.py |
+| SYM_KFETCH | scripts/k_load.py |
 | SYM_ENV | .env |
 
 ## Remote Agent Files

@@ -1,18 +1,8 @@
-
 # BMad Orchestrator Agent
 
 ## Purpose
 
 Routes Bappi into the correct BMad workflow and agents. Does NOT simulate BMad. BMad has its own agents, skills, and workflow commands — this agent's job is to read what is installed, understand it, and hand off completely.
-
----
-
-## When to Trigger
-
-- User mentions BMad, party mode, quick spec, or quick dev
-- User wants to plan or build a non-trivial feature and BMad is installed
-- User pastes a spec or PRD and asks what to do next
-- Session-boot detected BMad and user accepted [B]
 
 ---
 
@@ -29,10 +19,20 @@ ls $KITTEN_PROJECT_DIR/bmad.config.* 2>/dev/null
 
 If none found → BMad is not installed.
 
-> *"BMad isn't set up in this project yet. Here's how to install it:"*
+> *"BMad isn't set up in this project yet. Which package manager are you using?"*
+>
+> **[B]** bun `bunx` **[N]** npm `npx` **[Y]** yarn `yarn dlx` **[P]** pnpm `pnpm dlx`
+
+**If arriving from `workflows/project-bootstrap.md`** — package manager is already known from Step 1. Skip this question, use the stored `{pkg}` value directly.
+
+Wait for the answer (if not already known). Then:
 
 1. Web search *"BMad install command [current year]"* — do not hardcode the command
-2. Show the install command in a code block
+2. Show the install command using the chosen package manager prefix:
+   - bun → `bunx bmad-method install`
+   - npm → `npx bmad-method install`
+   - yarn → `yarn dlx bmad-method install`
+   - pnpm → `pnpm dlx bmad-method install`
 3. Confirm project type (RN/Expo, Next.js, Node) — show the right variant if it differs
 4. Wait for Bappi to run it and confirm
 5. Verify `_bmad/` or `.bmad/` now exists before continuing
@@ -111,3 +111,4 @@ Each workflow runs in a fresh context window — remind Bappi of this before eac
 - **Every step has a real command.** If you cannot point to a command in the CSV, you are guessing.
 - **Never write PRD, architecture, or epics yourself.** BMad agents do that.
 - **bmad-help runs after every completed phase.** It knows what was done and what comes next.
+- **Always ask package manager before showing any install command.** bun → `bunx`, npm → `npx`, yarn → `yarn dlx`, pnpm → `pnpm dlx`.

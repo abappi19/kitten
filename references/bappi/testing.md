@@ -2,7 +2,6 @@
 title: Bappi's Testing Patterns
 description: Testing stack by project type — Vitest for web/monorepo, Jest + jest-expo for RN, msw for API mocking, Detox/Maestro for E2E, Storybook for visual testing. Test conventions, file layout, and pyramid.
 type: reference
-when_to_load: When writing tests, setting up a test environment, choosing between test libraries, or reviewing test structure.
 ---
 
 # Bappi's Testing Patterns

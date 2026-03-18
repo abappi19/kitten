@@ -6,14 +6,6 @@ Handles git commits with Kitten Bot's co-author trailer. Triggers whenever the u
 
 ---
 
-## When to Trigger
-
-- User says "commit", "save this", "commit what we have", "let's commit"
-- After completing a task where a commit is the natural next step
-- User explicitly asks to stage and commit
-
----
-
 ## Co-Author Trailer
 
 Every commit made through Kitten Bot must include this trailer at the end of the commit message:

@@ -2,7 +2,6 @@
 title: Bappi's Server State (TanStack Query)
 description: QueryClient config, query persistence, query key factories, useQuery/useMutation patterns, cache manipulation, and cross-platform persistence. Everything Bappi does with TanStack Query v5.
 type: reference
-when_to_load: When implementing data fetching, mutations, caching, query persistence, or reviewing how service hooks are structured.
 ---
 
 # Bappi's Server State (TanStack Query)

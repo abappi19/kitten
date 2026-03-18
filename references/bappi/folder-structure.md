@@ -2,7 +2,6 @@
 title: Bappi's Folder Structure Conventions
 description: How Bappi organizes React Native and monorepo projects — lib-style standalone, Turborepo cross-platform, library-style, file suffix conventions, dependency boundaries, and barrel exports.
 type: reference
-when_to_load: When scaffolding a new project, discussing folder layout, reviewing project structure, or deciding where a new file belongs.
 ---
 
 # Bappi's Folder Structure Conventions

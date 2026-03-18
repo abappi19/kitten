@@ -2,7 +2,6 @@
 title: Bappi's Auth Flow
 description: Complete auth patterns — login, registration, logout, forgot password/OTP, token refresh, social auth, and the AuthProvider context pattern for cross-platform apps.
 type: reference
-when_to_load: When implementing any auth-related feature — login, logout, registration, password reset, social auth, token management, or auth guards.
 ---
 
 # Bappi's Auth Flow

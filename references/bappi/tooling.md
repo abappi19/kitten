@@ -2,7 +2,6 @@
 title: Bappi's Tooling Setup
 description: ESLint + Prettier (flat config, preferred), lint-staged, Husky git hooks, Commitlint conventions (including wip/hotfix types), Changesets release management, bun as package manager, EAS build profiles, the verify script, and dead code/dep-sync tools. Biome is offered as an alternative if the user explicitly prefers it.
 type: reference
-when_to_load: When setting up a new project's tooling, reviewing DX config, writing commit messages, or troubleshooting lint/format/hook failures.
 ---
 
 # Bappi's Tooling Setup

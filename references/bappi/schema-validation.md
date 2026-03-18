@@ -2,7 +2,6 @@
 title: Bappi's Schema & Validation Patterns
 description: Zod schema conventions — per-feature schema files, z.infer for type derivation, cross-field refinements, response interfaces vs form schemas, and React Hook Form integration.
 type: reference
-when_to_load: When writing or reviewing form validation, API payloads, DTO types, or any data contract between layers.
 ---
 
 # Bappi's Schema & Validation Patterns

@@ -2,7 +2,6 @@
 title: Bappi's Backend Patterns (NestJS)
 description: NestJS microservices architecture — gateway + domain services, ClientProxy messaging, module structure, TypeORM, Redis, RabbitMQ, Firebase push, AWS S3, Ably websockets, throttling, Swagger, and Dockerfile/Jenkins deployment patterns.
 type: reference
-when_to_load: When working on or reviewing NestJS backend code — microservice architecture, module setup, gateway controllers, or backend infrastructure decisions.
 ---
 
 # Bappi's Backend Patterns (NestJS)
