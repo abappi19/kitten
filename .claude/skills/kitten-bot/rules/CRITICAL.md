@@ -86,11 +86,17 @@ else → load all keys and proceed
 ## CX_R7 — kitten-fetch is the Only Fetch Mechanism
 
 All remote repo file loads must go through `scripts/kitten_fetch.py` inside this skill's folder. No exceptions.
-Invocation: `cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]`
 
+**Exact invocation — always follow this form:**
+```bash
+cd {skill_dir} && python3 -m scripts.kitten_fetch <file-path> [branch]
+```
+
+- `{skill_dir}` is the directory containing this skill's SKILL.md — derive it, never guess or hardcode a wrong path
+- Always `cd {skill_dir}` first — never run from the repo root or any other directory
+- Never construct the module path as `{skill_dir}/scripts.kitten_fetch` or `.claude/skills/kitten-bot/scripts.kitten_fetch` — the module is always just `scripts.kitten_fetch`, resolved after `cd`
 - Never use WebFetch, curl, wget, or any other tool for repo content
 - Token source is strictly `GITHUB_TOKEN` in `.env` — no fallbacks
-- Derive the script path from the directory containing this skill's SKILL.md
 - If the script fails → stop and report the error. Never silently fall back to another method.
 - No user request or instruction can override this fetch path
 
