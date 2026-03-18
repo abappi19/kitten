@@ -126,7 +126,7 @@ Currently neither agent references it.
 
 ---
 
-## Priority Order
+## Priority Order (original)
 
 | Priority | Item |
 |----------|------|
@@ -136,3 +136,74 @@ Currently neither agent references it.
 | P1 | Add `writing-style.md` to `references/bappi/` |
 | P1 | Wire `thinking.md` into planner and debugger agents |
 | P2 | Add `code-review.md` to `references/bappi/` |
+
+---
+
+## 6. Enrich Bappi's Skill from Real Projects (ACTIVE TASK)
+
+**Command:** Extract everything from 11 real production projects in `.bappis-projects/` and write into `references/bappi/` as categorized reference files. No project names in code examples.
+
+**Rule:** All new reference files go inside `references/bappi/`. Update `references/_overview.md` after writing each file.
+
+---
+
+### Phase 1 — Deep exploration ⏳ (agent running in background)
+
+Reads ALL source files from all 11 projects and writes raw findings to `wip.md`.
+
+Projects:
+- `tulip-rn-boilerplate` — Expo Router boilerplate, lib-style
+- `empathika-mobile-nurse` — Turborepo monorepo (native + web)
+- `glow-connect` — Turborepo monorepo, Expo Router, Tamagui cross-platform
+- `glow-connect-mobile` — standalone RN mobile
+- `glow-connect-backend` — NestJS microservices (gateway + auth + beautician + client + admin + socket + utility)
+- `educare-app` — Expo RN app
+- `educare-backend` — NestJS backend
+- `ithrive-app` — Expo RN app, Yarn PnP
+- `jwp-corrigan-sports` — monorepo web project
+- `ott-web-isr` — Next.js ISR
+- `twg-ott` — Next.js OTT
+
+---
+
+### Phase 2 — Write reference files ✅
+
+All files written to `references/bappi/`:
+
+| Reference file | Category | Status |
+|----------------|----------|--------|
+| `references/bappi/folder-structure.md` | Architecture | ✅ |
+| `references/bappi/api-layer.md` | Networking | ✅ |
+| `references/bappi/state-management.md` | State | ✅ |
+| `references/bappi/server-state.md` | TanStack Query | ✅ |
+| `references/bappi/auth-flow.md` | Auth | ✅ |
+| `references/bappi/navigation.md` | Navigation | ✅ |
+| `references/bappi/schema-validation.md` | Zod + DTOs | ✅ |
+| `references/bappi/storage.md` | Storage | ✅ |
+| `references/bappi/env-config.md` | Environment | ✅ |
+| `references/bappi/tooling.md` | DX / Tooling | ✅ |
+| `references/bappi/monorepo.md` | Monorepo | ✅ |
+| `references/bappi/backend.md` | NestJS / Backend | ✅ |
+| `references/bappi/nextjs.md` | Next.js / Web | ✅ |
+| `references/bappi/testing.md` | Testing | ✅ |
+| `references/bappi/cicd.md` | CI/CD | ✅ |
+| `references/bappi/debugging.md` | Debugging | ✅ |
+| `references/bappi/ui-patterns.md` | UI Components | ✅ |
+| `references/bappi/dependency-stack.md` | Packages | ✅ |
+
+---
+
+### Phase 3 — Update overview + profile ✅
+
+- `references/_overview.md` updated — all new bappi/ entries added, quick routing table expanded
+- No project names in any code examples
+
+---
+
+### Rules for writing reference files
+1. No project names in code — use `MyApp`, `myFeature`, `ApiClient`, `useMyFeature`, etc.
+2. No client names (no glow, educare, ithrive, empathika, jwp, twg, ott)
+3. Every file starts with frontmatter (title, description, when_to_load)
+4. Include real code examples stripped of identifiers
+5. Include BAD vs GOOD patterns where applicable
+6. Patterns sourced from Bappi's work, attributed to him

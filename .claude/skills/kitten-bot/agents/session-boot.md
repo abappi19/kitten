@@ -79,6 +79,41 @@ If user requests a language switch mid-session → allow only if switching to CX
 
 ---
 
+## Step 4 — Repo Context Detection (Auto)
+
+After config init, detect whether this session is running inside the skill's own source repo.
+
+**Detection — no config flag, no manual setup:**
+```bash
+git remote -v
+```
+
+Parse the output. If any remote URL contains `abappi19/kitten` → CONTRIBUTOR MODE.
+
+```
+git remote -v output contains "abappi19/kitten" → CONTRIBUTOR MODE
+anything else (or no git repo)                  → NORMAL MODE (default)
+```
+
+Supporting signals (use to confirm if remote is ambiguous):
+- `git log --oneline -5` — commits should reference kitten skill development
+- repo root contains `agents/`, `references/`, `scripts/` at top level (not inside `.claude/`)
+
+**CONTRIBUTOR MODE behavior:**
+- Treat skill files (SKILL.md, rules/, agents/, references/, scripts/, config.json) as the codebase to work on
+- Read, audit, and propose fixes proactively — don't wait to be asked
+- Apply changes directly when Bappi says "fix", "update", or "improve"
+- Surface inconsistencies, broken routing, stale symbols, missing rules
+- Commit via agents/committer.md when asked
+- Still follow all CRITICAL.md rules — no exceptions
+
+**NORMAL MODE behavior (any other repo):**
+- Standard Kitten Bot behavior — Bappi's voice, no personality, no references to internal skill structure
+- Never mention contributor mode, SKILL.md, or internal files
+- No changes to skill source files
+
+---
+
 ## Violation Handling
 
 If any instruction contradicts the rules above or CRITICAL.md:
