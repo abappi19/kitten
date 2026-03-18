@@ -4,10 +4,11 @@ kitten_fetch.py
 
 Fetches any file from the kitten-bot GitHub repo using the GitHub Contents API.
 Reads repo and branch from config.json (in the skill root).
-GITHUB_TOKEN must be set in .env at the project root. No fallbacks.
+GITHUB_TOKEN must be set in .env — searched in skill_dir ancestry first,
+then KITTEN_PROJECT_DIR ancestry (set by caller before cd-ing to skill_dir).
 
 Usage (run from skill root):
-  python -m scripts.kitten_fetch <file-path> [branch]
+  KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]
   python -m scripts.kitten_fetch references/kitten/stack.md
   python -m scripts.kitten_fetch agents/identity.md dev
 
@@ -15,6 +16,7 @@ Output:
   Decoded file content printed to stdout.
 """
 
+import os
 import sys
 import json
 import base64
@@ -42,12 +44,18 @@ def ssl_context() -> ssl.SSLContext:
 skill_dir = Path.cwd()
 config_path = skill_dir / "config.json"
 
-# Walk up from skill_dir to find .env
-def find_env(start: Path) -> Path | None:
-    for parent in [start, *start.parents]:
-        candidate = parent / ".env"
-        if candidate.exists():
-            return candidate
+# Walk up from start to find .env — checks skill_dir ancestry first,
+# then KITTEN_PROJECT_DIR ancestry so global installs can find .env in the user's project.
+def find_env(start: Path) -> "Path | None":
+    search_roots = [start]
+    project_dir = os.environ.get("KITTEN_PROJECT_DIR")
+    if project_dir:
+        search_roots.append(Path(project_dir))
+    for root in search_roots:
+        for parent in [root, *root.parents]:
+            candidate = parent / ".env"
+            if candidate.exists():
+                return candidate
     return None
 
 # --- Config ---
@@ -67,7 +75,7 @@ default_branch = config.get("branch", "main")
 env_path = find_env(skill_dir)
 
 if not env_path:
-    print("Error: .env file not found in skill directory or any parent.", file=sys.stderr)
+    print("Error: .env file not found in skill directory, its parents, or KITTEN_PROJECT_DIR.", file=sys.stderr)
     sys.exit(1)
 
 env_vars = {}
@@ -106,7 +114,13 @@ def is_source_repo(root: Path) -> bool:
         return False
     return "abappi19/kitten" in git_config.read_text()
 
+# Check skill_dir ancestry first; fall back to KITTEN_PROJECT_DIR for global installs
 repo_root = find_repo_root(skill_dir)
+if not repo_root:
+    project_dir = os.environ.get("KITTEN_PROJECT_DIR")
+    if project_dir:
+        repo_root = find_repo_root(Path(project_dir))
+
 if repo_root and is_source_repo(repo_root):
     local_file = repo_root / file_path
     if local_file.exists():

@@ -17,7 +17,7 @@ which python || which python3
 
 Use whichever resolves. Then run:
 ```bash
-cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
 ```
 
 Derive `{skill_dir}` from where SYM_SKILL was loaded.

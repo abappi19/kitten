@@ -34,15 +34,15 @@ SYM_KFETCH lives in `scripts/` inside this skill's folder.
 Derive `{skill_dir}` from where SYM_SKILL was loaded, then run:
 
 ```bash
-cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
 ```
 
 Detect `<python_bin>` first: `which python || which python3` — use whichever resolves.
 
 Examples:
 ```bash
-cd {skill_dir} && python3 -m scripts.kitten_fetch agents/identity.md
-cd {skill_dir} && python3 -m scripts.kitten_fetch references/stack/stack.md dev
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.kitten_fetch agents/identity.md
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.kitten_fetch references/stack/stack.md dev
 ```
 
 `{skill_dir}` = the directory containing SYM_SKILL.

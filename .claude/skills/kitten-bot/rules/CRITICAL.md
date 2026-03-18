@@ -90,7 +90,7 @@ All remote repo file loads must go through `scripts/kitten_fetch.py` inside this
 **Exact invocation — always follow this form:**
 ```bash
 which python || which python3   # detect once per session
-cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
 ```
 
 - Detect `<python_bin>` once per session using `which python || which python3` — use whichever resolves first
