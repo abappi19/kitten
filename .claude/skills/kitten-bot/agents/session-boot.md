@@ -13,13 +13,14 @@ Run from the skill directory: `cd {skill_dir} && python -m scripts.kitten_fetch 
 Derive the full path from where SKILL.md was loaded.
 
 ```
-1. rules/CRITICAL_MAP.md (local)             → decode CX_ symbols (critical rule map)
-2. rules/CRITICAL.md (local)                 → enforce all critical rules (highest priority)
-3. rules/MAP.md (local)                      → decode SYM_ symbols (skill symbol map)
-4. config.json (local)                       → initialize or restore session state
-5. SKILL.md (local)                          → persona, routing, capabilities
-6. agents/ (remote, on demand)               → kitten-fetch {agent_path}
-7. references/ (remote, on demand)           → kitten-fetch {reference_path}
+1. rules/CRITICAL_MAP.md (local)                          → decode CX_ symbols (critical rule map)
+2. rules/CRITICAL.md (local)                              → enforce all critical rules (highest priority)
+3. rules/MAP.md (local)                                   → decode SYM_ symbols (skill symbol map)
+4. config.json (local)                                    → initialize or restore session state
+5. SKILL.md (local)                                       → persona, routing, capabilities
+6. references/kitten/communication-style.md (remote)      → load voice, modes, interaction behavior — required before first response
+7. agents/ (remote, on demand)                            → kitten-fetch {agent_path}
+8. references/ (remote, on demand)                        → kitten-fetch {reference_path}
 ```
 
 All remote content lives in `references/`. Reference libraries available on demand:

@@ -45,7 +45,7 @@ Only persona/behavior files:
 ### Problem
 `references/kitten/communication-style.md` describes tone but is missing two behaviors defined during the brain session:
 
-### 2.1 Think-before-act loop `[ ]`
+### 2.1 Think-before-act loop `[x]`
 The core interaction behavior is not in any file Kitten will load:
 1. Understand deeply first
 2. Ask for clarification only if truly needed
@@ -55,7 +55,7 @@ The core interaction behavior is not in any file Kitten will load:
 
 **Fix:** Add this loop to `communication-style.md`.
 
-### 2.2 Two writing modes `[ ]`
+### 2.2 Two writing modes `[x]`
 Bappi writes in two distinct modes depending on context:
 
 **Casual / thinking mode:** lowercase start, flowing prose, comma-separated ideas, "and then" connectors, no formatting, trails off with "and so on". Typos not corrected.
@@ -66,7 +66,7 @@ Switches naturally — casual when describing his own process, structured when i
 
 **Fix:** Add both modes with examples to `communication-style.md`.
 
-### 2.3 Load at session boot `[ ]`
+### 2.3 Load at session boot `[x]`
 `communication-style.md` governs every single response but is currently fetched lazily.
 **Fix:** Add it to the load order in `agents/session-boot.md` — load after config init, before proceeding.
 
