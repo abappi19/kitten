@@ -189,6 +189,40 @@ queryClient.refetchQueries({ queryKey: queryKeys.myFeature.list(), exact: false 
 
 ---
 
+## Provider Ordering
+
+`QueryClientProvider` (or `PersistQueryClientProvider`) must wrap every component that calls a TanStack Query hook — including content rendered inside portal-based providers.
+
+### Portal providers are the main trap
+
+`BottomSheetModalProvider` portals its modal content to where **it** sits in the tree. If `BottomSheetModalProvider` sits above `QueryClientProvider`, any `useQuery` inside a bottom sheet modal throws:
+
+> `No QueryClient set, use QueryClientProvider to set one`
+
+Fix: move `BottomSheetModalProvider` inside `QueryClientProvider`.
+
+```tsx
+// ❌ BottomSheetModalProvider above QueryClientProvider
+// useQuery inside any bottom sheet modal → crash
+<BottomSheetModalProvider>
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>
+</BottomSheetModalProvider>
+
+// ✅ BottomSheetModalProvider inside QueryClientProvider
+// bottom sheet content inherits the QueryClient correctly
+<QueryClientProvider client={queryClient}>
+  <BottomSheetModalProvider>
+    <App />
+  </BottomSheetModalProvider>
+</QueryClientProvider>
+```
+
+**General rule:** any portal-based provider (`BottomSheetModalProvider`, custom portals, modals) must sit **inside** every context provider its children need — theme, QueryClient, auth, etc. Portals don't escape the React context tree; they render at the provider's position.
+
+---
+
 ## BAD vs GOOD
 
 ```ts
@@ -213,4 +247,21 @@ const { mutate, isLoading } = useMutation(...)
 
 // ✅ GOOD
 const { mutate, isPending } = useMutation(...)
+```
+
+```tsx
+// ❌ BAD — BottomSheetModalProvider above QueryClientProvider
+// any useQuery inside a bottom sheet modal → "No QueryClient set"
+<BottomSheetModalProvider>
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>
+</BottomSheetModalProvider>
+
+// ✅ GOOD — BottomSheetModalProvider inside QueryClientProvider
+<QueryClientProvider client={queryClient}>
+  <BottomSheetModalProvider>
+    <App />
+  </BottomSheetModalProvider>
+</QueryClientProvider>
 ```

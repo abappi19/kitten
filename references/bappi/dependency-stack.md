@@ -26,7 +26,7 @@ when_to_load: When starting a new project, choosing between two libraries, addin
 | `@shopify/flash-list` | ^2 | Performant lists | FlatList |
 | `react-native-reanimated` | ~4 | Animations | Animated API |
 | `react-native-gesture-handler` | ~2 | Gestures | TouchableOpacity for complex gestures |
-| `react-native-safe-area-context` | ~5 | Safe area insets | hardcoded padding |
+| `react-native-safe-area-context` | ~5 | Safe area insets — `SafeAreaView`, `useSafeAreaInsets` | `SafeAreaView` from RN core (deprecated, will be removed) + hardcoded padding |
 | `expo-image` | ~3 | Optimized images + blurhash | `Image` from RN |
 | `expo-notifications` | ~0.32 | Push notifications | Firebase RN directly |
 | `expo-haptics` | ~15 | Haptic feedback | — |
