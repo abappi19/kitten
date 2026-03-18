@@ -4,5 +4,4 @@ __pycache__
 .env*
 
 wip/
-test-workspace/
 **/.DS_Store
