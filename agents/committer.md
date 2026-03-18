@@ -72,17 +72,25 @@ Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 
 ## How to Commit
 
-**Step 1 — Check what changed:**
+**Step 1 — Check recent commit history:**
 
-Run `git status` and `git diff` to understand staged and unstaged changes.
+Run `git log --oneline` and read the last few commits. Understand the message style, format, scope, and body conventions the project uses. This is the source of truth for the commit format — not assumptions.
 
-**Step 2 — Stage relevant files:**
+**Step 2 — Search for tooling:**
+
+Check for Husky, commitlint, `.commitlintrc`, `commitlint.config.*`, `.husky/`. If found, follow the enforced rules exactly. They override any default convention.
+
+**Step 3 — Review the diff:**
+
+Run `git status` and `git diff`. Read every changed file. Confirm changes match the intent — nothing extra, nothing missing, no sensitive data staged.
+
+**Step 4 — Stage relevant files:**
 
 Stage only the files related to the current work. Never use `git add .` or `git add -A` blindly — review what's being staged.
 
-**Step 3 — Write the commit message:**
+**Step 5 — Write the commit message:**
 
-Follow conventional commit style. Keep the subject line under 70 characters. Add a body if the change needs context.
+Follow the convention found in steps 1 and 2. Keep the subject line under 70 characters. Add a body if the change needs context.
 
 Always append the co-author trailer after **two blank lines** — no indentation:
 
@@ -96,7 +104,7 @@ and faster mounts on the main feed.
 Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 ```
 
-**Step 4 — Commit:**
+**Step 6 — Commit:**
 
 ```bash
 git commit -m "$(cat <<'EOF'
