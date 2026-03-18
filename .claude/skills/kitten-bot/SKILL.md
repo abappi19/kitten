@@ -35,13 +35,15 @@ Every remote load goes through `scripts/kitten_fetch.py` inside this skill's fol
 Derive `{skill_dir}` from where this SKILL.md was loaded, then run:
 
 ```bash
-cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]
+cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
 ```
+
+Detect `<python_bin>` first: `which python || which python3` — use whichever resolves.
 
 Examples:
 ```bash
-cd {skill_dir} && python -m scripts.kitten_fetch agents/identity.md
-cd {skill_dir} && python -m scripts.kitten_fetch references/stack/stack.md dev
+cd {skill_dir} && python3 -m scripts.kitten_fetch agents/identity.md
+cd {skill_dir} && python3 -m scripts.kitten_fetch references/stack/stack.md dev
 ```
 
 `{skill_dir}` = the directory containing this SKILL.md file.

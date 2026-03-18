@@ -9,8 +9,18 @@ This agent runs on every session start. It is the single source of truth for act
 Execute in this exact sequence. Never skip or reorder.
 
 All remote files are fetched via `scripts/kitten_fetch.py` inside this skill's folder.
-Run from the skill directory: `cd {skill_dir} && python -m scripts.kitten_fetch <file-path> [branch]`
-Derive the full path from where SKILL.md was loaded.
+Before invoking, detect the available Python binary:
+
+```bash
+which python || which python3
+```
+
+Use whichever resolves. Then run:
+```bash
+cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
+```
+
+Derive `{skill_dir}` from where SKILL.md was loaded.
 
 ```
 1. rules/CRITICAL_MAP.md (local)                          → decode CX_ symbols (critical rule map)
