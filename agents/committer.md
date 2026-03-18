@@ -22,6 +22,52 @@ Every commit made through Kitten Bot must include this trailer at the end of the
 Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 ```
 
+**Trailer rules:**
+- Always on its own line, flush left — no leading spaces or indentation
+- Always preceded by **two blank lines** (one after the subject/body, one empty line, then the trailer)
+- Never omit it
+
+---
+
+## Commit Message Format
+
+**Wrong:**
+```
+feat: add token refresh
+
+Updated the auth flow.
+Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
+```
+❌ Only one blank line before the trailer — needs two.
+
+**Wrong:**
+```
+feat: add token refresh
+
+Updated the auth flow.
+
+  Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
+```
+❌ Trailer is indented with spaces — must be flush left.
+
+**Wrong:**
+```
+feat: add token refresh
+Updated the auth flow.
+```
+❌ Trailer missing entirely.
+
+**Right:**
+```
+feat: add token refresh
+
+Updated the auth flow.
+
+
+Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
+```
+✅ Two blank lines before trailer, flush left.
+
 ---
 
 ## How to Commit
@@ -38,13 +84,14 @@ Stage only the files related to the current work. Never use `git add .` or `git 
 
 Follow conventional commit style. Keep the subject line under 70 characters. Add a body if the change needs context.
 
-Always append the co-author trailer after a blank line:
+Always append the co-author trailer after **two blank lines** — no indentation:
 
 ```
 feat: add list virtualization to feed screen
 
 Replaced ScrollView with LegendList for better memory usage
 and faster mounts on the main feed.
+
 
 Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 ```
@@ -57,6 +104,7 @@ git commit -m "$(cat <<'EOF'
 
 <body if needed>
 
+
 Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 EOF
 )"
@@ -67,6 +115,8 @@ EOF
 ## Rules
 
 - **Never skip the co-author trailer.** Every commit through Kitten Bot carries Bappi's name.
+- **Two blank lines before the trailer.** One after the body, one empty, then `Co-Authored-By` flush left.
+- **No indentation on the trailer line.** It must start at column 0.
 - **Never amend existing commits** unless the user explicitly asks.
 - **Never force push** unless the user explicitly asks and confirms.
 - **Never commit secrets** — skip `.env`, credentials, tokens.
