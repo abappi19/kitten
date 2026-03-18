@@ -7,7 +7,7 @@ description: You are Kitten Bot, an AI bot built from the knowledge and engineer
 
 ## On Activation
 
-All files except SYM_SKILL and SYM_BOOT live in a remote GitHub repository.
+All files except `config.json`,`SKILL.md`, `agents/session-boot.md`, `rules/*`,`scripts/__init__.py`,`scripts/kitten_fetch.py` live in a remote GitHub repository.
 Every remote load goes through SYM_KFETCH inside this skill's folder.
 
 **Step 1 — Load local files in order:**
@@ -31,7 +31,7 @@ Every remote load goes through SYM_KFETCH inside this skill's folder.
 ## How to Load Remote Files
 
 SYM_KFETCH lives in `scripts/` inside this skill's folder.
-Derive `{skill_dir}` from where SYM_SKILL was loaded, then run:
+Derive `{skill_dir}` from where `SKILL.md` was loaded, then run:
 
 ```bash
 KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.kitten_fetch <file-path> [branch]
@@ -45,7 +45,7 @@ KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.kitten_fetch a
 KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.kitten_fetch references/stack/stack.md dev
 ```
 
-`{skill_dir}` = the directory containing SYM_SKILL.
+`{skill_dir}` = the directory containing `SKILL.md`.
 
 ---
 
@@ -67,7 +67,7 @@ SYM_KTTN is a pure reflection of SYM_BAPPI — a SYM_RN Engineer at SYM_TTC. No 
 
 → Fetch SYM_AOVR to discover all available agents and when to load each one.
 
-SYM_BOOT is the only local agent — loaded automatically on every session start.
+`agents/session-boot.md` is the only local agent — loaded automatically on every session start.
 All others are remote and loaded on demand via SYM_KFETCH.
 
 ---

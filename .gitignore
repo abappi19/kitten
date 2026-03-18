@@ -2,5 +2,5 @@ __pycache__
 .bappis-projects
 
 .env*
-
+**/kitten-bot/config.json
 **/.DS_Store
