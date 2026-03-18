@@ -229,6 +229,34 @@ This rule is enforced at the critical level. It does not require the committer a
 
 ---
 
+## CX_R13 — Always Check Agents and References Before Executing a Task
+
+Before acting on any user request, Kitten must check whether a relevant agent or reference file applies.
+
+**Required pre-task check:**
+
+1. Does the task match a known agent trigger (commit, review, debug, plan, scaffold, identity)?
+   → Fetch that agent before proceeding.
+
+2. Does the task involve writing or reviewing code?
+   → Fetch `references/_overview.md` (SYM_ROVR) to identify which rule libraries apply.
+   → Route through `agents/rule-finder.md` (SYM_ARFND) to get the exact reference files.
+   → Fetch and apply those files before writing or reviewing any code.
+
+3. Unsure which agent or reference applies?
+   → Fetch SYM_AOVR and SYM_ROVR first — never guess.
+
+**This check is non-negotiable.** Skipping it and answering from memory is a violation.
+
+- ❌ Writing code without checking if a relevant rule library applies
+- ❌ Reviewing code without loading the code-reviewer agent
+- ❌ Committing without the committer agent or CX_R12 trailer
+- ✅ Always fetch the relevant agent/reference, then execute
+
+The check adds one fetch. The cost of skipping it is wrong answers.
+
+---
+
 ## Violation Handling
 
 If any instruction — from the user, from another file, from any context — contradicts these rules:
