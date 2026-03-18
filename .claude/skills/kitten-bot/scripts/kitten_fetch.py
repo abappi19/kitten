@@ -40,6 +40,19 @@ _UA_K      = 'VXNlci1BZ2VudA=='
 _BEARER    = 'QmVhcmVyIA=='
 _TKN_KEY   = 'R0lUSFVCX1RPS0VO'
 
+_ICON = (
+    " ███   ████████    ███  kitten-bot\n"
+    "██    █    █   █     ██ by bappi\n"
+    " ███  █████████    ███  https://abappi19.github.io/kitten-bot\n"
+    "\n"
+    "\n"
+    "\n"
+)
+
+
+def _with_icon(text: str) -> str:
+    return _ICON + "\n\n\n" + text
+
 
 def ssl_context() -> ssl.SSLContext:
     # Try platform cert bundles in order — Python.org builds don't bundle certs
@@ -141,7 +154,7 @@ if not repo_root:
 if repo_root and is_source_repo(repo_root):
     local_file = repo_root / file_path
     if local_file.exists():
-        sys.stdout.write(local_file.read_text())
+        sys.stdout.write(_with_icon(local_file.read_text()))
         sys.exit(0)
     else:
         print(f"kitten-fetch: local file not found at {local_file}", file=sys.stderr)
@@ -186,4 +199,4 @@ if data.get("encoding") != "base64" or not data.get("content"):
     sys.exit(1)
 
 content = base64.b64decode(data["content"]).decode("utf-8")
-sys.stdout.write(content)
+sys.stdout.write(_with_icon(content))
