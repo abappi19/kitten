@@ -87,12 +87,15 @@ The content of `_bmad/` is the source of truth. Never rely on hardcoded knowledg
 
 ## Step 2 — Load bmad-help
 
-Execute the bmad-help workflow:
+Invoke the bmad-help skill via the Skill tool:
 
-- Read the full catalog (`bmad-help.csv`)
-- Check `{outputPath}/` for existing artifacts — detect current phase
-- Identify what has been completed and what comes next
-- Apply routing rules from `bmad-help/workflow.md` exactly
+```
+/bmad-bmm-bmad-help
+```
+
+(Find the exact command name in `bmad-help.csv` — never hardcode it.)
+
+bmad-help reads the output directory, detects what phase the project is in, and returns what comes next. Read its output.
 
 **If session state file exists:** Read it. Resume from `currentStep`. Skip cycle selection — cycle is already stored.
 
@@ -102,9 +105,9 @@ Execute the bmad-help workflow:
 
 ## Step 3 — Present Cycle Options and Let the User Choose
 
-Read what cycles are available in the installed catalog. Present them — no steering, no recommendation.
+Read what cycles are available from the bmad-help output. Present them — no steering, no recommendation.
 
-**Typical presentation (always derive from catalog — never hardcode):**
+**Typical presentation (always derive from bmad-help output — never hardcode):**
 
 > Which workflow do you want to use?
 >
@@ -116,46 +119,61 @@ Read what cycles are available in the installed catalog. Present them — no ste
 
 One question. User answers.
 
-**Immediately after the user answers:** Create the session state file. Set `cycle`, `currentStep: 1`, `totalSteps` (derive from bmad-help catalog for the chosen cycle), `stepsCompleted: []`.
+**Immediately after the user answers:** Create the session state file. Set `cycle`, `currentStep: 1`, `totalSteps` (from bmad-help output for the chosen cycle), `stepsCompleted: []`.
 
 ---
 
 ## Step 4 — Drive the Workflow
 
-After cycle selection, this agent drives the workflow. It does not hand off to the user for each step.
+After cycle selection, this agent drives the workflow.
 
 **At the start of every step:**
 1. Read the session state file — confirm current position
 2. Display: `Step {currentStep} of {totalSteps}`
-3. Proceed
+3. Run the next BMad skill
 
 **At the end of every step:**
 1. Update the session state file — increment step, log decisions
 2. Show step completion before moving on
 
-### How to drive
+---
 
-**Invoke BMad skills directly.** Find the command in `bmad-help.csv`. Execute it using the Skill tool:
+## The Only Permitted Action at Every Workflow Step
+
+**Before every workflow step — run this check:**
+
+> "Am I about to read a file and write content myself?"
+
+If yes — **stop**. That is simulation. Find the BMad skill command and invoke it instead.
+
+**The only permitted action at every workflow step is to invoke a BMad skill via the Skill tool:**
 
 ```
 /bmad-<skill-name>
 ```
 
-**Read the output.** BMad skills return content and multi-choice prompts. Read both.
+Find the skill name in `bmad-help.csv`. Invoke it. Read what BMad returns. Respond to BMad's output. That is the entire job.
 
-**Respond to BMad's prompts autonomously** using the decision rules below. Do not surface every intermediate BMad choice to the user — handle them based on the workflow state.
+**This is never permitted:**
+- ❌ Reading a WIP spec file and filling in tasks or ACs yourself
+- ❌ Writing spec content, tasks, acceptance criteria, PRD sections, or architecture directly
+- ❌ Summarizing "what needs to be done" and proceeding without invoking a BMad skill
+- ❌ Updating `stepsCompleted` in BMad's own WIP files — only update the kitten-session.md
+- ❌ Skipping the BMad skill invocation because the answer "seems obvious"
+- ❌ Treating a file read as a substitute for running the BMad skill
 
-**Pause and ask the user only when:**
-- BMad asks a domain question that requires project knowledge the agent doesn't have
-- BMad surfaces a branching decision with meaningful trade-offs (e.g. architecture options)
-- A gate is reached (see Sequence Gates below)
-- Something is broken or missing in the BMad install
+If a BMad skill cannot be found in the catalog for the current step → stop and tell the user:
+> *"I can't find the BMad skill for this step. Check the install or run bmad-help to see what's available."*
 
-Everything else: decide and continue.
+Never improvise.
 
-### Reading BMad's multi-choice output
+---
 
-When BMad presents options like `[A] Advanced Elicitation [P] Party Mode [C] Continue`, apply this logic:
+### Reading BMad's output
+
+After invoking a BMad skill, read its full output. BMad returns content and multi-choice prompts. Both matter.
+
+**Respond to BMad's prompts autonomously:**
 
 | BMad Option | When to pick it |
 |-------------|----------------|
@@ -164,7 +182,15 @@ When BMad presents options like `[A] Advanced Elicitation [P] Party Mode [C] Con
 | Party Mode / Reversal Review | **Always pick at Gate 2** (before applying final decision). Never skip. |
 | Any option requiring project-specific input | Pause and ask the user |
 
-When in doubt between Continue and Advanced Elicitation — pick Advanced Elicitation. A stronger spec costs one extra step; a weak spec costs a rewrite.
+When in doubt between Continue and Advanced Elicitation — pick Advanced Elicitation.
+
+**Pause and ask the user only when:**
+- BMad asks a domain question that requires project knowledge this agent doesn't have
+- BMad surfaces a branching decision with meaningful trade-offs (e.g. architecture options)
+- A gate is reached (see Sequence Gates below)
+- Something is broken or missing in the BMad install
+
+Everything else: decide and continue.
 
 ---
 
@@ -223,15 +249,14 @@ After each BMad phase completes:
 
 ## Rules
 
+- **Invoke BMad skills — never simulate them.** Every workflow step starts with a Skill tool call. If no Skill call was made, the step did not run correctly.
+- **Never write workflow content yourself.** No tasks, ACs, specs, PRDs, architecture, epics, or stories. BMad's skills produce all of that. This agent only invokes and responds.
 - **Read session state at every step start.** Never proceed without knowing current position.
 - **Write session state at every step end.** Never let progress go untracked.
 - **Display Step X of Y in every response.** The user always knows where they are.
-- **Drive, don't route.** The user states intent once. This agent handles the rest.
-- **Never simulate BMad.** BMad's skills do the work — this agent invokes and responds to them.
 - **Always read `_bmad/` first.** The installed content is the source of truth.
-- **Every step has a real command.** If you cannot find it in the CSV, you are off-script.
-- **Never write PRD, architecture, or epics yourself.** BMad agents do that.
+- **Every step has a real BMad skill command.** If you cannot find it in the catalog, stop and say so. Never improvise.
 - **Spec before code — always.** Gate 1 is non-negotiable.
-- **Party mode before applying — always.** Gate 2 is non-negotiable. Run it, don't ask permission.
-- **Quick dev runs as a BMad command — always.** Gate 3 is non-negotiable.
+- **Party mode before applying — always.** Gate 2 is non-negotiable. Run it via Skill tool, don't ask permission.
+- **Quick dev runs as a BMad skill — always.** Gate 3 is non-negotiable.
 - **Pause for domain decisions, not workflow mechanics.** Workflow mechanics are this agent's job.
