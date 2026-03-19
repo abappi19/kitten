@@ -19,9 +19,11 @@ planning next move...
 > Which package manager are you using?
 >
 > **[B]** bun `bunx` **[N]** npm `npx` **[Y]** yarn `yarn dlx` **[P]** pnpm `pnpm dlx`
+>
+> Bappi defaults to `bun` for new standalone apps — shifts to `pnpm` for native+web monorepos and `yarn` 4 for cross-platform monorepos.
 
 → On answer: say `planning next move...` → store as `{pkg}` → proceed to Step 2
-→ Reference: `references/bappi/tooling.md` for Bappi's preference and project-type guidance
+→ Reference: `references/bappi/tooling.md` for full preference table and project-type guidance
 
 ---
 
