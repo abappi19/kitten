@@ -112,6 +112,9 @@ Cross-reference the loaded references against the code:
 - [ ] Are discriminated unions used where appropriate?
 - [ ] Is there duplicated type logic that could be a generic utility?
 
+**Import Hygiene**
+- [ ] Before suggesting removal of any named import, grep the entire file for every usage of that identifier — not just the one being refactored. A file can contain multiple components or hooks; removing an import that another component still uses will cause a runtime crash.
+
 **Security**
 - [ ] Is user input validated at the boundary?
 - [ ] Are tokens stored in AsyncStorage (insecure) instead of Keychain/Keystore/MMKV?
