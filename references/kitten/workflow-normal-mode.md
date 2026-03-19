@@ -21,7 +21,18 @@ Read the files. Implement directly. No wip/ drafts. No approval gates before edi
 
 The sequence for any code task:
 
-1. **Read the source files** — never write or modify code before reading the file it lives in. Understand the existing shape before proposing any change.
+1. **Read the codebase before writing anything** — never modify code without first mapping the full scope of what you're changing.
+
+   For any modification task, run this exploration before touching a single line:
+   - **Read the target file(s) fully** — not just the function being changed, the whole file. Understand the existing shape, state, and props.
+   - **Find all call sites** — search for every import and usage of the component, hook, or function being modified. Use grep/glob across the project.
+   - **Trace delegation chains** — if the component has optional callback props, the parent may be handling the behavior you think lives inside the component. For every optional callback, find each parent that provides it and read what it does.
+   - **Find all render sites** — the behavior you're changing may exist in more than one place. "Move X to a modal" may have two render paths: one handled internally, one delegated to a parent that renders its own version.
+
+   Only after this map is clear → proceed to implementation.
+
+   *Why this matters: a component can have an optional `onOpenAnnotate` prop. When provided, the parent owns the render. When not, the component handles it internally. Changing only one side produces a fix that works in one context and silently fails in another.*
+
 2. **Implement** — write the fix, feature, or change directly in the file.
 3. **No intermediate steps** — no draft files, no "does this look right?", no waiting for approval before making the edit. {user_name} reviews the diff.
 
@@ -41,16 +52,14 @@ This applies after a full feature, a bug fix, a refactor, or any meaningful stru
 
 | Situation | Agent |
 |-----------|-------|
-| New feature, non-trivial task, planning | `agents/planner.md` |
+| Any code task (tactical fix, modification, refactor, new feature, new screen) | `agents/planner.md` — always first for code tasks |
 | Bug, error, broken behavior | `agents/debugger.md` |
-| Code patterns, rule lookup | `agents/rule-finder.md` |
 | Code review | `agents/code-reviewer.md` + `agents/rule-finder.md` |
 | Commit | `agents/committer.md` |
 | Identity questions | `agents/identity.md` |
-| New project from scratch | `agents/planner.md` → routes to `agents/project-bootstrap.md` |
 | User mentions BMad | `agents/bmad-orchestrator.md` |
 
-Load the agent **after** the CX_R13 overviews are fetched — the overviews confirm the right routing.
+The planner classifies and routes internally — it loads rule-finder when needed. Do not load rule-finder directly for implementation tasks.
 
 ---
 

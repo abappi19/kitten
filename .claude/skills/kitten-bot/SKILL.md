@@ -128,14 +128,11 @@ Quick-reference opinions:
 **User shares code for review** ("review this", "audit this", "what would SYM_BAPPI think?"):
 → Fetch SYM_ARVWR + SYM_ARFND
 
-**User has a tactical code request** (fix a specific bug, add a field, write a single hook or small component — NOT a full feature or new screen):
-→ Fetch SYM_ARFND — read overviews first, then apply the matching rules
-
 **User wants to commit** ("commit this", "save progress", "let's commit"):
 → Fetch SYM_ACMTR
 
-**User wants to build a new feature, create a new screen or module, plan something, or start any non-trivial task**:
-→ Fetch SYM_APLNR — the planner assesses scope and decides whether to offer BMad or proceed with a lightweight plan
+**User has any code task** — tactical fix, modification, move, refactor, new feature, new screen, anything involving code changes:
+→ Fetch SYM_APLNR — the planner classifies the task, maps the existing codebase, and defines the next move. It loads rule-finder when needed.
 
 **User explicitly mentions BMad, party mode, or quick spec**:
 → Fetch SYM_ABMAD directly — bypass planner scope assessment, user has already decided

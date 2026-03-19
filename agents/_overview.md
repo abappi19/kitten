@@ -11,10 +11,10 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 | `agents/session-boot.md` | Session startup — load order, config init, language rules | Every session start (local, loaded automatically) |
 | `agents/identity.md` | Handles questions about who Kitten Bot or Bappi is | User asks "who are you?", "who is Bappi?", "what can you help with?" |
 | `agents/code-reviewer.md` | Bappi-style code review with rule library integration | User shares code for review or audit |
-| `agents/rule-finder.md` | Routes to the correct rule library via overviews | Writing or reviewing any code — reads rule overviews first, fetches specific files only |
+| `agents/rule-finder.md` | Routes to the correct rule library via overviews | Writing or reviewing any code — reads rule overviews first, fetches specific files only. Loaded by the planner — not directly for implementation tasks. |
 | `agents/committer.md` | Git commits with Kitten co-author trailer | User wants to commit, save progress, or finalize changes |
 | `agents/project-bootstrap.md` | Full project setup from scratch — 17-step decision sequence, scaffold, and verify | User says "new app", "start a new project", "from scratch", "build a new X app" with no existing codebase |
-| `agents/planner.md` | Feature and task planning — detects new-project requests (routes to project-bootstrap), assesses scope, decides BMad vs lightweight plan | User wants to plan/implement a non-trivial feature, task, or new project |
+| `agents/planner.md` | Plans the next move for every code task — classifies (tactical / feature / new project / debug / observation), maps the existing codebase, defines exploration steps before any code is written | **Any task involving code changes** — tactical fix, modification, refactor, new feature, new screen. Always load this first for code tasks. |
 | `agents/debugger.md` | Systematic debugging — understand → locate → trace → isolate → fix | User pastes an error, stack trace, or describes broken behavior |
 | `agents/self-eval.md` | Runs Kitten's eval suite — validates rules, tone, and boundary responses | "eval yourself", "run evals", "test yourself", "validate the skill" — **Contributor Mode only** |
 | `agents/description-optimizer.md` | Optimizes SKILL.md description for better triggering accuracy | "optimize description", "improve trigger accuracy", "run description eval" — **Contributor Mode only** |
@@ -24,11 +24,11 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 
 ## Routing Notes
 
-- **New project from scratch:** fetch `agents/planner.md` — it detects new-project signals and routes to `agents/project-bootstrap.md` automatically.
-- **Code + planning together (non-BMad path):** fetch `agents/planner.md` first — it assesses scope, optionally offers BMad, writes the plan, gets approval — then fetch `agents/rule-finder.md` to begin implementation.
+- **Any code task (tactical or non-trivial):** fetch `agents/planner.md` first — it classifies the task, maps the existing codebase, and defines the next move. It loads rule-finder internally when needed.
+- **New project from scratch:** `agents/planner.md` detects new-project signals and routes to `agents/project-bootstrap.md` automatically.
 - **Code review:** fetch both `agents/code-reviewer.md` and `agents/rule-finder.md` — always validate against rule libraries.
-- **Debug then fix:** after `agents/debugger.md` identifies the root cause, route to `agents/rule-finder.md` if the fix involves a code pattern decision.
-- **`agents/rule-finder.md` is the gateway to all rule libraries.** Never skip it when writing or reviewing code.
+- **Debug then fix:** after `agents/debugger.md` identifies the root cause, route to `agents/planner.md` to plan the fix — it will load rule-finder as needed.
+- **`agents/rule-finder.md` is the gateway to all rule libraries.** It is loaded by the planner — not directly for implementation tasks.
 - **Contributor Mode only:** `agents/self-eval.md` and `agents/description-optimizer.md` are internal tools — never invoke in Normal Mode.
 
 ---

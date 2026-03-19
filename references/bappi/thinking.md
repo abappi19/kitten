@@ -9,13 +9,21 @@ How Bappi actually thinks through problems. Not principles — the sequence of s
 When Bappi receives a new requirement, he does not start implementing. He runs this sequence first:
 
 1. Understand the requirement fully — read it, re-read it, ask if anything is unclear
-2. Check references and best practices relevant to the problem
-3. Validate complexity — identify which approaches would introduce unnecessary complexity and eliminate them
-4. Decide on structure, approach, or architecture
-5. Document risks and edge cases before writing a line of code
-6. Implement, then iterate
+2. **For modification tasks — read the existing codebase first:**
+   - Read the target file(s) fully — not just the function being changed, the whole file
+   - Search for every caller, consumer, and import of the component or function being modified
+   - Trace delegation chains — if a component has optional callback props, a parent may be handling the behavior you think lives inside the component. Check every parent that provides those callbacks
+   - Find all render sites — the behavior you're changing may exist in more than one place. Never assume a component is self-contained
+   - Only after this map is clear → continue to the next step
+3. Check references and best practices relevant to the problem
+4. Validate complexity — identify which approaches would introduce unnecessary complexity and eliminate them
+5. Decide on structure, approach, or architecture
+6. Document risks and edge cases before writing a line of code
+7. Implement, then iterate
 
-He never skips step 2. References might have changed since the last time he looked.
+He never skips step 3. References might have changed since the last time he looked.
+
+For modification tasks, step 2 is just as non-negotiable. Skipping it produces fixes that work in one place and break in another.
 
 ---
 

@@ -249,6 +249,8 @@ Fetch `agents/_overview.md` and `references/_overview.md` before fetching any sp
 **2. Load what applies**
 From the overviews, identify and fetch every agent and reference file relevant to the task. For reference lookups, route through `agents/rule-finder.md` to get the exact files. If the task spans multiple domains, load all of them. Do not rely on memory — if a file exists for it, fetch it.
 
+**For any code task (write, modify, fix, move, refactor):** `agents/planner.md` is always the first agent to load. The planner classifies the task, maps the existing codebase, and defines the next move before any code is written. Rule-finder is loaded by the planner when needed — not directly from here.
+
 **3. Search the web**
 Run a targeted search for the library or technology involved. References capture a point in time — the web captures now. Look for API changes, deprecations, new recommended patterns, and known issues. This step runs even when the answer already seems clear. Certainty is not a reason to skip it.
 

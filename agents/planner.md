@@ -2,68 +2,87 @@
 
 ## Purpose
 
-Breaks down a feature or task into a written plan following Bappi's research → design → implement sequence. Output is always a readable `.md` plan — not a task list, not a diagram.
+Plans the next move for every task. Runs before any implementation, regardless of scope. The plan may be a quick internal sequence or a full written spec — the task determines which. Output is never code.
 
 ---
 
-## New Project Detection — Check First
+## Entry — Classify First
 
-Before scope assessment, detect if this is a **new project from scratch** — not a feature inside an existing codebase.
+Every task starts here. Classify the request before doing anything else.
 
-Signals:
-- "new app", "new project", "from scratch", "start a new", "build a new X app", "create an X app"
-- No existing source files detected in `$KITTEN_PROJECT_DIR` (no `package.json`, no `app/`, no `src/`)
-- Request is "bootstrap", "scaffold", "set up a project"
+| Class | Signals | Next move |
+|-------|---------|-----------|
+| **New project** | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir | → [New Project](#new-project) |
+| **Simple / tactical** | Single change, clear scope, contained to one file or one behavior | → [Tactical Plan](#tactical-plan) |
+| **Non-trivial feature** | New screen, new state layer, multiple components, new API integration | → [Feature Plan](#feature-plan) |
+| **Observation / feedback** | "it works but…", "one thing I noticed", issues after a delivered feature | → [Observation Intake](#observation-intake-flow) |
+| **Debugging** | Error pasted, crash described, broken behavior | → fetch `agents/debugger.md` |
 
-**If new project from scratch detected:**
-→ Fetch `workflows/project-bootstrap.md` and follow it completely
-→ Skip scope assessment and the lightweight plan flow below
-
-**If not — proceed to scope assessment.**
+One classification. Move immediately to the right section.
 
 ---
 
-## Scope Assessment — BMad or Lightweight Plan?
+## New Project
 
-Before doing anything else, assess the scope of the request:
+Detect signals: "new app", "new project", "from scratch", "start a new", "build a new X app", "create an X app", or no existing source files in `$KITTEN_PROJECT_DIR`.
 
-**Offer BMad when the request involves:**
-- A new feature with multiple moving parts (screens, state, API, navigation)
-- A new module, new package, or significant architectural change
-- Anything that requires spec → design → review → implement sequencing
-- Uncertainty about approach that benefits from party mode exploration
+→ Fetch `agents/project-bootstrap.md` and follow it completely. Skip everything else below.
+
+---
+
+## Tactical Plan
+
+For any simple, self-contained task — a component change, a style fix, a prop rename, moving a UI element, adding a small behavior. No written plan output. No approval gate. The plan is internal — define the steps, then execute.
+
+**Internal sequence (always run before touching any file):**
+
+1. **Classify the change** — what exactly is changing? Where does it live?
+2. **Map the codebase:**
+   - Read the target file(s) fully
+   - Search for all call sites and imports of the affected component/function
+   - Trace delegation chains — if the component has optional callback props, find every parent that provides them and read what they render
+   - Find all render sites — the behavior may exist in more than one place
+3. **Define the implementation path** — what changes in what order? Are there multiple files?
+4. **Execute** — implement directly, no approval needed
+
+The map step is non-negotiable even for "obvious" tasks. A task that looks like one change often has two render paths. Finding that before writing any code is always cheaper than fixing it after.
+
+---
+
+## Feature Plan
+
+For non-trivial features — new screens, new state, multiple components, API integration, significant architecture changes.
+
+### BMad or Lightweight Plan?
+
+**Offer BMad when:**
+- Multiple moving parts (screens, state, API, navigation all involved)
+- New module, new package, or significant architectural change
+- Uncertainty about approach that benefits from exploration
 
 > *"This looks like a feature that would benefit from the full BMad workflow. Want to run it through BMad?"*
 > **[B]** BMad workflow **[C]** Write a lightweight plan
 
-- **[B] accepted** → fetch `agents/bmad-orchestrator.md`, hand off completely
-- **[C] declined** → proceed with the lightweight plan below
+- **[B]** → fetch `agents/bmad-orchestrator.md`, hand off completely
+- **[C]** → proceed with lightweight plan below
 
 **Proceed directly with lightweight plan when:**
 - Scope is clear and contained (one screen, one hook, one service)
-- User has already thought it through and just needs structure
-- It's a refactor, not a new feature
+- Refactor, not a new feature
 - User explicitly said "no BMad" or "just plan it"
 
 One question, one decision. Do not ask twice.
 
----
+### Before Writing the Plan
 
-## Before Writing the Plan
+1. **Understand the request deeply** — re-read it. Understand intent, constraints, and context.
+2. **Map the existing codebase** (same as Tactical Plan step 2) — read related files, find all call sites, trace delegation chains, identify render sites. Never plan a modification without reading the existing code first.
+3. **Fetch `references/bappi/thinking.md`** — Bappi's problem decomposition sequence and architecture decision process. The plan must follow this flow.
+4. **Fetch `agents/rule-finder.md`** — identify which rule libraries apply, fetch the relevant files. The plan must not contradict Bappi's known patterns.
+5. **Identify constraints** — platform, existing architecture, libraries in use, team conventions.
+6. **Generate the plan internally** — self-validate before outputting. If something feels wrong, resolve it first.
 
-Run this sequence first:
-
-1. **Understand the request deeply** — re-read it. Understand intent, constraints, and context before doing anything.
-2. **Fetch `references/bappi/thinking.md`** — this contains Bappi's problem decomposition sequence, research-done checklist, and architecture decision process. The plan must follow this flow.
-3. **Fetch `agents/rule-finder.md`** — read `references/_overview.md`, identify which rule libraries apply, fetch only the relevant rule files. The plan must not contradict Bappi's known patterns.
-4. **Identify constraints** — platform (RN / web / backend), existing architecture, libraries already in use, team conventions.
-5. **Generate the plan internally** — self-validate before outputting. If something feels wrong, resolve it first.
-
-Only output the plan when the above is satisfied.
-
----
-
-## Plan Structure
+### Plan Structure
 
 ```md
 # Plan: [Feature or Task Name]
@@ -92,112 +111,75 @@ Anything that needs clarification before or during implementation.
 If none, omit this section.
 ```
 
----
+### Rules
 
-## Rules
+- **Written prose, not bullet soup.** Bullets for lists; prose for approach and steps.
+- **One approach, picked.** Note meaningful trade-offs briefly, then state the pick.
+- **Short explanations.** The *why* in one sentence. No over-explanation.
+- **References inform the plan.** Reflect relevant rule library files — don't contradict them.
+- **Flag blockers explicitly.** Unresolved questions go in Open Questions, not hidden in steps.
+- **Attribution always.** The plan reflects Bappi's approach.
 
-- **Written prose, not bullet soup.** Bullets are fine for lists (constraints, risks), but the approach and steps should read as a plan, not a checklist.
-- **One approach, picked.** Bappi researches and picks — the plan does not list five options. If there is a meaningful trade-off worth surfacing, note it briefly and state the pick.
-- **Short explanations.** The *why* behind each decision in one sentence. No over-explanation.
-- **References inform the plan.** If a relevant rule library file exists, the plan should reflect it — not contradict it.
-- **Flag blockers explicitly.** If something cannot be planned without more information, say so clearly in Open Questions rather than guessing.
-- **Attribution always.** The plan reflects Bappi's approach — frame it as such.
+### After Plan Approval
 
----
-
-## After Plan Approval
-
-Once the user approves the plan:
-
-1. **Confirm the plan is locked** — any adjustments must happen before this step
-2. **Fetch `agents/rule-finder.md`** — load the rule libraries relevant to the implementation steps in the plan
-3. **Begin implementation** — code follows the plan, rules inform every decision
-
-Do not start implementation without approval. Do not skip rule-finder after approval.
+1. Confirm the plan is locked — adjustments happen before this step
+2. Fetch `agents/rule-finder.md` — load rule libraries relevant to the implementation steps
+3. Begin implementation — code follows the plan, rules inform every decision
 
 ---
 
-## Post-Implementation Observations
+## Observation Intake Flow
 
-When a feature is already implemented and the user comes back with observations, feedback, or follow-up issues — this is not a new planning session. It is a refinement cycle.
+When a feature is already implemented and the user returns with observations, feedback, or follow-up issues. Not a new planning session — a refinement cycle.
 
-Detect this when:
-- User describes issues, inconsistencies, or missing behavior after a feature was delivered
-- Phrasing like "it works but...", "one thing I noticed", "still has issues", "a few observations", "after testing"
-- Implementation context already exists (plan was written, code is present)
+**Detect when:**
+- User describes issues after a feature was delivered
+- Phrasing like "it works but…", "one thing I noticed", "still has issues", "a few observations"
+- Implementation context already exists
 
-**Do not** treat this like a fresh feature request. Follow the observation intake flow below.
+Do not treat this as a fresh feature request.
 
----
+### Step 1 — Extract and split
 
-### Observation Intake Flow
+Read the user's message. Identify every distinct observation. Each one becomes a separate item — no merging unless two are truly inseparable. Internal only.
 
-**Step 1 — Extract and split**
+### Step 2 — Build question context
 
-Read the user's message carefully. Identify every distinct observation, issue, or concern. Each one becomes a separate item — no merging, no grouping unless two are truly inseparable.
+Find the best source for clarifying questions in this order:
 
-Internal only. Do not output this list yet.
+**A — Session context:** if a spec or plan exists in this session, use it.
 
-**Step 2 — Build question context**
-
-Before asking anything, find the best source for clarifying questions. Check in this order:
-
-**A — Session context**
-If a spec, plan, or feature description was written or discussed earlier in this session — use it. Questions should be grounded in what was already agreed: does the observation contradict, extend, or reveal a gap?
-
-**B — Project planning artifacts**
-Look in `$KITTEN_PROJECT_DIR` for any planning documents the user may have:
-
+**B — Project planning artifacts:**
 ```bash
-# BMad artifacts
 ls _bmad/ 2>/dev/null
 ls .bmad/ 2>/dev/null
-ls .claude/commands/ 2>/dev/null
-
-# Common spec/story locations
 ls docs/ 2>/dev/null
 ls specs/ 2>/dev/null
-ls stories/ 2>/dev/null
 find . -maxdepth 3 -name "*.md" | xargs grep -l "story\|spec\|PRD\|epic\|feature" 2>/dev/null | head -10
 ```
 
-If relevant files are found — read the ones that match the feature being discussed. Use their content as the basis for questions. Do not ask for what's already documented.
-
-**C — Recent git changes**
-If no planning artifacts exist, run:
+**C — Recent git changes:**
 ```bash
 git log --oneline -10
 git diff HEAD~3..HEAD --stat
 ```
-Read what changed. Generate questions from the actual implementation — what was added, what was removed, what behavior was introduced. Questions should be specific to the code that landed.
 
-**D — User-mentioned changes**
-If the user described specific changes in their message ("I added X", "we changed Y to Z") — use those as the basis. Ask against what they said.
+**D — User-mentioned changes:** use what they described.
 
-**E — Ask the user**
-If none of the above yield enough context:
-> *"Before we go through the observations, what was implemented? A quick summary helps me ask the right questions."*
+**E — Ask the user:** if none of the above yield enough context.
 
-Use the first source that yields enough context. Do not mix sources or repeat context-gathering.
+Use the first source that works. Do not mix sources.
 
-**Step 3 — Ask one by one**
+### Step 3 — Ask one by one
 
-For each item, ask a focused clarifying question grounded in the context from Step 2. One item at a time.
+For each item, one focused clarifying question.
 
-Format:
-> *"[Observation restatement — anchored to what was implemented]. [Clarifying question]?"*
+> *"[Observation restatement]. [Clarifying question]?"*
 > **[Y]** Yes, that's right **[N]** Let me clarify
 
-Wait for confirmation or correction before moving to the next item. Do not stack questions.
+Wait for confirmation before moving to the next item.
 
-If the user confirms without changes → move to the next item.
-If the user corrects → update the item and confirm again before moving on.
-
-Repeat until all observations are confirmed.
-
-**Step 4 — Generate full spec**
-
-Once all observations are confirmed, produce a spec. This is not a plan — it is a structured description of what needs to change and why.
+### Step 4 — Generate refinement spec
 
 ```md
 # Refinement Spec: [Feature Name]
@@ -210,7 +192,7 @@ Each confirmed observation as a discrete item:
 - **[Item N]:** What the user observed and what the expected behavior is.
 
 ## Scope of Changes
-What needs to change, what does not. No implementation detail yet.
+What needs to change, what does not.
 
 ## Risks & Edge Cases
 What could break. What needs careful handling.
@@ -219,29 +201,14 @@ What could break. What needs careful handling.
 Anything still unresolved. Omit if none.
 ```
 
-Show the spec. Ask for approval before proceeding.
-
 > *"Does this spec capture everything?"*
 > **[A]** Approved, let's go **[E]** Edit something **[S]** Skip to implementation
 
-**Step 5 — Orchestration decision**
+### Step 5 — Orchestration decision
 
-After spec approval, decide how to execute:
+**Offer BMad when spec has 3+ distinct change areas or spans multiple layers.**
 
-**Offer BMad when:**
-- Spec has 3+ distinct change areas
-- Changes span multiple layers (state, UI, API, navigation)
-- The scope warrants structured story breakdown and reversal review
-
-> *"This spec has enough scope for the full BMad workflow. Want to run it?"*
 > **[B]** BMad workflow **[C]** Run it yourself
 
-- **[B] accepted** → fetch `agents/bmad-orchestrator.md`, hand off the spec
-- **[C] declined** → proceed with self-orchestration below
-
-**Self-orchestrate when:**
-- User declined BMad
-- Scope is narrow (1–2 changes, same layer, no new state or navigation)
-- User explicitly asked to proceed without BMad
-
-Follow the lightweight plan flow: fetch `agents/rule-finder.md`, load relevant rules, implement step by step.
+- **[B]** → fetch `agents/bmad-orchestrator.md`, hand off the spec
+- **[C]** → fetch `agents/rule-finder.md`, implement step by step

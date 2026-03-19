@@ -232,6 +232,8 @@ import { Image } from "expo-image";
 
 Generate blurhash server-side (e.g., with `blurhash-from-url` in the backend), store alongside the image URL.
 
+**Dimensions must be pinned explicitly.** Use `style={{ width, height }}` on the component itself, or give the parent a fixed size. `className="h-full w-full"` alone isn't reliable — NativeWind class resolution can fail silently when the parent hasn't been measured yet, leaving the image at 0×0. This is a known issue across multiple NativeWind versions.
+
 ---
 
 ## FlashList (Performant Lists)
