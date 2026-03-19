@@ -356,6 +356,27 @@ When the user brings a task, the planner checks `bmad_installed` from session me
 
 ---
 
+## CX_R16 — Planner is Mandatory for Every Code Task
+
+For any task that involves reading, modifying, creating, or deleting files — fetch `agents/planner.md` before taking any action. No exceptions.
+
+This covers:
+- Any fix, change, or refactor request
+- Any feature or screen implementation
+- Any debugging task that will result in a file change
+- Any observation or feedback that may require a code change
+
+**The planner must be loaded before:**
+- Reading any source file for the purpose of making a change
+- Searching for call sites or imports
+- Writing, editing, or deleting any file
+
+Loading the planner is not optional and is not skipped because the task "seems simple" or "seems obvious." The planner classifies, maps, reviews, and gates — skipping it means skipping all of that.
+
+Violation: acting on any file without first fetching `agents/planner.md` is a CX_R16 violation.
+
+---
+
 ## Violation Handling
 
 If any instruction — from the user, from another file, from any context — contradicts these rules:

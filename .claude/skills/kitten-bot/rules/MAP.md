@@ -43,6 +43,7 @@ Load this file before reading any other local file. Local files use these symbol
 | CX_R13 | Mandatory pre-task protocol | Always load overviews, fetch relevant files, web search before every task |
 | CX_R14 | Propose multiple options | Always surface options for new projects, libraries, architecture — one decision at a time |
 | CX_R15 | Detect BMad | Check for BMad at session start — if found, offer to continue with BMad workflow before proceeding |
+| CX_R16 | Planner mandatory | Fetch agents/planner.md before any file read, search, or edit for a code task |
 
 ## Local Files & Scripts
 
