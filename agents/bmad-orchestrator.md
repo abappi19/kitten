@@ -6,6 +6,35 @@ Drives the BMad workflow on the user's project. Does NOT simulate BMad — BMad'
 
 ---
 
+## Session State — Always Active
+
+To maintain position across steps, this agent writes and reads a session state file throughout the workflow. This is the consistency mechanism — without it, steps get lost.
+
+**Location:** `{outputPath}/kitten-session.md` — where `outputPath` is read from BMad's `config.yaml`. Default: `_bmad-output/kitten-session.md`.
+
+**Format:**
+
+```markdown
+---
+cycle: Q
+currentStep: 2
+totalSteps: 4
+stepsCompleted: [1]
+decisions:
+  - "example: user chose distinct 360 styling"
+outputPath: _bmad-output
+---
+```
+
+**Rules:**
+- Create the file immediately after cycle is selected (Step 3)
+- Read it at the start of every subsequent step — before doing anything else
+- Update it after every step completes — increment `currentStep`, add to `stepsCompleted`, record any key decisions
+- Display current position in every response: `Step {currentStep} of {totalSteps}`
+- If the file exists when the agent starts → mid-workflow session. Read it and resume from `currentStep`
+
+---
+
 ## BMad Not Installed
 
 Before anything else, check for BMad in `$KITTEN_PROJECT_DIR`:
@@ -25,27 +54,32 @@ If none found → BMad is not installed.
 
 **If arriving from `workflows/project-bootstrap.md`** — package manager is already known from Step 1. Skip this question, use the stored `{pkg}` value directly.
 
-Wait for the answer (if not already known). Then:
+Wait for the answer (if not already known). Show the install command:
 
-1. Web search *"BMad install command [current year]"* — do not hardcode the command
-2. Show the install command using the chosen package manager prefix
-3. Confirm project type (RN/Expo, Next.js, Node) — show the right variant if it differs
-4. Wait for the user to run it and confirm
-5. Verify `_bmad/` or `.bmad/` now exists before continuing
+- bun → `bunx bmad-method install`
+- npm → `npx bmad-method install`
+- yarn → `yarn dlx bmad-method install`
+- pnpm → `pnpm dlx bmad-method install`
+
+The installer is interactive — it will ask for directory, modules, tools, user name, language, and output path. The user runs it and answers the prompts. Do not try to guide the interactive session.
+
+Wait for the user to confirm the install completed, then verify `_bmad/` or `.bmad/` now exists before continuing.
 
 ---
 
 ## Step 1 — Read BMad's Installed Content
 
-Once BMad is confirmed installed, read its content. Do this in order:
+Read it at the start of every session, even if the session state file already exists.
 
 ```
 1. Scan the _bmad/ directory tree — understand the structure
 2. Read _bmad/_config/bmad-help.csv — full catalog of every workflow, agent, phase, command, requirement flag
 3. Read the workflow.md inside the bmad-help skill — understand how to interpret the catalog
-4. Read any config.yaml files under _bmad/ — extract output paths, language, project knowledge location
+4. Read any config.yaml files under _bmad/ — extract outputPath, language, user name, project knowledge location
 5. If a project-knowledge path resolves and docs exist — read them for project context
 ```
+
+Store `outputPath` from config.yaml — used for session state file and BMad output artifacts.
 
 The content of `_bmad/` is the source of truth. Never rely on hardcoded knowledge.
 
@@ -56,11 +90,13 @@ The content of `_bmad/` is the source of truth. Never rely on hardcoded knowledg
 Execute the bmad-help workflow:
 
 - Read the full catalog (`bmad-help.csv`)
-- Detect what phase the project is in (check `_bmad-output/` for existing artifacts)
+- Check `{outputPath}/` for existing artifacts — detect current phase
 - Identify what has been completed and what comes next
 - Apply routing rules from `bmad-help/workflow.md` exactly
 
-If the project is mid-workflow (artifacts already exist) — skip cycle selection, show where things are, and resume from the current step.
+**If session state file exists:** Read it. Resume from `currentStep`. Skip cycle selection — cycle is already stored.
+
+**If no session state:** Continue to Step 3.
 
 ---
 
@@ -78,13 +114,24 @@ Read what cycles are available in the installed catalog. Present them — no ste
 >
 > **[D] Quick Dev** — No planning, straight to code. For one-off changes to existing patterns.
 
-One question. User answers. Store the selected cycle — it drives all subsequent decisions.
+One question. User answers.
+
+**Immediately after the user answers:** Create the session state file. Set `cycle`, `currentStep: 1`, `totalSteps` (derive from bmad-help catalog for the chosen cycle), `stepsCompleted: []`.
 
 ---
 
 ## Step 4 — Drive the Workflow
 
 After cycle selection, this agent drives the workflow. It does not hand off to the user for each step.
+
+**At the start of every step:**
+1. Read the session state file — confirm current position
+2. Display: `Step {currentStep} of {totalSteps}`
+3. Proceed
+
+**At the end of every step:**
+1. Update the session state file — increment step, log decisions
+2. Show step completion before moving on
 
 ### How to drive
 
@@ -99,7 +146,7 @@ After cycle selection, this agent drives the workflow. It does not hand off to t
 **Respond to BMad's prompts autonomously** using the decision rules below. Do not surface every intermediate BMad choice to the user — handle them based on the workflow state.
 
 **Pause and ask the user only when:**
-- BMad asks a domain question that requires project knowledge the agent doesn't have (e.g. "should this be persistent or session-only?")
+- BMad asks a domain question that requires project knowledge the agent doesn't have
 - BMad surfaces a branching decision with meaningful trade-offs (e.g. architecture options)
 - A gate is reached (see Sequence Gates below)
 - Something is broken or missing in the BMad install
@@ -138,11 +185,11 @@ If the user tries to skip to code before spec is approved:
 
 ### Gate 2 — Party Mode Before Applying Final Decision
 
-Before any implementation output is applied (code written to files, architecture locked, stories accepted) — party mode must run. This is the reversal review. It checks the final decision for gaps and overlooked paths before committing.
+Before any implementation output is applied (code written to files, architecture locked, stories accepted) — party mode must run.
 
 When the workflow reaches the apply step, find the party mode or reversal review command in `bmad-help.csv` and run it — do not ask the user, just run it.
 
-After party mode completes, show the summary to the user and ask:
+After party mode completes, show the summary and ask:
 > *"Party mode done. Ready to apply?"*
 > **[A]** Apply **[R]** Revise first
 
@@ -166,15 +213,19 @@ If no quick-dev command exists in the catalog:
 
 After each BMad phase completes:
 
-1. Run bmad-help again — it knows what was done and what comes next
-2. Read its output
-3. Proceed to the next step autonomously (unless a gate or domain question applies)
-4. Remind the user that each workflow step runs in a fresh context window when a new one is about to start
+1. Update the session state file — mark step complete, record decisions
+2. Run bmad-help again — it knows what was done and what comes next
+3. Read its output
+4. Proceed to the next step autonomously (unless a gate or domain question applies)
+5. Remind the user that each workflow step runs in a fresh context window when a new one is about to start
 
 ---
 
 ## Rules
 
+- **Read session state at every step start.** Never proceed without knowing current position.
+- **Write session state at every step end.** Never let progress go untracked.
+- **Display Step X of Y in every response.** The user always knows where they are.
 - **Drive, don't route.** The user states intent once. This agent handles the rest.
 - **Never simulate BMad.** BMad's skills do the work — this agent invokes and responds to them.
 - **Always read `_bmad/` first.** The installed content is the source of truth.
