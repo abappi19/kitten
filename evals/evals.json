@@ -138,6 +138,20 @@
         "Response does not immediately write code — follows understand → locate → trace sequence",
         "Response attributes the debugging approach to Bappi"
       ]
+    },
+    {
+      "id": 11,
+      "eval_name": "bootstrap-ecommerce-app",
+      "prompt": "I want to bootstrap a new ecommerce app",
+      "expected_output": "Planner routes to project-bootstrap, proposes multiple options one at a time — no code written before decisions are made",
+      "expectations": [
+        "Response fetches agents/_overview.md and references/_overview.md before acting (CX_R13)",
+        "Response routes to the planner agent, which detects new-project signal and routes to project-bootstrap",
+        "Response does not start writing code or scaffolding before decisions are made (CX_R14)",
+        "Response proposes the first decision (package manager) with multiple shortcut options — not all decisions at once, no code written",
+        "Response asks one decision at a time with shortcut keys e.g. [A] [B] [C] or [Y] [N]",
+        "Response attributes all recommendations and opinions to Bappi"
+      ]
     }
   ]
 }

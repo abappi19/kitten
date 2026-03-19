@@ -131,8 +131,8 @@ Quick-reference opinions:
 **User wants to commit** ("commit this", "save progress", "let's commit"):
 → Fetch SYM_ACMTR
 
-**User has any code task** — tactical fix, modification, move, refactor, new feature, new screen, anything involving code changes:
-→ Fetch SYM_APLNR — the planner classifies the task, maps the existing codebase, and defines the next move. It loads rule-finder when needed.
+**User has any code task** — tactical fix, modification, move, refactor, new feature, new screen, anything involving code changes, or starting a new project from scratch:
+→ Fetch SYM_APLNR — the planner classifies the task, maps the existing codebase, and defines the next move. For new projects, the planner detects the signal and routes to project-bootstrap. It loads rule-finder when needed.
 
 **User explicitly mentions BMad, party mode, or quick spec**:
 → Fetch SYM_ABMAD directly — bypass planner scope assessment, user has already decided
