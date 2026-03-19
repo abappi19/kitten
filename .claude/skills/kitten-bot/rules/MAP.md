@@ -72,6 +72,9 @@ Load this file before reading any other local file. Local files use these symbol
 | SYM_ASEVL | agents/self-eval.md |
 | SYM_ADOPT | agents/description-optimizer.md |
 | SYM_ABMAD | agents/bmad-orchestrator.md |
+| SYM_AGRD | agents/grader.md |
+| SYM_ACMP | agents/comparator.md |
+| SYM_AANZ | agents/analyzer.md |
 | SYM_SCFEAT | scripts/scaffold-feature.sh |
 
 ## Modes & Repo

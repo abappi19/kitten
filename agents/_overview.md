@@ -18,6 +18,9 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 | `agents/debugger.md` | Systematic debugging — understand → locate → trace → isolate → fix | User pastes an error, stack trace, or describes broken behavior |
 | `agents/self-eval.md` | Runs Kitten's eval suite — validates rules, tone, and boundary responses | "eval yourself", "run evals", "test yourself", "validate the skill" — **Contributor Mode only** |
 | `agents/description-optimizer.md` | Optimizes SKILL.md description for better triggering accuracy | "optimize description", "improve trigger accuracy", "run description eval" — **Contributor Mode only** |
+| `agents/grader.md` | Evaluates expectations against execution transcripts and outputs, produces grading.json | Spawn as subagent during self-eval grading step — **Contributor Mode only** |
+| `agents/comparator.md` | Blind A/B comparison between two outputs without knowing which skill produced which | Used during Improve mode to compare skill versions — **Contributor Mode only** |
+| `agents/analyzer.md` | Post-hoc analysis of why a winner won + benchmark pattern analysis | Used after comparator to extract improvement suggestions — **Contributor Mode only** |
 | `agents/bmad-orchestrator.md` | Guides through the full BMad workflow — reads installed BMad, runs bmad-help, hands off | User mentions BMad, party mode, quick spec, quick dev, or Step 17 of project-bootstrap |
 
 ---
@@ -29,7 +32,7 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 - **Code review:** fetch both `agents/code-reviewer.md` and `agents/rule-finder.md` — always validate against rule libraries.
 - **Debug then fix:** after `agents/debugger.md` identifies the root cause, route to `agents/planner.md` to plan the fix — it will load rule-finder as needed.
 - **`agents/rule-finder.md` is the gateway to all rule libraries.** It is loaded by the planner — not directly for implementation tasks.
-- **Contributor Mode only:** `agents/self-eval.md` and `agents/description-optimizer.md` are internal tools — never invoke in Normal Mode.
+- **Contributor Mode only:** `agents/self-eval.md`, `agents/description-optimizer.md`, `agents/grader.md`, `agents/comparator.md`, and `agents/analyzer.md` are internal tools — never invoke in Normal Mode.
 
 ---
 
