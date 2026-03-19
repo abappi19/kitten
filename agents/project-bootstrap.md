@@ -8,20 +8,26 @@ Bappi's step-by-step sequence for starting a new project from scratch. Each step
 
 Ask one at a time. Wait for the answer before moving to the next.
 
+**Planning beat** — defined in `agents/planner.md` (Universal Rule), applies here without exception. Say `planning next move...` before every question and after every answer.
+
 ---
 
 ### Step 1 — Package Manager
+
+planning next move...
 
 > Which package manager are you using?
 >
 > **[B]** bun `bunx` **[N]** npm `npx` **[Y]** yarn `yarn dlx` **[P]** pnpm `pnpm dlx`
 
-→ Store as `{pkg}` — used in every install command throughout bootstrap
+→ On answer: say `planning next move...` → store as `{pkg}` → proceed to Step 2
 → Reference: `references/bappi/tooling.md` for Bappi's preference and project-type guidance
 
 ---
 
 ### Step 2 — Project Type
+
+planning next move...
 
 > What kind of project is this?
 >
@@ -31,32 +37,38 @@ Ask one at a time. Wait for the answer before moving to the next.
 > **[N]** Next.js only (web)
 > **[S]** Node.js backend only
 
-→ Store as `{project_type}` — determines init command, folder structure, and stack
+→ On answer: say `planning next move...` → store as `{project_type}` → proceed to Step 3
 → Reference: `references/bappi/folder-structure.md` for structure options per type
 
 ---
 
 ### Step 3 — Project Name
 
+planning next move...
+
 > What's the project name?
 
-→ Store as `{project_name}` (kebab-case for CLI, PascalCase for display)
+→ On answer: say `planning next move...` → store as `{project_name}` (kebab-case for CLI, PascalCase for display) → proceed to Step 4
 
 ---
 
 ### Step 4 — Navigation *(Expo/RN only — skip for Next.js or backend-only)*
+
+planning next move...
 
 > Which navigation setup?
 >
 > **[E]** Expo Router (file-based, default)
 > **[R]** React Navigation (manual setup)
 
-→ Store as `{navigation}`
+→ On answer: say `planning next move...` → store as `{navigation}` → proceed to Step 5
 → Reference: `references/bappi/navigation.md` for trade-offs and setup guidance
 
 ---
 
 ### Step 5 — Folder Structure
+
+planning next move...
 
 > Which folder structure?
 >
@@ -64,12 +76,14 @@ Ask one at a time. Wait for the answer before moving to the next.
 > **[F]** Feature-based (`features/` top-level, shared in `shared/`)
 > **[M]** Monorepo lib-style (`apps/` + `packages/`) — for monorepos
 
-→ Store as `{folder_structure}`
+→ On answer: say `planning next move...` → store as `{folder_structure}` → proceed to Step 6
 → Reference: `references/bappi/folder-structure.md` for the full structure trees and file suffix conventions
 
 ---
 
 ### Step 6 — Client State
+
+planning next move...
 
 > Client state management?
 >
@@ -78,12 +92,14 @@ Ask one at a time. Wait for the answer before moving to the next.
 > **[R]** Redux Toolkit
 > **[N]** None
 
-→ Store as `{client_state}`
+→ On answer: say `planning next move...` → store as `{client_state}` → proceed to Step 7
 → Reference: `references/bappi/state-management.md` for Bappi's patterns and store setup
 
 ---
 
 ### Step 7 — Server State
+
+planning next move...
 
 > Server state / data fetching?
 >
@@ -91,12 +107,14 @@ Ask one at a time. Wait for the answer before moving to the next.
 > **[C]** Custom cache layer
 > **[N]** None
 
-→ Store as `{server_state}`
+→ On answer: say `planning next move...` → store as `{server_state}` → proceed to Step 8
 → Reference: `references/bappi/server-state.md` for QueryClient config, persister, and key factory setup
 
 ---
 
 ### Step 8 — UI Library *(Expo/RN or monorepo — skip for backend-only)*
+
+planning next move...
 
 > UI component library?
 >
@@ -105,12 +123,14 @@ Ask one at a time. Wait for the answer before moving to the next.
 > **[G]** Gluestack UI
 > **[P]** React Native Paper
 
-→ Store as `{ui_lib}`
+→ On answer: say `planning next move...` → store as `{ui_lib}` → proceed to Step 9
 → Reference: `references/bappi/ui-patterns.md` for primitives, theme tokens, and library setup
 
 ---
 
 ### Step 9 — Fonts *(Expo/RN only)*
+
+planning next move...
 
 > Custom fonts or system fonts?
 >
@@ -119,11 +139,14 @@ Ask one at a time. Wait for the answer before moving to the next.
 
 If **[C]**: Which font family? (ask — store as `{font_family}`)
 
+→ On answer: say `planning next move...` → store font choice → proceed to Step 10
 → Reference: `references/bappi/ui-patterns.md` for expo-font setup and splash screen loading strategy
 
 ---
 
 ### Step 10 — Icons *(Expo/RN only)*
+
+planning next move...
 
 > Icon pack?
 >
@@ -132,24 +155,28 @@ If **[C]**: Which font family? (ask — store as `{font_family}`)
 > **[S]** Custom SVGs (react-native-svg)
 > **[N]** None yet
 
-→ Store as `{icons}`
+→ On answer: say `planning next move...` → store as `{icons}` → proceed to Step 11
 → Reference: `references/bappi/dependency-stack.md` for the package to install
 
 ---
 
 ### Step 11 — Tooling
 
+planning next move...
+
 > Lint and format tooling?
 >
 > **[E]** ESLint + Prettier (default)
 > **[B]** Biome (single-tool alternative)
 
-→ Store as `{tooling}`
+→ On answer: say `planning next move...` → store as `{tooling}` → proceed to Step 12
 → Reference: `references/bappi/tooling.md` for the full config — ESLint flat config, Prettier settings, lint-staged, Husky hooks, commitlint setup
 
 ---
 
 ### Step 12 — Testing
+
+planning next move...
 
 > Testing setup?
 >
@@ -157,35 +184,42 @@ If **[C]**: Which font family? (ask — store as `{font_family}`)
 > **[V]** Vitest + Playwright (web/Node default)
 > **[S]** Skip for now
 
-→ Store as `{testing}`
+→ On answer: say `planning next move...` → store as `{testing}` → proceed to Step 13
 → Reference: `references/bappi/testing.md` for test runner config, MSW setup, and E2E choice
 
 ---
 
 ### Step 13 — Auth
 
+planning next move...
+
 > Will this project need authentication?
 >
 > **[Y]** Yes
 > **[N]** No
 
-→ Store as `{needs_auth}`
+→ On answer: say `planning next move...` → store as `{needs_auth}` → proceed to Step 14
 → If **[Y]**: Reference `references/bappi/auth-flow.md` for token management, AuthProvider, and route guard setup
 
 ---
 
 ### Step 14 — Environment Config
 
+planning next move...
+
 > Will there be environment-specific config (dev/staging/prod)?
 >
 > **[Y]** Yes
 > **[N]** No
 
+→ On answer: say `planning next move...` → store env config choice → proceed to Step 15
 → If **[Y]**: Reference `references/bappi/env-config.md` for `getEnvVars()` factory and EAS build profile env setup
 
 ---
 
 ### Step 15 — Backend *(skip if project_type is backend-only — already decided)*
+
+planning next move...
 
 > Backend?
 >
@@ -195,29 +229,35 @@ If **[C]**: Which font family? (ask — store as `{font_family}`)
 > **[X]** NestJS (microservices / complex server)
 > **[S]** Skip / external API only
 
-→ Store as `{backend}`
+→ On answer: say `planning next move...` → store as `{backend}` → proceed to Step 16
 → Reference: `references/bappi/backend.md` for NestJS patterns, `references/stack/stack.md` for Bappi's verdicts on each
 
 ---
 
 ### Step 16 — CI/CD & EAS *(Expo/RN only)*
 
+planning next move...
+
 > Set up EAS build profiles and CI/CD?
 >
 > **[Y]** Yes — EAS dev/preview/production + GitHub Actions
 > **[S]** Skip for now
 
+→ On answer: say `planning next move...` → store CI/CD choice → proceed to Step 17
 → If **[Y]**: Reference `references/bappi/cicd.md` for EAS build profiles and GitHub Actions pipeline
 
 ---
 
 ### Step 17 — BMad
 
+planning next move...
+
 > Install BMad for structured planning?
 >
 > **[Y]** Yes
 > **[N]** No
 
+→ On answer: say `planning next move...` → store BMad choice → proceed to Phase 1 Complete
 → If **[Y]**: Follow `agents/bmad-orchestrator.md` — package manager already decided in Step 1, skip that question there
 
 ---
@@ -314,3 +354,4 @@ Fix anything that surfaces. Then:
 - **Reference files drive implementation.** Never improvise — if a reference exists for the step, follow it.
 - **Package manager flows through everything.** `{pkg}` from Step 1 applies to every install command in Phase 2.
 - **BMad skips Step 1 of bmad-orchestrator.** Package manager is already known — pass it directly.
+- **Planning beat is non-negotiable.** Defined in `agents/planner.md` — `planning next move...` before every question and after every answer. No exceptions.

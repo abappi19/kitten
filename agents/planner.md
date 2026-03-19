@@ -25,6 +25,18 @@ One classification. Move immediately to the right section.
 
 ---
 
+## Planning Beat — Universal Rule
+
+At every step transition in every flow, without exception:
+
+- **Before acting on a classification** → say `planning next move...` then proceed
+- **After each user answer** → say `planning next move...` then proceed to the next step
+- **Before writing any output** (plan, question, diagnosis, spec) → say `planning next move...` first
+
+This applies to every flow routed through the planner — tactical, feature, observation, debug, project bootstrap, and anything else. "This step is obvious" is not an exception.
+
+---
+
 ## Ambiguous Request
 
 When a user pastes code, a file, or a snippet without describing what is wrong or what they want changed.
