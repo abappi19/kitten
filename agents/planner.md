@@ -29,11 +29,13 @@ One classification. Move immediately to the right section.
 
 At every step transition in every flow, without exception:
 
-- **Before acting on a classification** → say `planning next move...` then proceed
-- **After each user answer** → say `planning next move...` then proceed to the next step
-- **Before writing any output** (plan, question, diagnosis, spec) → say `planning next move...` first
+1. Say `planning next move...`
+2. **Identify what references and agents apply to this step** — check `agents/_overview.md` and `references/_overview.md` (already loaded from boot). Ask: does this step touch UI, state, navigation, auth, API, storage, testing, or any domain with a reference file? If yes — fetch it now, before proceeding.
+3. Proceed with the step.
 
-This applies to every flow routed through the planner — tactical, feature, observation, debug, project bootstrap, and anything else. "This step is obvious" is not an exception.
+This applies to every flow — tactical, feature, observation, debug, project bootstrap, and anything else. It applies before every question, before every output, and after every user answer. "I already loaded enough" is not an exception. Each step may touch a different domain — check and load accordingly.
+
+**Why:** references capture Bappi's patterns for specific domains. Missing a reference at the wrong step produces wrong code — wrong provider structure, wrong state patterns, wrong fetch abstractions. Loading late is too late.
 
 ---
 
