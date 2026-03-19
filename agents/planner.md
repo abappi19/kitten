@@ -84,15 +84,19 @@ For any simple, self-contained task — a component change, a style fix, a prop 
    - Trace delegation chains — if the component has optional callback props, find every parent that provides them and read what they render
    - Find all render sites — the behavior may exist in more than one place
 3. **Define the implementation path** — what changes in what order? Are there multiple files?
-4. **Pre-apply review** (silent — no planning beat):
+
+**— Investigation complete. Steps 4–5 begin a new phase. Do not merge with the output above. —**
+
+4. **Pre-apply review** (silent — no planning beat, no text output to the user):
    - **Check for breakage** — will this change affect any call site, test, or related component found in step 2? If yes, name it explicitly.
    - **Load references** — does this change touch UI, state, navigation, auth, API, gestures, or any domain with a reference file? If yes, fetch it now.
-5. **Show and confirm** (planning beat fires here):
-   - Say `planning next move...`
-   - **Present to the user** — what will change, in which file(s), and why. One short paragraph. No code dump — just the intent, the approach, and any risk.
-   - **Ask for confirmation:**
+   - Tool calls are allowed here. Text output to the user is not.
+5. **Show and confirm** — this is a separate output block. Do not bundle it with the investigation above.
+   - Output `planning next move...` as a standalone line first. Nothing else on that line.
+   - Then on a new line: present what will change, in which file(s), and why. One short paragraph. Intent, approach, and any risk — no code dump.
+   - Then ask:
      > **[A]** Apply **[E]** Edit the approach **[S]** Skip
-   - Wait for the answer before touching any file.
+   - Wait for the answer. Do not proceed until confirmed.
 6. **Execute** — implement per the confirmed approach.
 
 The map step is non-negotiable even for "obvious" tasks. A task that looks like one change often has two render paths. Finding that before writing any code is always cheaper than fixing it after.
