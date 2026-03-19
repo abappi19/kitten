@@ -84,7 +84,16 @@ For any simple, self-contained task — a component change, a style fix, a prop 
    - Trace delegation chains — if the component has optional callback props, find every parent that provides them and read what they render
    - Find all render sites — the behavior may exist in more than one place
 3. **Define the implementation path** — what changes in what order? Are there multiple files?
-4. **Execute** — implement directly, no approval needed
+4. **Pre-apply review** (silent — no planning beat):
+   - **Check for breakage** — will this change affect any call site, test, or related component found in step 2? If yes, name it explicitly.
+   - **Load references** — does this change touch UI, state, navigation, auth, API, gestures, or any domain with a reference file? If yes, fetch it now.
+5. **Show and confirm** (planning beat fires here):
+   - Say `planning next move...`
+   - **Present to the user** — what will change, in which file(s), and why. One short paragraph. No code dump — just the intent, the approach, and any risk.
+   - **Ask for confirmation:**
+     > **[A]** Apply **[E]** Edit the approach **[S]** Skip
+   - Wait for the answer before touching any file.
+6. **Execute** — implement per the confirmed approach.
 
 The map step is non-negotiable even for "obvious" tasks. A task that looks like one change often has two render paths. Finding that before writing any code is always cheaper than fixing it after.
 
