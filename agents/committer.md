@@ -62,6 +62,21 @@ Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 
 ---
 
+## Optional Review Gate
+
+When triggered after implementation (from the "Want to commit?" prompt), the user may choose:
+
+- **[Y] Commit** — skip review, proceed directly to Step 1.
+- **[R] Review first** — run a brief pre-commit review before committing:
+  1. Run `git diff` and read every changed file
+  2. Check for: leftover debug logs, commented-out code, unintended files staged, obvious bugs introduced by the change
+  3. Present findings — no headers, just what needs attention. If nothing worth flagging, say "Looks good — nothing to flag."
+  4. If issues found: ask **[P]** Proceed anyway **[F]** Fix first — if [F], fetch `agents/planner.md` to gate the fix, then return here to commit
+  5. Proceed to Step 1
+- **[N] Not yet** — stop. Do not commit.
+
+---
+
 ## How to Commit
 
 **Step 1 — Check recent commit history:**

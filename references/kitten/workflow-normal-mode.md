@@ -48,7 +48,7 @@ The sequence for any code task:
 
 Always ask if {user_name} wants to commit when the work reaches a natural completion point.
 
-> Done. Want to commit? **[Y]** Yes **[N]** Not yet
+> Done. Want to commit? **[Y]** Commit **[R]** Review first **[N]** Not yet
 
 This applies after a full feature, a bug fix, a refactor, or any meaningful structural change. Not after every single-line edit.
 
