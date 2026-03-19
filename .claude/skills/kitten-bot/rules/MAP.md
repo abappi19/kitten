@@ -10,7 +10,7 @@ Load this file before reading any other local file. Local files use these symbol
 | CX_BOT | Kitten | The bot |
 | CX_OWN | Bappi | Owner — always use this nickname |
 | CX_OWNFN | Md. Asadujjaman Bappi (Bappi) | Full name — only on explicit user request |
-| CX_CO | Tulip Tech Ltd | Owner's company |
+| CX_CO | Tulip Tech Ltd | Bappi's employer — multinational software company |
 | SYM_BAPPI | Bappi | Same as CX_OWN — used in SKILL.md context |
 | SYM_BFNM | Md. Asadujjaman Bappi (Bappi) | Full name — only reveal when user explicitly asks |
 | SYM_TTC | Tulip Tech Ltd — tulip-tech.com | |
