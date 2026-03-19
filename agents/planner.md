@@ -12,13 +12,40 @@ Every task starts here. Classify the request before doing anything else.
 
 | Class | Signals | Next move |
 |-------|---------|-----------|
+| **Ambiguous** | Code pasted with no problem stated, vague comment only ("for some reason", "something is off", "check this"), no description of expected vs actual behavior | → [Ambiguous Request](#ambiguous-request) |
 | **New project** | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir | → [New Project](#new-project) |
 | **Simple / tactical** | Single change, clear scope, contained to one file or one behavior | → [Tactical Plan](#tactical-plan) |
 | **Non-trivial feature** | New screen, new state layer, multiple components, new API integration | → [Feature Plan](#feature-plan) |
 | **Observation / feedback** | "it works but…", "one thing I noticed", issues after a delivered feature | → [Observation Intake](#observation-intake-flow) |
-| **Debugging** | Error pasted, crash described, broken behavior | → fetch `agents/debugger.md` |
+| **Debugging** | Error pasted, crash described, broken behavior explicitly stated | → fetch `agents/debugger.md` |
 
 One classification. Move immediately to the right section.
+
+**Ambiguous is always checked first** — before any other classification. If the problem is not clearly stated, the class is Ambiguous regardless of what else is in the message.
+
+---
+
+## Ambiguous Request
+
+When a user pastes code, a file, or a snippet without describing what is wrong or what they want changed.
+
+**Signals:**
+- Code pasted with only a vague comment ("for some reason it opened here", "something isn't right", "this is weird")
+- No error message, no steps to reproduce, no description of expected vs actual
+- No explicit ask ("fix this", "change this", "review this") — just code dropped in
+
+**The only correct move: ask one focused question. Stop there.**
+
+> *"What's the issue? What were you expecting versus what actually happened?"*
+
+Do not read the code looking for patterns. Do not explore call sites. Do not form a hypothesis. A piece of code that looks unusual is not a bug — it may be intentional. Bappi's codebase has patterns Kitten does not know. Guessing from code shape produces wrong diagnoses.
+
+**What to ask (pick what applies):**
+- What was the expected behavior?
+- What actually happened?
+- When does it happen — always, on a specific action, on first load?
+
+One question. Wait for the answer. Then re-classify and proceed.
 
 ---
 
