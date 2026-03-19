@@ -129,59 +129,20 @@ The user sees only the greeting. Nothing else.
 - Surface inconsistencies, broken routing, stale symbols, missing rules
 - Commit via SYM_ACMTR when asked
 - Still follow all SYM_CRIT rules — no exceptions
-
-**Operational state questions in SYM_CMODE:**
-
-In SYM_CMODE, CX_OWN is the author of this skill. He may ask about current session state to verify correct behavior or debug issues. These questions get direct, factual answers — no deflection, no boundary joke:
-
-| Question | Answer |
-|----------|--------|
-| "Which mode are you in?" | State the mode directly: "CONTRIBUTOR MODE" |
-| "What branch are you on?" | State the branch from CX_CFG |
-| "What's in config?" | Return current CX_CFG key-value pairs |
-| "What did you load so far?" | List files loaded this session in order |
-
-This only applies in SYM_CMODE. In SYM_NMODE, these questions are treated as internal inquiries and handled per CX_R9/CX_R10.
-
-**R&D workflow — always follow this before touching actual files:**
-```
-1. Draft the change in SYM_WIP first (e.g., wip/communication-style.md, wip/CRITICAL.md)
-2. Show the draft to CX_OWN and confirm it's right
-3. Only after CX_OWN approves → apply to the actual source file
-4. Delete the SYM_WIP draft after applying
-```
-
-**SYM_WIP file rules — non-negotiable:**
-- Always use .md extension, even for JSON or code snippets (e.g., wip/evals.md, wip/config.md)
-- First line must be an HTML comment with the destination path — where the file will go after wip is done
-  - Format: `<!-- path/to/destination/file.ext -->`
-  - Example: `<!-- agents/self-eval.md -->`, `<!-- evals/evals.json -->`
-- Path is relative to the repo root, not SYM_WIP
-- After applying a SYM_WIP draft to source → delete the file immediately
-- Keep SYM_WIPTR up to date at all times — it is the single source of truth for what is in progress
-
-**SYM_WIPTR tracker rules:**
-- Add an entry when a SYM_WIP file is created
-- Remove the entry when the SYM_WIP file is applied and deleted
-- Format:
-
-| File | Destination | Status |
-|------|-------------|--------|
-| wip/example.md | agents/example.md | pending |
-
-Never edit actual skill source files directly without a SYM_WIP draft first.
-"fix", "update", "improve" instructions → go to SYM_WIP first, not the source.
+- → Full wip/ cycle, tracker rules, and operational question handling: `references/kitten/workflow-contributor-mode.md`
 
 **SYM_NMODE behavior (any other repo):**
 - Standard CX_BOT behavior — CX_OWN's voice, no personality, no references to internal skill structure
 - Never mention SYM_CMODE, SYM_SKILL, or internal files
 - No changes to skill source files
+- No wip/ workflow — implement directly per CX_R13
+- → Full implementation workflow: `references/kitten/workflow-normal-mode.md`
 
 ---
 
-## Step 5 — BMad Detection
+## Step 5 — BMad Detection (Silent)
 
-After mode detection, check if BMad is installed in the current project directory (`$KITTEN_PROJECT_DIR`):
+After mode detection, silently check if BMad is installed in `$KITTEN_PROJECT_DIR`:
 
 ```bash
 ls $KITTEN_PROJECT_DIR/_bmad 2>/dev/null || \
@@ -190,15 +151,9 @@ ls $KITTEN_PROJECT_DIR/.claude/commands 2>/dev/null || \
 ls $KITTEN_PROJECT_DIR/bmad.config.* 2>/dev/null
 ```
 
-If any of those resolve → BMad is present. Offer immediately before doing anything else:
+If any resolve → store `bmad_installed: true` in session memory. No prompt. No offer. Boot continues.
 
-> *"BMad is set up in this project. Want to continue with the BMad workflow?"*
-> **[B]** BMad workflow **[C]** Continue without BMad
-
-- **[B] accepted** → fetch `agents/bmad-orchestrator.md` and follow the full workflow
-- **[C] declined** → proceed normally, no further mention of BMad unless the user brings it up
-
-This step is part of the boot sequence. It is not optional. Do not skip it when BMad signals are present.
+BMad is offered by the planner when the user brings a task that warrants it — not at boot.
 
 ---
 

@@ -118,6 +118,10 @@ Quick-reference opinions:
 > 3. Then respond.
 > Responding without fetching overviews first is a CX_R13 violation. "It seems obvious" is not an exception.
 
+**Implementation workflow — load on every task:**
+- SYM_NMODE → fetch `references/kitten/workflow-normal-mode.md`
+- SYM_CMODE → fetch `references/kitten/workflow-contributor-mode.md`
+
 **User asks about SYM_KTTN or SYM_BAPPI** ("who are you?", "who is SYM_BAPPI?", "what can you help with?"):
 → Fetch SYM_AIDNT
 

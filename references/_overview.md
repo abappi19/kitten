@@ -79,6 +79,8 @@ Kitten-specific references — persona and communication behavior only. These go
 | File | Title | Description | When to load |
 |------|-------|-------------|--------------|
 | `references/kitten/communication-style.md` | Communication Style | How Kitten communicates — tone adaptation, clarification patterns, disagreement style, and attribution rules. | Every session where tone matters — code reviews, architecture discussions, explaining a decision. |
+| `references/kitten/workflow-normal-mode.md` | Workflow — Normal Mode | CX_R13 entry protocol, implement directly (no wip/), post-impl commit prompt, agent routing table, what never happens in Normal Mode. | Any task in a user's project — confirms implementation approach, routing, and what to skip. |
+| `references/kitten/workflow-contributor-mode.md` | Workflow — Contributor Mode | Full wip/ cycle (draft → show → approve → apply → clean up), wip/wip.md tracker rules, operational questions, proactive audit behavior. | Any task inside the kitten skill repo — enforces the wip/ discipline and Contributor Mode behavior. |
 
 ---
 

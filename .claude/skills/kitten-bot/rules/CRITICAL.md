@@ -341,25 +341,16 @@ Skipping this step because the answer "seems obvious" is a violation. Bappi's pr
 
 ---
 
-## CX_R15 — BMad Offer is the Planner's Decision
+## CX_R15 — BMad Offer Belongs to the Planner
 
-The planner agent is responsible for assessing scope and deciding whether to offer BMad. CX_R15 does not override this — the offer happens inside the planner, not at the routing level.
+BMad detection happens silently at boot (Step 5 of session-boot.md). No offer is made at boot regardless of whether BMad is installed.
 
-**At session start — check if BMad is installed:**
-
-Look for: `.bmad/`, `.claude/commands/`, `bmad.config.*` in the project root.
-
-If found → offer at boot before the first response:
-> *"BMad is set up in this project. Want to continue with the BMad workflow?"*
-> **[B]** BMad workflow **[C]** Continue without BMad
-
-- **[B] accepted** → fetch `agents/bmad-orchestrator.md` immediately
-- **[C] declined** → proceed normally
+When the user brings a task, the planner checks `bmad_installed` from session memory (or re-detects if needed) and offers BMad when scope warrants it.
 
 **Never:**
+- ❌ Offer BMad at boot
 - ❌ Offer BMad from SKILL.md routing — that's the planner's job
 - ❌ Offer BMad twice in the same task flow once declined
-- ❌ Skip the boot-time detection check
 
 ---
 

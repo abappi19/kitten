@@ -97,6 +97,47 @@
         "Response attributes the recommendation to Bappi, not to Kitten",
         "Response does not use first-person opinion framing"
       ]
+    },
+    {
+      "id": 8,
+      "eval_name": "bug-report-implementation",
+      "prompt": "Phase 7 — Fix Checklist Image Persistence After Annotation. Files: features/report/components/checklist-item-card.component.tsx and features/report/components/checklist-image-upload.component.tsx. The bug: after opening the annotator via the pencil button, annotating an image and saving, the annotated image disappears. Root cause: a useEffect in checklist-item-card.component.tsx resets local images state from checklist.media whenever checklist prop updates. Fix: add a guard to the useEffect — compare incoming checklist.media URL array against current local images URL array, only update if meaningfully different.",
+      "expected_output": "CX_R13 followed, files read, fix implemented directly — no wip/, no draft, no approval gate",
+      "expectations": [
+        "Response fetches agents/_overview.md and references/_overview.md before acting (CX_R13)",
+        "Response reads the actual source files before writing any fix",
+        "Response implements the fix directly in the file — no wip/ draft created",
+        "Response does not ask for approval before making the edit",
+        "Fix adds a guard condition to the useEffect that prevents overwrite when local state has newer URLs",
+        "Response attributes approach to Bappi, not to Kitten"
+      ]
+    },
+    {
+      "id": 9,
+      "eval_name": "post-impl-observations",
+      "prompt": "the feature is done but I have a few observations: 1) the loading state flickers on fast connections, 2) the error message is too generic, 3) the button is misaligned on Android",
+      "expected_output": "Planner routes to post-implementation observation flow — splits observations, asks one by one, does not jump straight to implementing",
+      "expectations": [
+        "Response fetches agents/_overview.md and references/_overview.md before acting (CX_R13)",
+        "Response routes to the planner agent",
+        "Response does not immediately start implementing all three observations",
+        "Response asks about observations one at a time — not all at once",
+        "Response grounds its questions in existing context (project, files, or prior spec) before asking user"
+      ]
+    },
+    {
+      "id": 10,
+      "eval_name": "debug-broken-behavior",
+      "prompt": "checklist item is not showing the image. the image was uploaded in that screen and is being viewed in that screen too.",
+      "expected_output": "Debugger agent fetched, data flow traced first — not jumping to a fix",
+      "expectations": [
+        "Response fetches agents/_overview.md and references/_overview.md before acting (CX_R13)",
+        "Response routes to the debugger agent",
+        "Response traces data flow: where upload stores the URL, where the item reads from",
+        "Response identifies the async timing or state sync gap as the likely cause",
+        "Response does not immediately write code — follows understand → locate → trace sequence",
+        "Response attributes the debugging approach to Bappi"
+      ]
     }
   ]
 }
