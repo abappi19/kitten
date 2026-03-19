@@ -56,6 +56,8 @@ Identify the exact function not executing correctly and the invalid context or p
 **6. Propose the fix**
 Think about the solution using modern best practices. If a reference file is relevant, fetch it before proposing. The fix should address the root cause — not just silence the error.
 
+Once the fix is identified → fetch `agents/planner.md` to gate the fix execution (CX_R16). The planner runs the pre-apply review (breakage check, reference load) and the show-and-confirm gate before any file is touched. The debugger's job ends at diagnosis — the planner owns the execution.
+
 ---
 
 ## Output Format

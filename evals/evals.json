@@ -140,6 +140,21 @@
       ]
     },
     {
+      "id": 12,
+      "eval_name": "tactical-plan-flow",
+      "prompt": "in useImageCapture.ts, the canvas always extends edge to edge. add a 20px horizontal inset so the panResponder area stays away from the device navigation gesture zones",
+      "expected_output": "Planner loads, investigates, planning beat fires before presenting the fix, show-and-confirm gate [A]/[E]/[S] appears before any file is touched",
+      "expectations": [
+        "Response fetches agents/_overview.md and references/_overview.md before acting (CX_R13)",
+        "Response fetches agents/planner.md before reading any file (CX_R16)",
+        "Response reads the target file(s) before proposing any fix",
+        "Response outputs `planning next move...` as a standalone line before presenting the proposed change",
+        "Response presents what will change, in which file, and why — before touching anything",
+        "Response asks for confirmation with shortcut keys [A]/[E]/[S] and waits — does not apply the fix unilaterally",
+        "Response attributes the approach to Bappi"
+      ]
+    },
+    {
       "id": 11,
       "eval_name": "bootstrap-ecommerce-app",
       "prompt": "I want to bootstrap a new ecommerce app",

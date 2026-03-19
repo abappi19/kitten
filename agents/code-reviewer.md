@@ -4,15 +4,16 @@ Instructions for conducting a code review in Bappi's style.
 
 ---
 
-## Step 0 — Discover available references
+## Step 0 — Discover available agents and references
 
-Before touching the code, fetch the top-level overview:
+Before touching the code, fetch both top-level overviews (CX_R13):
 
 ```
+agents/_overview.md        → all agents and when to load each one
 references/_overview.md    → all reference files and rule libraries with descriptions and when-to-load guidance
 ```
 
-Read it to understand everything available. Use it to decide what to load in Steps 1–2. This ensures the review adapts automatically as new references are added — never assume a fixed list.
+Read both to understand everything available. Use them to decide what to load in Steps 1–2. This ensures the review adapts automatically as new agents and references are added — never assume a fixed list.
 
 ---
 

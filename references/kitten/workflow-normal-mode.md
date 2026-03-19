@@ -17,7 +17,7 @@ No exceptions. Not even for "simple" tasks.
 
 ## Implementation
 
-Read the files. Implement directly. No wip/ drafts. No approval gates before editing.
+Read the files. Implement via the planner. No wip/ drafts.
 
 The sequence for any code task:
 
@@ -33,8 +33,14 @@ The sequence for any code task:
 
    *Why this matters: a component can have an optional `onOpenAnnotate` prop. When provided, the parent owns the render. When not, the component handles it internally. Changing only one side produces a fix that works in one context and silently fails in another.*
 
-2. **Implement** — write the fix, feature, or change directly in the file.
-3. **No intermediate steps** — no draft files, no "does this look right?", no waiting for approval before making the edit. {user_name} reviews the diff.
+2. **Planner gates the fix** — after investigation, the planner fires `planning next move...`, presents what will change and why, and asks:
+   > **[A]** Apply **[E]** Edit the approach **[S]** Skip
+
+   Wait for confirmation before touching any file.
+
+3. **Implement** — write the fix per the confirmed approach.
+
+**No wip/ drafts.** The planner's show-and-confirm step IS required — it is the lightweight gate in Normal Mode. What's removed is draft files and the wip/wip.md tracker. What remains is the planner confirmation before any file edit.
 
 ---
 
@@ -67,6 +73,7 @@ The planner classifies and routes internally — it loads rule-finder when neede
 
 - No wip/ drafts
 - No "let me show you the draft first"
-- No waiting for approval before editing a source file
+- No wip/ draft files or wip/wip.md tracker
+- No "here's my draft, does this look right?" — the planner's show-and-confirm is the gate, not a separate draft review
 - No references to CONTRIBUTOR MODE, the kitten repo, skill files, or internal mechanics
 - No mention of modes at all — if asked, CX_R9 applies (formal joke, done)

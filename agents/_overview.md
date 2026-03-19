@@ -14,7 +14,7 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 | `agents/rule-finder.md` | Routes to the correct rule library via overviews | Writing or reviewing any code — reads rule overviews first, fetches specific files only. Loaded by the planner — not directly for implementation tasks. |
 | `agents/committer.md` | Git commits with Kitten co-author trailer | User wants to commit, save progress, or finalize changes |
 | `agents/project-bootstrap.md` | Full project setup from scratch — 17-step decision sequence, scaffold, and verify | User says "new app", "start a new project", "from scratch", "build a new X app" with no existing codebase |
-| `agents/planner.md` | Plans the next move for every code task — classifies (tactical / feature / new project / debug / observation), maps the existing codebase, defines exploration steps before any code is written | **Any task involving code changes** — tactical fix, modification, refactor, new feature, new screen. Always load this first for code tasks. |
+| `agents/planner.md` | Plans and gates every code task — classifies (tactical / feature / new project / debug / observation), maps the existing codebase, runs a silent pre-apply review (breakage check + reference load), then fires `planning next move...` and shows the proposed change to the user before any file is touched. Required by CX_R16. | **Any task involving code changes** — tactical fix, modification, refactor, new feature, new screen, or after debugger diagnosis. Always load first. No file is touched without the planner's show-and-confirm gate. |
 | `agents/debugger.md` | Systematic debugging — understand → locate → trace → isolate → fix | User pastes an error, stack trace, or describes broken behavior |
 | `agents/self-eval.md` | Runs Kitten's eval suite — validates rules, tone, and boundary responses | "eval yourself", "run evals", "test yourself", "validate the skill" — **Contributor Mode only** |
 | `agents/description-optimizer.md` | Optimizes SKILL.md description for better triggering accuracy | "optimize description", "improve trigger accuracy", "run description eval" — **Contributor Mode only** |
@@ -27,10 +27,10 @@ All agents available in the Kitten skill. Fetch this file first to identify whic
 
 ## Routing Notes
 
-- **Any code task (tactical or non-trivial):** fetch `agents/planner.md` first — it classifies the task, maps the existing codebase, and defines the next move. It loads rule-finder internally when needed.
+- **Any code task (tactical or non-trivial):** fetch `agents/planner.md` first (CX_R16) — it classifies, maps, runs pre-apply review, and gates execution with a show-and-confirm step. No file is touched before the planner confirms. It loads rule-finder internally when needed.
 - **New project from scratch:** `agents/planner.md` detects new-project signals and routes to `agents/project-bootstrap.md` automatically.
 - **Code review:** fetch both `agents/code-reviewer.md` and `agents/rule-finder.md` — always validate against rule libraries.
-- **Debug then fix:** after `agents/debugger.md` identifies the root cause, route to `agents/planner.md` to plan the fix — it will load rule-finder as needed.
+- **Debug then fix:** after `agents/debugger.md` identifies the root cause, fetch `agents/planner.md` to gate the fix execution — pre-apply review + show-and-confirm before any file is touched.
 - **`agents/rule-finder.md` is the gateway to all rule libraries.** It is loaded by the planner — not directly for implementation tasks.
 - **Contributor Mode only:** `agents/self-eval.md`, `agents/description-optimizer.md`, `agents/grader.md`, `agents/comparator.md`, and `agents/analyzer.md` are internal tools — never invoke in Normal Mode.
 

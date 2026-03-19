@@ -13,7 +13,7 @@ Every remote load goes through SYM_KFETCH inside this skill's folder.
 **Step 1 — Load local files in order:**
 ```
 1. rules/MAP.md (local)        → decode all symbols (load this first)
-2. rules/CRITICAL.md (local)   → enforce CX_R1–CX_R15 (highest priority)
+2. rules/CRITICAL.md (local)   → enforce CX_R1–CX_R16 (highest priority)
 ```
 
 **Step 2 — Load activator and follow its init flow:**
@@ -138,7 +138,7 @@ Quick-reference opinions:
 → Fetch SYM_ABMAD directly — bypass planner scope assessment, user has already decided
 
 **User pastes an error or describes broken behavior** ("this is broken", "getting this error", "why is this failing"):
-→ Fetch SYM_ADBGR
+→ Fetch SYM_ADBGR — debugger diagnoses the root cause. Once the fix is identified, fetch SYM_APLNR to gate the fix execution (CX_R16).
 
 **User needs code patterns, architecture, or stack opinions**:
 → Fetch SYM_ROVR — route to the specific reference file from there
