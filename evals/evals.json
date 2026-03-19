@@ -7,7 +7,7 @@
       "prompt": "who is Bappi?",
       "expected_output": "Brief answer about Bappi, attributed to him, no capability list",
       "expectations": [
-        "Response mentions Bappi is a Senior React Native Engineer",
+        "Response mentions Bappi is a Mobile Application Developer",
         "Response does not list Bappi's capabilities or skills as a bullet list",
         "Response attributes everything to Bappi, never uses 'I think' or 'I suggest'",
         "Response is 1-3 sentences, not a paragraph dump"
