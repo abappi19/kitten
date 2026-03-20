@@ -90,8 +90,10 @@ All remote repo file loads must go through `scripts/k_load.py` inside this skill
 **Exact invocation — always follow this form:**
 ```bash
 which python || which python3   # detect once per session
-KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load <file-path> [branch]
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load <file-path> [file-path ...] [branch]
 ```
+
+When loading multiple files for the same purpose — pass them all in one command. One invocation, one result.
 
 - Detect `<python_bin>` once per session using `which python || which python3` — use whichever resolves first
 - `{skill_dir}` is the directory containing this skill's SKILL.md — derive it, never guess or hardcode a wrong path

@@ -8,12 +8,14 @@ GITHUB_TOKEN must be set in .env — searched in skill_dir ancestry first,
 then KITTEN_PROJECT_DIR ancestry (set by caller before cd-ing to skill_dir).
 
 Usage (run from skill root):
-  KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python -m scripts.k_load <file-path> [branch]
+  KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python -m scripts.k_load <file-path> [file-path ...] [branch]
   python -m scripts.k_load references/kitten/stack.md
+  python -m scripts.k_load agents/_overview.md references/_overview.md
   python -m scripts.k_load agents/identity.md dev
 
 Output:
   Decoded file content printed to stdout.
+  Multiple files are separated by "---" dividers.
 """
 
 import os
@@ -122,12 +124,20 @@ if not token:
 # --- Args ---
 
 if len(sys.argv) < 2:
-    print("Usage: python -m scripts.k_load <file-path> [branch]", file=sys.stderr)
-    print("Example: python -m scripts.k_load references/kitten/stack.md", file=sys.stderr)
+    print("Usage: python -m scripts.k_load <file-path> [file-path ...] [branch]", file=sys.stderr)
+    print("Example: python -m scripts.k_load agents/_overview.md references/_overview.md", file=sys.stderr)
     sys.exit(1)
 
-file_path = sys.argv[1]
-branch = sys.argv[2] if len(sys.argv) > 2 else default_branch
+args = sys.argv[1:]
+
+# Last arg with no "/" is treated as a branch name
+if len(args) > 1 and "/" not in args[-1]:
+    branch = args[-1]
+    file_paths = args[:-1]
+else:
+    branch = default_branch
+    file_paths = args
+
 
 # --- Source repo detection ---
 
@@ -151,52 +161,66 @@ if not repo_root:
     if project_dir:
         repo_root = find_repo_root(Path(project_dir))
 
-if repo_root and is_source_repo(repo_root):
-    local_file = repo_root / file_path
-    if local_file.exists():
-        sys.stdout.write(_with_icon(local_file.read_text()))
-        sys.exit(0)
-    else:
-        print(f"kitten-fetch: local file not found at {local_file}", file=sys.stderr)
+
+# --- Fetch helpers ---
+
+def fetch_remote(file_path: str) -> str:
+    repo_path = repo.replace(_d(_GH_BASE), "")
+    api_url = f"{_d(_API_BASE)}{repo_path}/contents/{file_path}?ref={branch}"
+
+    req = urllib.request.Request(
+        api_url,
+        headers={
+            _d(_AUTH_K):   f"{_d(_BEARER)}{token}",
+            _d(_ACCEPT_K): _d(_ACCEPT),
+            _d(_UA_K):     _d(_UA),
+        },
+    )
+
+    try:
+        with urllib.request.urlopen(req, context=ssl_context()) as res:
+            data = json.loads(res.read())
+    except ssl.SSLCertVerificationError:
+        print(
+            "kitten-fetch error: SSL certificate verification failed.\n"
+            "Fix: run the certificate installer for your Python version.\n"
+            "  macOS:  open '/Applications/Python 3.x/Install Certificates.command'\n"
+            "  Linux:  sudo apt install ca-certificates  (or equivalent for your distro)\n"
+            "  Any:    pip install certifi",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    except urllib.error.HTTPError as e:
+        print(f"kitten-fetch error: HTTP {e.code} for {file_path}: {e.read().decode()}", file=sys.stderr)
+        sys.exit(1)
+    except urllib.error.URLError as e:
+        print(f"kitten-fetch error: {e.reason}", file=sys.stderr)
         sys.exit(1)
 
-# --- Fetch ---
+    if data.get("encoding") != "base64" or not data.get("content"):
+        print(f"kitten-fetch error: Unexpected response format for {file_path}.", file=sys.stderr)
+        sys.exit(1)
 
-repo_path = repo.replace(_d(_GH_BASE), "")
-api_url = f"{_d(_API_BASE)}{repo_path}/contents/{file_path}?ref={branch}"
+    return base64.b64decode(data["content"]).decode("utf-8")
 
-req = urllib.request.Request(
-    api_url,
-    headers={
-        _d(_AUTH_K):   f"{_d(_BEARER)}{token}",
-        _d(_ACCEPT_K): _d(_ACCEPT),
-        _d(_UA_K):     _d(_UA),
-    },
-)
 
-try:
-    with urllib.request.urlopen(req, context=ssl_context()) as res:
-        data = json.loads(res.read())
-except ssl.SSLCertVerificationError:
-    print(
-        "kitten-fetch error: SSL certificate verification failed.\n"
-        "Fix: run the certificate installer for your Python version.\n"
-        "  macOS:  open '/Applications/Python 3.x/Install Certificates.command'\n"
-        "  Linux:  sudo apt install ca-certificates  (or equivalent for your distro)\n"
-        "  Any:    pip install certifi",
-        file=sys.stderr,
-    )
-    sys.exit(1)
-except urllib.error.HTTPError as e:
-    print(f"kitten-fetch error: HTTP {e.code}: {e.read().decode()}", file=sys.stderr)
-    sys.exit(1)
-except urllib.error.URLError as e:
-    print(f"kitten-fetch error: {e.reason}", file=sys.stderr)
-    sys.exit(1)
+def fetch_file(file_path: str) -> str:
+    if repo_root and is_source_repo(repo_root):
+        local_file = repo_root / file_path
+        if local_file.exists():
+            return local_file.read_text()
+        else:
+            print(f"kitten-fetch: local file not found at {local_file}", file=sys.stderr)
+            sys.exit(1)
+    return fetch_remote(file_path)
 
-if data.get("encoding") != "base64" or not data.get("content"):
-    print("kitten-fetch error: Unexpected response format.", file=sys.stderr)
-    sys.exit(1)
 
-content = base64.b64decode(data["content"]).decode("utf-8")
-sys.stdout.write(_with_icon(content))
+# --- Output ---
+
+sys.stdout.write(_ICON)
+
+for i, file_path in enumerate(file_paths):
+    if i > 0:
+        sys.stdout.write(f"\n\n---\n\n")
+    sys.stdout.write(f"### {file_path}\n\n")
+    sys.stdout.write(fetch_file(file_path))

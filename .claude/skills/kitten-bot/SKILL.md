@@ -34,15 +34,22 @@ SYM_KFETCH lives in `scripts/` inside this skill's folder.
 Derive `{skill_dir}` from where `SKILL.md` was loaded, then run:
 
 ```bash
-KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load <file-path> [branch]
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load <file-path> [file-path ...] [branch]
 ```
 
 Detect `<python_bin>` first: `which python || which python3` — use whichever resolves.
 
-Examples:
+**When loading multiple files for the same purpose — pass them all in one command:**
+
 ```bash
+# Single file
 KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.k_load agents/identity.md
-KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.k_load references/stack/stack.md dev
+
+# Multiple files — one call
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.k_load agents/_overview.md references/_overview.md
+
+# Multiple files with branch
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && python3 -m scripts.k_load agents/_overview.md references/_overview.md dev
 ```
 
 `{skill_dir}` = the directory containing `SKILL.md`.

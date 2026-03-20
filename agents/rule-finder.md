@@ -33,27 +33,23 @@ When: User is working on React Native / Expo code — lists, animations, UI, nav
 
 **Step 1 — Fetch relevant overviews:**
 
-Every library has a `_overview.md` that summarizes all rules with impact levels. Always start here.
+Every library has a `_overview.md` that summarizes all rules with impact levels. Always start here. Fetch all that apply in one command.
 
-- **React Native question** → fetch all three overviews:
+- **React Native question** → fetch all three in one call:
+  ```bash
+  python3 -m scripts.k_load references/composition-patterns/_overview.md references/react-best-practices/_overview.md references/react-native-skills/_overview.md
   ```
-  references/composition-patterns/_overview.md
-  references/react-best-practices/_overview.md
-  references/react-native-skills/_overview.md
-  ```
-- **React / Next.js question** → fetch all three overviews (composition patterns and some RN rules like state/rendering apply to web too):
-  ```
-  references/composition-patterns/_overview.md
-  references/react-best-practices/_overview.md
-  references/react-native-skills/_overview.md
+- **React / Next.js question** → fetch all three in one call (composition patterns and some RN rules like state/rendering apply to web too):
+  ```bash
+  python3 -m scripts.k_load references/composition-patterns/_overview.md references/react-best-practices/_overview.md references/react-native-skills/_overview.md
   ```
 - **Pure JavaScript / TypeScript question** → fetch:
-  ```
-  references/react-best-practices/_overview.md
+  ```bash
+  python3 -m scripts.k_load references/react-best-practices/_overview.md
   ```
 - **Component architecture question** → fetch:
-  ```
-  references/composition-patterns/_overview.md
+  ```bash
+  python3 -m scripts.k_load references/composition-patterns/_overview.md
   ```
 
 For any React-related question, default to reading all three overviews. Better to scan and skip than to miss a relevant rule.
@@ -64,13 +60,12 @@ Read through the overview summaries. Pick only the rules that directly apply to 
 
 **Step 3 — Fetch the specific rule files via kitten-fetch:**
 
-```
-references/react-native-skills/list-performance-virtualize.md
-references/react-best-practices/rerender-memo.md
-references/composition-patterns/architecture-avoid-boolean-props.md
+Fetch all relevant rule files in one command:
+```bash
+python3 -m scripts.k_load references/react-native-skills/list-performance-virtualize.md references/react-best-practices/rerender-memo.md references/composition-patterns/architecture-avoid-boolean-props.md
 ```
 
-Never fetch entire directories. Fetch one rule at a time, only what the overviews pointed you to.
+Never fetch entire directories. Fetch only what the overviews pointed you to — 1–3 files at most, all in one call.
 
 **Step 4 — Apply:**
 

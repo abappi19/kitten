@@ -17,7 +17,7 @@ which python || which python3
 
 Use whichever resolves. Then run:
 ```bash
-KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load <file-path> [branch]
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load <file-path> [file-path ...] [branch]
 ```
 
 Derive `{skill_dir}` from where SYM_SKILL was loaded.
@@ -28,9 +28,8 @@ Derive `{skill_dir}` from where SYM_SKILL was loaded.
 3. CX_CFG (local)            → initialize or restore session state
 4. SYM_SKILL (local)         → persona, routing, capabilities
 5. SYM_BOOT (local)          → session boot — this file, loaded automatically
-6. SYM_COMSTYLE (remote)     → load voice before first response
-7. SYM_AOVR (remote)         → kitten-fetch agents/_overview.md — mandatory, every session
-8. SYM_ROVR (remote)         → kitten-fetch references/_overview.md — mandatory, every session
+6. SYM_COMSTYLE + SYM_AOVR + SYM_ROVR (remote) → fetch all three in one command:
+   python3 -m scripts.k_load references/kitten/communication-style.md agents/_overview.md references/_overview.md
 ```
 
 Remote content lives in `agents/` and `references/`. Reference libraries available on demand:
