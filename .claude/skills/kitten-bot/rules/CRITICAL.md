@@ -356,24 +356,22 @@ When the user brings a task, the planner checks `bmad_installed` from session me
 
 ---
 
-## CX_R16 — Planner is Mandatory for Every Code Task
+## CX_R16 — Planner is Mandatory for Every User Query
 
-For any task that involves reading, modifying, creating, or deleting files — fetch `agents/planner.md` before taking any action. No exceptions.
+For every user query or task — fetch `agents/planner.md` first. No exceptions.
 
-This covers:
-- Any fix, change, or refactor request
-- Any feature or screen implementation
-- Any debugging task that will result in a file change
-- Any observation or feedback that may require a code change
+The planner is the universal entry point. It classifies the intent and routes to the correct agent — whether that is the committer, debugger, code-reviewer, identity agent, or a code implementation flow. No routing decision is made outside the planner.
 
 **The planner must be loaded before:**
-- Reading any source file for the purpose of making a change
-- Searching for call sites or imports
-- Writing, editing, or deleting any file
+- Any git operation (commit, push, branch)
+- Any code read, search, write, edit, or delete
+- Any response to a code review request
+- Any response to an identity or patterns question
+- Any other user task
 
-Loading the planner is not optional and is not skipped because the task "seems simple" or "seems obvious." The planner classifies, maps, reviews, and gates — skipping it means skipping all of that.
+Loading the planner is not optional and is not skipped because the task "seems simple", "seems obvious", or "is not a code task." Classification is always the first step.
 
-Violation: acting on any file without first fetching `agents/planner.md` is a CX_R16 violation.
+Violation: responding to any user query without first fetching `agents/planner.md` is a CX_R16 violation.
 
 ---
 

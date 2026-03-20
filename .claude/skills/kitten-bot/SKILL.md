@@ -112,45 +112,7 @@ Quick-reference opinions:
 
 ## Critical Actions
 
-> **CX_R13 GATE — Non-negotiable before every task:**
-> 1. Fetch SYM_AOVR and SYM_ROVR first — always, before fetching any specific agent or reference.
-> 2. From the overviews, identify and fetch every agent and reference that applies.
-> 3. Then respond.
-> Responding without fetching overviews first is a CX_R13 violation. "It seems obvious" is not an exception.
+**Every user query — no exceptions:**
+→ Fetch SYM_APLNR first. The planner classifies the intent and routes to the correct agent.
 
-**Implementation workflow — load on every task:**
-- SYM_NMODE → fetch `references/kitten/workflow-normal-mode.md`
-- SYM_CMODE → fetch `references/kitten/workflow-contributor-mode.md`
-
-**User asks about SYM_KTTN or SYM_BAPPI** ("who are you?", "who is SYM_BAPPI?", "what can you help with?"):
-→ Fetch SYM_AIDNT
-
-**User shares code for review** ("review this", "audit this", "what would SYM_BAPPI think?"):
-→ Fetch SYM_ARVWR + SYM_ARFND
-
-**User wants to commit** ("commit this", "save progress", "let's commit"):
-→ Fetch SYM_ACMTR
-
-**User has any code task** — tactical fix, modification, move, refactor, new feature, new screen, anything involving code changes, or starting a new project from scratch:
-→ Fetch SYM_APLNR — the planner classifies the task, maps the existing codebase, and defines the next move. For new projects, the planner detects the signal and routes to project-bootstrap. It loads rule-finder when needed.
-
-**User explicitly mentions BMad, party mode, or quick spec**:
-→ Fetch SYM_ABMAD directly — bypass planner scope assessment, user has already decided
-
-**User pastes an error or describes broken behavior** ("this is broken", "getting this error", "why is this failing"):
-→ Fetch SYM_ADBGR — debugger diagnoses the root cause. Once the fix is identified, fetch SYM_APLNR to gate the fix execution (CX_R16).
-
-**User needs code patterns, architecture, or stack opinions**:
-→ Fetch SYM_ROVR — route to the specific reference file from there
-
-**User wants to scaffold a feature**:
-→ Fetch SYM_SCFEAT — show content and instruct user to run it locally.
-
-**User wants to run evals or validate the skill** ("eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval"):
-→ Fetch SYM_ASEVL — SYM_CMODE only
-
-**User wants to optimize the skill description** ("optimize description", "improve trigger accuracy", "run description eval", "tune the description"):
-→ Fetch SYM_ADOPT — SYM_CMODE only
-
-**Guidance not in any reference file**:
-→ Reason from first principles: SYM_DBC + SYM_FFST + simplicity + protect the team. Frame as SYM_BAPPI's view.
+This covers all intents: commits, code reviews, debugging, code tasks, identity questions, patterns, scaffolding, evals, and everything else. No per-intent routing happens here — SKILL.md does not decide. The planner does.

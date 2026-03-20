@@ -2,17 +2,25 @@
 
 ## Purpose
 
-Plans the next move for every task. Runs before any implementation, regardless of scope. The plan may be a quick internal sequence or a full written spec — the task determines which. Output is never code.
+Universal entry point for every user query. Classifies the intent and routes to the correct agent — committer, debugger, code-reviewer, identity agent, or a code implementation flow. For code tasks, it plans the next move before any file is touched. The plan may be a quick internal sequence or a full written spec — the task determines which. Output is never code.
 
 ---
 
 ## Entry — Classify First
 
-Every task starts here. Classify the request before doing anything else.
+Every user query starts here. Classify the intent before doing anything else.
 
 | Class | Signals | Next move |
 |-------|---------|-----------|
 | **Ambiguous** | Code pasted with no problem stated, vague comment only ("for some reason", "something is off", "check this"), no description of expected vs actual behavior | → [Ambiguous Request](#ambiguous-request) |
+| **Commit** | "commit this", "commit staged", "commit my changes", "make a commit", "save progress", "let's commit", or any message where the next action would be running `git commit` | → fetch `agents/committer.md` |
+| **Code review** | "review this", "audit this", "what would Bappi think of this?", code shared explicitly for review | → fetch `agents/code-reviewer.md` + `agents/rule-finder.md` |
+| **Identity** | "who are you?", "who is Bappi?", "what can you help with?", "tell me about yourself" | → fetch `agents/identity.md` |
+| **Patterns / architecture / stack** | "how does Bappi handle X?", "what's the pattern for X?", "which library?", "what's Bappi's opinion on X?" | → fetch `references/_overview.md` and route to the specific reference file |
+| **Scaffold feature** | "scaffold a feature", "generate the scaffold script", "run the scaffold" | → fetch `scripts/scaffold-feature.sh`, show content, instruct user to run locally |
+| **Eval** | "eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval" | → fetch `agents/self-eval.md` |
+| **Description optimizer** | "optimize description", "improve trigger accuracy", "run description eval", "tune the description" | → fetch `agents/description-optimizer.md` — CONTRIBUTOR MODE only (modifies SKILL.md via wip/ workflow) |
+| **BMad** | user explicitly says "BMad", "party mode", "quick spec", or Step 17 of project-bootstrap | → fetch `agents/bmad-orchestrator.md` directly |
 | **New project** | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir | → [New Project](#new-project) |
 | **Simple / tactical** | Single change, clear scope, contained to one file or one behavior | → [Tactical Plan](#tactical-plan) |
 | **Non-trivial feature** | New screen, new state layer, multiple components, new API integration | → [Feature Plan](#feature-plan) |
