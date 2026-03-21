@@ -79,12 +79,236 @@ Detect signals: "new app", "new project", "from scratch", "start a new", "build 
 
 ---
 
+## Project Context Detection
+
+Runs once per session — before the first Tactical Plan or Feature Plan. Results are stored in session memory and reused for every subsequent task. Never re-run if already completed this session.
+
+This step is silent. No output to the user. Tool calls only.
+
+---
+
+### What to detect
+
+**1. Installed packages**
+
+```bash
+cat $KITTEN_PROJECT_DIR/package.json 2>/dev/null
+# Monorepo: also check workspace roots
+cat $KITTEN_PROJECT_DIR/apps/*/package.json 2>/dev/null
+cat $KITTEN_PROJECT_DIR/packages/*/package.json 2>/dev/null
+```
+
+Read `dependencies` and `devDependencies`. Store the full package list in session memory.
+
+**Why:** never suggest a library that isn't installed. Never suggest installing a library that's already there. If the project has `@gorhom/bottom-sheet`, use it — don't suggest `react-native-modal`. If it has `zustand`, don't propose `jotai`.
+
+---
+
+**2. Theme and design tokens**
+
+Look for theme files in common locations:
+
+```bash
+find $KITTEN_PROJECT_DIR -maxdepth 6 \
+  -name "theme.style.ts" -o \
+  -name "theme.ts" -o \
+  -name "variables.style.ts" -o \
+  -name "tokens.ts" -o \
+  -name "colors.ts" \
+  2>/dev/null | head -10
+```
+
+Read the first match. Store the exported token names (e.g. `theme.bodyBgColor`, `theme.btnPrimaryBg`) in session memory.
+
+**Why:** any UI code must use the project's actual token names. Inventing token names or hardcoding hex values are both wrong. Knowing the shape of the theme upfront means every generated component uses the right tokens from the start.
+
+---
+
+**3. Folder structure and architecture pattern**
+
+```bash
+ls $KITTEN_PROJECT_DIR/src 2>/dev/null
+ls $KITTEN_PROJECT_DIR/lib 2>/dev/null
+ls $KITTEN_PROJECT_DIR/library 2>/dev/null
+ls $KITTEN_PROJECT_DIR/app 2>/dev/null
+ls $KITTEN_PROJECT_DIR/apps 2>/dev/null
+ls $KITTEN_PROJECT_DIR/packages 2>/dev/null
+```
+
+Identify which architecture pattern is in use:
+
+| Signal | Pattern |
+|--------|---------|
+| `lib/` + `app/` at root | Lib-style standalone (Expo Router) |
+| `library/` + `app/` at root | Library-style standalone |
+| `apps/` + `packages/` at root | Turborepo monorepo |
+| `src/` + `components/` + `screens/` | Flat src structure |
+
+Store the detected pattern in session memory. This determines where new files go and how imports are structured.
+
+---
+
+**4. Import alias**
+
+```bash
+cat $KITTEN_PROJECT_DIR/tsconfig.json 2>/dev/null | grep -A2 '"paths"'
+cat $KITTEN_PROJECT_DIR/tsconfig.base.json 2>/dev/null | grep -A2 '"paths"'
+```
+
+Store the alias root (e.g. `@/`, `~/`, `@app/`). All generated imports must use the detected alias — never relative paths.
+
+---
+
+**5. Expo config and platform targets**
+
+```bash
+cat $KITTEN_PROJECT_DIR/app.json 2>/dev/null
+cat $KITTEN_PROJECT_DIR/app.config.ts 2>/dev/null
+cat $KITTEN_PROJECT_DIR/app.config.js 2>/dev/null
+```
+
+Extract and store:
+- **Expo SDK version** — gates which APIs are available and what's deprecated
+- **Platforms** (`ios`, `android`, `web`) — affects what's safe to use; web requires extra care with native-only APIs
+- **App slug and bundle identifiers** — relevant for EAS, deep linking, and push notification work
+
+**Why:** suggesting a deprecated API or a native-only module on a web-enabled project causes silent failures or build errors. SDK version determines the correct API surface.
+
+---
+
+**6. TypeScript config**
+
+```bash
+cat $KITTEN_PROJECT_DIR/tsconfig.json 2>/dev/null
+cat $KITTEN_PROJECT_DIR/tsconfig.base.json 2>/dev/null
+```
+
+Check `compilerOptions` for:
+- `strict` / `strictNullChecks` — on or off? Strict mode requires explicit null handling in all generated types
+- `strictFunctionTypes`, `noUncheckedIndexedAccess` — affects generated array access patterns
+- `baseUrl` — used alongside `paths` for alias resolution
+
+Store the strictness level. Generated types must match — loose types on a strict codebase will fail CI.
+
+---
+
+**7. Linting and formatting setup**
+
+```bash
+ls $KITTEN_PROJECT_DIR/.eslintrc* 2>/dev/null
+ls $KITTEN_PROJECT_DIR/eslint.config.* 2>/dev/null
+ls $KITTEN_PROJECT_DIR/biome.json 2>/dev/null
+ls $KITTEN_PROJECT_DIR/.prettierrc* 2>/dev/null
+ls $KITTEN_PROJECT_DIR/.husky 2>/dev/null
+ls $KITTEN_PROJECT_DIR/commitlint.config.* 2>/dev/null
+ls $KITTEN_PROJECT_DIR/.commitlintrc* 2>/dev/null
+```
+
+Store:
+- **Linter**: ESLint, Biome, or both
+- **Formatter**: Prettier, Biome, or none
+- **Commit hooks**: Husky present? Commitlint rules?
+
+**Why:** generated code must conform to the enforced rules. If Biome is the linter, don't suggest adding Prettier. If commitlint enforces `wip/hotfix` types, the committer must follow them. Wrong tooling suggestions fail on the first hook run.
+
+---
+
+**8. Test setup**
+
+```bash
+ls $KITTEN_PROJECT_DIR/jest.config.* 2>/dev/null
+ls $KITTEN_PROJECT_DIR/vitest.config.* 2>/dev/null
+cat $KITTEN_PROJECT_DIR/package.json 2>/dev/null | grep -A3 '"jest"'
+```
+
+Store:
+- **Test runner**: Jest, Vitest, or jest-expo preset
+- **Test file pattern**: `*.test.ts`, `*.spec.ts`, `__tests__/`?
+- **Transform setup**: jest-expo, babel-jest, ts-jest?
+
+**Why:** test file structure, import patterns, and mock setup differ between Jest and Vitest. Generating a Vitest test in a Jest project (or vice versa) produces non-running tests.
+
+---
+
+**9. Navigation root**
+
+```bash
+cat $KITTEN_PROJECT_DIR/app/_layout.tsx 2>/dev/null
+cat $KITTEN_PROJECT_DIR/App.tsx 2>/dev/null
+cat $KITTEN_PROJECT_DIR/src/App.tsx 2>/dev/null
+```
+
+Read the root layout. Identify:
+- Root navigator type: tab + stack, drawer + stack, pure stack?
+- Auth guard pattern: redirect on mount, slot-based, or conditional render?
+- Provider structure: what wraps the navigator (QueryClient, SafeArea, etc.)?
+
+**Why:** adding a new screen without knowing the root navigator shape produces integration code that doesn't match — wrong import path, wrong tab registration, missing provider wrapper.
+
+---
+
+**10. Monorepo package map** *(if monorepo detected)*
+
+```bash
+ls $KITTEN_PROJECT_DIR/packages/ 2>/dev/null
+ls $KITTEN_PROJECT_DIR/apps/ 2>/dev/null
+```
+
+For each `packages/` entry, check its `package.json` name and a brief `index.ts` scan to understand what it exports.
+
+Store the package map. Before creating a new utility, hook, or service — check if it already exists in a shared package. Before creating a new shared package — check the map for the right home.
+
+**Why:** monorepos accumulate duplicate code when engineers don't know what shared packages already export. The package map is the single source of truth for what's already available.
+
+---
+
+**11. Existing design patterns (passive — from codebase mapping)**
+
+During codebase mapping (Tactical step 2 / Feature "Before Writing the Plan" step 2), note the patterns already in use:
+
+- State management: Zustand, Redux, Context?
+- Data fetching: TanStack Query, SWR, raw fetch?
+- Navigation: Expo Router, React Navigation stack/tabs?
+- UI primitives: custom `lib/ui/`, Tamagui, NativeBase, Gluestack?
+- Component suffix conventions: `.component.tsx`, `.screen.tsx`, `.ui.tsx`?
+
+Store what's observed. Follow it — don't introduce a second pattern alongside an existing one.
+
+---
+
+### When to run
+
+- **First code task of the session** — always run before Tactical Plan step 1 or Feature Plan "Before Writing the Plan" step 1.
+- **Skip if already run** — results persist for the entire session. Don't re-detect unless the user explicitly changes project context.
+- **New project** — skip this step. `agents/project-bootstrap.md` handles context from scratch.
+
+---
+
+### How context informs planning
+
+| Detected context | How it's applied |
+|-----------------|-----------------|
+| Package list | Only suggest installed packages. Flag if a needed package is missing before proceeding. |
+| Theme tokens | Use exact token names in all generated UI code. Never hardcode colors or invent token names. |
+| Folder structure pattern | Place new files in the correct directory. Match file suffix conventions. |
+| Import alias | Use the detected alias in all import statements. Never use relative paths. |
+| Expo SDK + platforms | Stay within the available API surface. Flag native-only usage on web-enabled projects. |
+| TypeScript strictness | Match the project's type strictness. Strict project = explicit nulls, no implicit any. |
+| Linting setup | Conform to the enforced linter/formatter. Don't suggest tools that conflict with what's installed. |
+| Test setup | Match test runner, file pattern, and transform config. Generate tests that will actually run. |
+| Navigation root | Integrate new screens correctly — right navigator, right provider, right auth guard pattern. |
+| Monorepo package map | Check for existing shared logic before creating new utilities or packages. |
+| Existing patterns | Match state, data fetching, navigation, and UI conventions already in the codebase. |
+
+---
+
 ## Tactical Plan
 
 For any simple, self-contained task — a component change, a style fix, a prop rename, moving a UI element, adding a small behavior. No written plan output. No approval gate. The plan is internal — define the steps, then execute.
 
 **Internal sequence (always run before touching any file):**
 
+0. **Run Project Context Detection** — if not already done this session, run it now (silent).
 1. **Classify the change** — what exactly is changing? Where does it live?
 2. **Map the codebase:**
    - Read the target file(s) fully
@@ -137,6 +361,7 @@ One question, one decision. Do not ask twice.
 
 ### Before Writing the Plan
 
+0. **Run Project Context Detection** — if not already done this session, run it now (silent).
 1. **Understand the request deeply** — re-read it. Understand intent, constraints, and context.
 2. **Map the existing codebase** (same as Tactical Plan step 2) — read related files, find all call sites, trace delegation chains, identify render sites. Never plan a modification without reading the existing code first.
 3. **Fetch `references/bappi/thinking.md`** — Bappi's problem decomposition sequence and architecture decision process. The plan must follow this flow.
