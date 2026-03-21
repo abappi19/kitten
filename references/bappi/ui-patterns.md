@@ -1,6 +1,6 @@
 ---
 title: Bappi's UI Patterns
-description: Button, Text, Layout primitives, theme token structure, React Navigation theme integration, flash messages, cross-platform Tamagui toast, Expo image usage, and FlashList for performant lists.
+description: Button, Text, Layout primitives, theme token structure, React Navigation theme integration, flash messages, cross-platform Tamagui toast, Expo image usage, FlashList for performant lists, and BottomSheetModal wrapper patterns.
 type: reference
 ---
 
@@ -304,4 +304,118 @@ import { Image } from "react-native";
 // ✅ GOOD
 import { Image } from "expo-image";
 <Image source={{ uri: url }} placeholder={blurhash} contentFit="cover" />
+```
+
+---
+
+## BottomSheetModal Wrapper
+
+When `@gorhom/bottom-sheet`'s `BottomSheetModal` is used in more than one place — extract it into a shared wrapper. Two levels: a generic base and a domain-specific extension for sheets that host gesture-driven content.
+
+### Rule: no defaults without a reason
+
+Never add default prop values to a wrapper unless there is a specific, documented reason — a known conflict, a required behavior, a production bug. Call sites should control their own behavior. A default that exists "just in case" is a hidden assumption that will break the next engineer who uses the wrapper for something different.
+
+---
+
+### Generic wrapper — `AppBottomSheetModal`
+
+A thin `forwardRef` wrapper. No props locked — call sites control everything.
+
+```tsx
+// lib/ui/app-bottom-sheet-modal.ui.tsx
+import BottomSheet, {
+  BottomSheetModal,
+  type BottomSheetModalProps,
+} from "@gorhom/bottom-sheet";
+import { forwardRef } from "react";
+
+type AppBottomSheetModalProps = BottomSheetModalProps & {
+  children: React.ReactNode;
+};
+
+export const AppBottomSheetModal = forwardRef<
+  BottomSheet,
+  AppBottomSheetModalProps
+>(({ children, ...props }, ref) => (
+  <BottomSheetModal ref={ref} {...props}>
+    {children}
+  </BottomSheetModal>
+));
+
+AppBottomSheetModal.displayName = "AppBottomSheetModal";
+```
+
+**Use `forwardRef` —** imperative methods (`present`, `dismiss`, `snapToIndex`) are called via ref. Skipping it breaks every call site that needs them.
+
+---
+
+### Domain-specific extension — gesture-locked sheets
+
+When the sheet hosts a drawing canvas, map, or any gesture-driven UI — the sheet's internal pan gesture competes with the content's gesture handler. On iOS, the sheet wins the race and vertical drags scroll the sheet instead of the content.
+
+Fix: lock `enableContentPanningGesture={false}` and `enablePanDownToClose={false}` into a contextual wrapper. Name it after the domain it serves.
+
+```tsx
+// lib/ui/annotation-sheet-modal.ui.tsx
+import BottomSheet, {
+  BottomSheetModal,
+  type BottomSheetModalProps,
+} from "@gorhom/bottom-sheet";
+import { forwardRef } from "react";
+
+type AnnotationSheetModalProps = Omit<
+  BottomSheetModalProps,
+  "enableContentPanningGesture" | "enablePanDownToClose"
+> & {
+  children: React.ReactNode;
+};
+
+export const AnnotationSheetModal = forwardRef<
+  BottomSheet,
+  AnnotationSheetModalProps
+>(({ children, ...props }, ref) => (
+  <BottomSheetModal
+    ref={ref}
+    enableContentPanningGesture={false}
+    enablePanDownToClose={false}
+    {...props}
+  >
+    {children}
+  </BottomSheetModal>
+));
+
+AnnotationSheetModal.displayName = "AnnotationSheetModal";
+```
+
+**`enableContentPanningGesture={false}` —** prevents the sheet's gesture handler from intercepting pan gestures inside the content area. Domain-specific — only lock this when gesture pass-through is required.
+
+**`enablePanDownToClose={false}` —** removes drag-to-dismiss. Combined with the above, the sheet becomes fully inert to touch.
+
+**`Omit` the locked props —** call sites cannot accidentally override them. The contract is enforced at the type level.
+
+---
+
+### Naming convention
+
+| Sheet type | File | Export name |
+|-----------|------|-------------|
+| Generic — reused across features | `lib/ui/app-bottom-sheet-modal.ui.tsx` | `AppBottomSheetModal` |
+| Gesture-locked — canvas, map, etc. | `lib/ui/annotation-sheet-modal.ui.tsx` | `AnnotationSheetModal` |
+
+The domain name signals the intent. `App`-prefixed = no locked behavior. Named = opinionated defaults for a specific use case.
+
+---
+
+### Export via barrel
+
+```ts
+// lib/ui/index.ts
+export * from "./app-bottom-sheet-modal.ui";
+export * from "./annotation-sheet-modal.ui";
+```
+
+```ts
+// Usage
+import { AppBottomSheetModal, AnnotationSheetModal } from "@/lib/ui";
 ```
