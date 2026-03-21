@@ -585,12 +585,16 @@ Use the first source that works. Do not mix sources.
 
 ### Step 3 — Ask one by one
 
-For each item, one focused clarifying question.
+**Output the first observation only. Stop. Do not mention the remaining observations.**
 
-> *"[Observation restatement]. [Clarifying question]?"*
+State the first observation, ask one focused clarifying question, then wait.
+
+> *"[First observation restatement]. [Clarifying question]?"*
 > **[Y]** Yes, that's right **[N]** Let me clarify
 
-Wait for confirmation before moving to the next item.
+After receiving the user's response — and only then — move to the next observation. Repeat the same pattern: one observation, one question, stop.
+
+**Hard rule: never output more than one observation's question in a single response. The next observation is invisible until the current one is resolved.**
 
 ### Step 4 — Generate refinement spec
 
