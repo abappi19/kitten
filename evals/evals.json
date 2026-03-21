@@ -102,13 +102,13 @@
       "id": 8,
       "eval_name": "bug-report-implementation",
       "prompt": "Phase 7 — Fix Checklist Image Persistence After Annotation. Files: features/report/components/checklist-item-card.component.tsx and features/report/components/checklist-image-upload.component.tsx. The bug: after opening the annotator via the pencil button, annotating an image and saving, the annotated image disappears. Root cause: a useEffect in checklist-item-card.component.tsx resets local images state from checklist.media whenever checklist prop updates. Fix: add a guard to the useEffect — compare incoming checklist.media URL array against current local images URL array, only update if meaningfully different.",
-      "expected_output": "CX_R13 followed, files read, fix implemented directly — no wip/, no draft, no approval gate",
+      "expected_output": "CX_R13 followed, files read, tactical plan produced with show-and-confirm gate before applying",
       "expectations": [
         "Response fetches agents/_overview.md and references/_overview.md before acting (CX_R13)",
         "Response reads the actual source files before writing any fix",
-        "Response implements the fix directly in the file — no wip/ draft created",
-        "Response does not ask for approval before making the edit",
-        "Fix adds a guard condition to the useEffect that prevents overwrite when local state has newer URLs",
+        "Response does not create a wip/ draft — no wip/ file written",
+        "Response presents what will change and asks for [A]/[E]/[S] confirmation before applying — this is the planner show-and-confirm gate",
+        "Response describes a guard condition on the useEffect that prevents overwrite when local state has newer URLs",
         "Response attributes approach to Bappi, not to Kitten"
       ]
     },
@@ -152,6 +152,72 @@
         "Response presents what will change, in which file, and why — before touching anything",
         "Response asks for confirmation with shortcut keys [A]/[E]/[S] and waits — does not apply the fix unilaterally",
         "Response attributes the approach to Bappi"
+      ]
+    },
+    {
+      "id": 13,
+      "eval_name": "debugger-adversarial-hypothesis",
+      "prompt": "the submit button sometimes stops working after the user navigates back and returns to the form. it doesn't happen every time — only after going to the product detail screen and coming back.",
+      "expected_output": "Debugger traces the flow, then surfaces either a confirmed primary diagnosis with an adversarial alternative considered, or both hypotheses with confidence notes",
+      "expectations": [
+        "Response fetches agents/_overview.md and references/_overview.md before acting (CX_R13)",
+        "Response routes to the debugger agent",
+        "Response traces the navigation lifecycle and handler binding — does not jump directly to a fix",
+        "Response does not present a single guess as definitive root cause without acknowledging the intermittent nature",
+        "Response surfaces at least two plausible causes (e.g. stale closure on handler, navigation focus lifecycle, screen caching) OR explicitly states why one is more likely than the other",
+        "Response does not write code immediately — follows the debugging sequence first",
+        "Response attributes the debugging approach to Bappi"
+      ]
+    },
+    {
+      "id": 14,
+      "eval_name": "ambiguous-request",
+      "prompt": "const filtered = items.filter(i => i.status === 'active') // for some reason it opened here",
+      "expected_output": "One clarifying question — no diagnosis, no code reading, no hypothesis (CX_R Ambiguous class)",
+      "expectations": [
+        "Response asks exactly one focused question about expected vs actual behavior",
+        "Response does not analyze or describe what the code does",
+        "Response does not form a hypothesis or guess at the bug",
+        "Response does not read call sites or trace data flow",
+        "Response does not suggest a fix or propose changes"
+      ]
+    },
+    {
+      "id": 15,
+      "eval_name": "storage-opinion",
+      "prompt": "should I use AsyncStorage or MMKV for storing user preferences in my React Native app?",
+      "expected_output": "Bappi's take: MMKV — fast, synchronous, typed. Attributed to Bappi, not Kitten.",
+      "expectations": [
+        "Response recommends MMKV over AsyncStorage",
+        "Response explains why (synchronous reads, performance, typed API)",
+        "Response attributes the recommendation to Bappi, not to Kitten",
+        "Response does not use 'I think' or 'I prefer' framing",
+        "Response does not list both options neutrally as equal choices"
+      ]
+    },
+    {
+      "id": 16,
+      "eval_name": "commit-request",
+      "prompt": "commit my changes",
+      "expected_output": "Planner routes to committer agent — no planning, no code written",
+      "expectations": [
+        "Response fetches agents/committer.md",
+        "Response does not enter the Tactical Plan or Feature Plan flow",
+        "Response does not ask clarifying questions about what the code does",
+        "Response follows the commit flow: reads staged changes, drafts message, confirms before committing"
+      ]
+    },
+    {
+      "id": 17,
+      "eval_name": "animation-library-opinion",
+      "prompt": "what animation library should I use in my Expo app?",
+      "expected_output": "Bappi's take: Reanimated — not the old Animated API. Attributed correctly.",
+      "expectations": [
+        "Response recommends React Native Reanimated",
+        "Response does not recommend the built-in Animated API as the primary choice",
+        "Response attributes the recommendation to Bappi",
+        "Response does not use first-person opinion framing",
+        "Response gives a reason — worklet-based, runs on UI thread, smooth gestures"
       ]
     },
     {
