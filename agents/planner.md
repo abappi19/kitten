@@ -23,7 +23,7 @@ Every user query starts here. Classify the intent before doing anything else.
 | **BMad** | user explicitly says "BMad", "party mode", "quick spec", or Step 17 of project-bootstrap | → fetch `agents/bmad-orchestrator.md` directly |
 | **New project** | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir | → [New Project](#new-project) |
 | **Simple / tactical** | Single change, clear scope, contained to one file or one behavior | → [Tactical Plan](#tactical-plan) |
-| **Non-trivial feature** | New screen, new state layer, multiple components, new API integration | → [Feature Plan](#feature-plan) |
+| **Non-trivial feature** | New screen, new state layer, multiple components, new API integration | → BMad Scope Check, then [Feature Plan](#feature-plan) |
 | **Observation / feedback** | "it works but…", "one thing I noticed", issues after a delivered feature | → [Observation Intake](#observation-intake-flow) |
 | **Debugging** | Error pasted, crash described, broken behavior explicitly stated | → fetch `agents/debugger.md` |
 
@@ -76,6 +76,67 @@ One question. Wait for the answer. Then re-classify and proceed.
 Detect signals: "new app", "new project", "from scratch", "start a new", "build a new X app", "create an X app", or no existing source files in `$KITTEN_PROJECT_DIR`.
 
 → Fetch `agents/project-bootstrap.md` and follow it completely. Skip everything else below.
+
+---
+
+## BMad Scope Check
+
+A single, reusable gate. Called from multiple entry points — never duplicated inline. Runs before writing any plan.
+
+---
+
+### Step 1 — Check if BMad is installed
+
+```bash
+ls $KITTEN_PROJECT_DIR/_bmad 2>/dev/null || \
+ls $KITTEN_PROJECT_DIR/.bmad 2>/dev/null || \
+ls $KITTEN_PROJECT_DIR/.claude/commands 2>/dev/null || \
+ls $KITTEN_PROJECT_DIR/bmad.config.* 2>/dev/null
+```
+
+If none resolve → `bmad_installed: false`. Skip the rest of this section entirely. Proceed directly to the plan.
+
+If any resolve → `bmad_installed: true`. Continue to Step 2.
+
+---
+
+### Step 2 — Evaluate scope
+
+Score the task against these signals:
+
+| Signal | Weight |
+|--------|--------|
+| Touches 3+ distinct layers (state + API + UI + navigation + auth) | High |
+| Requires a new module, new package, or new shared abstraction | High |
+| Significant architectural decision — reasonable engineers could choose differently | High |
+| Uncertainty about the right approach that benefits from structured exploration | Medium |
+| Refactor only, no new behavior | Skip BMad |
+| Scope is clear and contained to 1–2 files or one layer | Skip BMad |
+| User already said "no BMad" or "just do it" earlier in this session | Skip BMad — do not ask again |
+
+---
+
+### Step 3 — Offer or skip
+
+**If 1+ High signal or 2+ Medium signals:**
+
+> *"This looks like it would benefit from the full BMad workflow — it touches [briefly state why: e.g. 'new module with state, API, and navigation involved']. Want to run it through BMad?"*
+> **[B]** BMad workflow **[C]** Continue without BMad
+
+- **[B]** → fetch `agents/bmad-orchestrator.md`, hand off completely
+- **[C]** → store `bmad_declined: true` in session memory, proceed to the plan. Do not offer BMad again for this task.
+
+**If no signals met:** skip silently, proceed to the plan.
+
+---
+
+### Where this is called from
+
+| Entry point | When |
+|------------|------|
+| **Non-trivial feature** (classify table) | Immediately on entry, before writing any plan |
+| **Observation Intake** Step 5 | After spec is approved |
+| **Tactical Plan** Step 2 (codebase mapping) | If mapping reveals the task spans more layers than initially classified — escalate to BMad Scope Check before proceeding |
 
 ---
 
@@ -315,6 +376,7 @@ For any simple, self-contained task — a component change, a style fix, a prop 
    - Search for all call sites and imports of the affected component/function
    - Trace delegation chains — if the component has optional callback props, find every parent that provides them and read what they render
    - Find all render sites — the behavior may exist in more than one place
+   - **Scope escalation:** if mapping reveals the task spans more layers than initially classified (e.g. a "simple fix" that requires touching state + API + navigation) → run BMad Scope Check before proceeding
 3. **Define the implementation path** — what changes in what order? Are there multiple files?
 
 **— Investigation complete. Steps 4–5 begin a new phase. Do not merge with the output above. —**
@@ -338,26 +400,6 @@ The map step is non-negotiable even for "obvious" tasks. A task that looks like 
 ## Feature Plan
 
 For non-trivial features — new screens, new state, multiple components, API integration, significant architecture changes.
-
-### BMad or Lightweight Plan?
-
-**Offer BMad when:**
-- Multiple moving parts (screens, state, API, navigation all involved)
-- New module, new package, or significant architectural change
-- Uncertainty about approach that benefits from exploration
-
-> *"This looks like a feature that would benefit from the full BMad workflow. Want to run it through BMad?"*
-> **[B]** BMad workflow **[C]** Write a lightweight plan
-
-- **[B]** → fetch `agents/bmad-orchestrator.md`, hand off completely
-- **[C]** → proceed with lightweight plan below
-
-**Proceed directly with lightweight plan when:**
-- Scope is clear and contained (one screen, one hook, one service)
-- Refactor, not a new feature
-- User explicitly said "no BMad" or "just plan it"
-
-One question, one decision. Do not ask twice.
 
 ### Before Writing the Plan
 
@@ -493,9 +535,4 @@ Anything still unresolved. Omit if none.
 
 ### Step 5 — Orchestration decision
 
-**Offer BMad when spec has 3+ distinct change areas or spans multiple layers.**
-
-> **[B]** BMad workflow **[C]** Run it yourself
-
-- **[B]** → fetch `agents/bmad-orchestrator.md`, hand off the spec
-- **[C]** → fetch `agents/rule-finder.md`, implement step by step
+→ Run BMad Scope Check. If BMad is warranted and accepted, hand off the approved spec to `agents/bmad-orchestrator.md`. If declined or not warranted → fetch `agents/rule-finder.md` and implement step by step.
