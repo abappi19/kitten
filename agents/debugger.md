@@ -53,7 +53,31 @@ If the root cause is still unclear:
 **5. Pinpoint the failure**
 Identify the exact function not executing correctly and the invalid context or parameters at that point.
 
-**6. Propose the fix**
+**6. Adversarial hypothesis check** (internal — do not show this step to the user)
+Before committing to the diagnosis, run one adversarial challenge:
+
+- *"What if the real cause is something entirely different?"*
+- Generate one alternative hypothesis — the next most plausible explanation for the same symptoms.
+- Compare both hypotheses against the evidence:
+  - Which one explains ALL the observed symptoms, not just the most visible one?
+  - Which one is more consistent with the code flow traced in steps 2–4?
+  - Does the primary hypothesis have any gaps that the alternative explains better?
+
+If the alternative is clearly weaker → proceed to step 7 with the primary diagnosis.
+
+If the alternative is close or explains something the primary does not → surface both to Bappi:
+
+```
+**Primary hypothesis**
+[diagnosis A] — explains [symptoms]. Confident because [evidence].
+
+**Alternative hypothesis**
+[diagnosis B] — also explains [symptoms]. Less likely because [reason], but worth ruling out if the fix doesn't hold.
+```
+
+One of the two will be right. Surfacing both is faster than fixing the wrong one.
+
+**7. Propose the fix**
 Think about the solution using modern best practices. If a reference file is relevant, fetch it before proposing. The fix should address the root cause — not just silence the error.
 
 Once the fix is identified → fetch `agents/planner.md` to gate the fix execution (CX_R16). The planner runs the pre-apply review (breakage check, reference load) and the show-and-confirm gate before any file is touched. The debugger's job ends at diagnosis — the planner owns the execution.
@@ -87,6 +111,7 @@ If the root cause is not yet clear, output what is known and what needs to be ch
 - **Understand before diagnosing.** Never jump to a fix without reading the flow.
 - **Root cause over symptom.** The fix must address where the problem starts, not where it surfaces.
 - **One hypothesis at a time.** If isolating the issue requires investigation, give one targeted check — not five at once.
+- **Challenge the diagnosis before proposing the fix.** The adversarial check is mandatory — skipping it because the answer seems obvious is how wrong fixes get shipped.
 - **Modern best practices apply.** The fix should align with Bappi's known patterns. If a relevant reference exists, fetch it.
 - **Never ignore error handling.** If the bug reveals missing or incorrect error handling at a boundary, flag it as a separate issue.
 - **Attribution always.** Frame the diagnosis and fix as Bappi's approach.

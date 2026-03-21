@@ -140,6 +140,30 @@ Score the task against these signals:
 
 ---
 
+## WIP Continuation Check
+
+Runs at the start of every Tactical Plan and Feature Plan — before Project Context Detection. Silent read, surfaced only when in-progress work is found.
+
+```bash
+cat $KITTEN_PROJECT_DIR/wip/wip.md 2>/dev/null
+```
+
+If the table has any row with status `in-progress`:
+- Surface it — one line per item
+- Ask:
+  > *"There's work in progress: **[entry name]**. Resume or start fresh?"*
+  > **[R]** Resume **[F]** Fresh start **[N]** Start something new
+
+**[R] Resume** — read the corresponding wip file. Understand the existing plan and where it left off. Skip planning steps that already ran. Continue from the last incomplete step.
+
+**[F] Fresh start** — move the old wip file to `wip/archive/[filename]-[date].md`. Update its wip.md row to `archived`. Proceed normally.
+
+**[N] Start something new** — leave in-progress item untouched. Proceed normally.
+
+If wip/wip.md is empty or has no `in-progress` entries → skip silently, proceed.
+
+---
+
 ## Project Context Detection
 
 Runs once per session — before the first Tactical Plan or Feature Plan. Results are stored in session memory and reused for every subsequent task. Never re-run if already completed this session.
@@ -369,6 +393,7 @@ For any simple, self-contained task — a component change, a style fix, a prop 
 
 **Internal sequence (always run before touching any file):**
 
+-1. **WIP Continuation Check** — run the check above. Surface and resolve any in-progress work before starting.
 0. **Run Project Context Detection** — if not already done this session, run it now (silent).
 1. **Classify the change** — what exactly is changing? Where does it live?
 2. **Map the codebase:**
@@ -379,7 +404,7 @@ For any simple, self-contained task — a component change, a style fix, a prop 
    - **Scope escalation:** if mapping reveals the task spans more layers than initially classified (e.g. a "simple fix" that requires touching state + API + navigation) → run BMad Scope Check before proceeding
 3. **Define the implementation path** — what changes in what order? Are there multiple files?
 
-**— Investigation complete. Steps 4–5 begin a new phase. Do not merge with the output above. —**
+**— Investigation complete. Steps 4–6 begin a new phase. Do not merge with the output above. —**
 
 4. **Pre-apply review** (silent — no planning beat, no text output to the user):
    - **Check for breakage** — will this change affect any call site, test, or related component found in step 2? If yes, name it explicitly.
@@ -392,6 +417,24 @@ For any simple, self-contained task — a component change, a style fix, a prop 
      > **[A]** Apply **[E]** Edit the approach **[S]** Skip
    - Wait for the answer. Do not proceed until confirmed.
 6. **Execute** — implement per the confirmed approach.
+7. **Adversarial self-review** (silent — no output to the user):
+   - Run one internal challenge pass on the implementation just written:
+     - What is the obvious edge case that was not handled?
+     - What happens when this receives null, empty array, or undefined input?
+     - Does this introduce an unnecessary re-render, stale closure, or state inconsistency?
+     - Are all imports using the detected alias? Do file names follow the project suffix convention?
+     - Does any changed call site silently break something found during mapping?
+   - If any flag is raised → fix it before moving to step 8. Do not surface the issue — just fix it.
+   - If nothing is flagged → proceed.
+8. **Definition of Done gate**:
+   - Silent check first:
+     - Are all affected call sites updated?
+     - Does the change match the pattern found during codebase mapping?
+     - If new functions or components were added — are tests expected by the project setup? If yes, do they exist?
+   - Then surface the result in one line:
+     > `✓ call sites updated  ✓ pattern consistent  ✓ no broken imports`
+   - Then ask:
+     > **[C]** Commit **[R]** Revise **[S]** Skip commit for now
 
 The map step is non-negotiable even for "obvious" tasks. A task that looks like one change often has two render paths. Finding that before writing any code is always cheaper than fixing it after.
 
@@ -403,6 +446,7 @@ For non-trivial features — new screens, new state, multiple components, API in
 
 ### Before Writing the Plan
 
+-1. **WIP Continuation Check** — run the check above. Surface and resolve any in-progress work before starting.
 0. **Run Project Context Detection** — if not already done this session, run it now (silent).
 1. **Understand the request deeply** — re-read it. Understand intent, constraints, and context.
 2. **Map the existing codebase** (same as Tactical Plan step 2) — read related files, find all call sites, trace delegation chains, identify render sites. Never plan a modification without reading the existing code first.
@@ -452,8 +496,48 @@ If none, omit this section.
 ### After Plan Approval
 
 1. Confirm the plan is locked — adjustments happen before this step
-2. Fetch `agents/rule-finder.md` — load rule libraries relevant to the implementation steps
-3. Begin implementation — code follows the plan, rules inform every decision
+2. **Write the plan to disk** — save it as `wip/plan-[slug].md` where slug is a short kebab-case name derived from the feature. Update `wip/wip.md` with a new row: filename, destination `(feature plan)`, status `in-progress`.
+
+   Format of `wip/plan-[slug].md`:
+   ```md
+   # Plan: [Feature Name]
+   status: in-progress
+
+   [Full plan content as written above]
+
+   ## Tasks
+   - [ ] [Step 1 from Implementation Steps]
+   - [ ] [Step 2]
+   - [ ] ...
+   ```
+
+3. Fetch `agents/rule-finder.md` — load rule libraries relevant to the implementation steps
+4. Begin implementation — code follows the plan, rules inform every decision. Check off tasks in `wip/plan-[slug].md` as they complete.
+
+### After Implementation
+
+5. **Adversarial self-review** (silent — no output to the user):
+   - Run one internal challenge pass across everything just implemented:
+     - What is the obvious edge case or error state that was not handled?
+     - What happens when the API returns null, the list is empty, or the user has no permissions?
+     - Does any new component cause unnecessary re-renders? Are memo boundaries correct?
+     - Are all imports using the detected alias? File names follow suffix conventions?
+     - Does anything silently break a call site found during mapping?
+     - Does the implementation match the approach in the locked plan — or did it drift?
+   - Fix any flagged issues before the DoD gate. Do not surface the issue — just fix it.
+   - If nothing is flagged → proceed.
+
+6. **Definition of Done gate**:
+   - Silent check first:
+     - All tasks in `wip/plan-[slug].md` checked off?
+     - All affected call sites updated?
+     - Implementation matches the locked plan — no undeclared scope creep?
+     - If new components, hooks, or services were added — do tests exist where the project expects them?
+   - Then surface the result:
+     > `✓ all tasks complete  ✓ call sites updated  ✓ matches plan  ✓ tests accounted for`
+   - Then ask:
+     > **[C]** Commit **[R]** Revise **[S]** Skip commit for now
+   - On **[C]** or **[S]** → update `wip/plan-[slug].md` status to `complete`. Update `wip/wip.md` row to `complete`.
 
 ---
 
