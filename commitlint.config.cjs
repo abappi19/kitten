@@ -7,42 +7,15 @@ module.exports = {
       2,
       'always',
       [
-        // ── Modes ──────────────────────────────────────────────
-        'normal-mode',       // changes that affect normal-mode behavior
-        'contributor-mode',  // changes that affect contributor-mode behavior
-
-        // ── Agents ─────────────────────────────────────────────
-        'agents',            // generic multi-agent change
-        'planner',
-        'debugger',
-        'committer',
-        'code-reviewer',
-        'rule-finder',
-        'session-boot',
-        'identity',
-        'bmad-orchestrator',
-        'project-bootstrap',
-        'self-eval',
-        'description-optimizer',
-
-        // ── Reference libraries ─────────────────────────────────
-        'refs',                    // generic reference change
-        'react-best-practices',
-        'react-native-skills',
-        'composition-patterns',
-        'bappi',                   // references/bappi/ profile files
-        'kitten',                  // references/kitten/ persona files
-
-        // ── Skill infrastructure ────────────────────────────────
-        'rules',     // CRITICAL.md / MAP.md
-        'scripts',   // k_load.py and other scripts
-        'config',    // config.json / config.template.json
-        'bmad',      // _bmad/ installation and orchestration
-
-        // ── Project tooling ─────────────────────────────────────
-        'evals',     // evals.json and eval runner
-        'docs',
-        'ci',
+        'normal-mode',      // changes that affect normal-mode behavior
+        'contributor-mode', // changes that affect contributor-mode behavior
+        'agents',           // any agent file change
+        'refs',             // any reference library change
+        'rules',            // CRITICAL.md / MAP.md
+        'evals',            // evals.json and eval runner
+        'scripts',          // k_load.py and other scripts
+        'config',           // config.json / config.template.json
+        'ci',               // commitlint, husky, tooling
       ],
     ],
 
