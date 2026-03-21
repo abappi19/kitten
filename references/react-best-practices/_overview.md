@@ -114,6 +114,14 @@ Run side effects triggered by user actions in event handlers, not state + useEff
 **Impact:** HIGH
 Define components at module level — defining inside other components causes remount on every parent render.
 
+### rerender-split-combined-hooks.md
+**Impact:** MEDIUM
+Split hooks containing multiple independent tasks with different deps into separate hooks — prevents recomputation of unrelated work when one dependency changes.
+
+### rerender-use-deferred-value.md
+**Impact:** MEDIUM
+Use useDeferredValue to keep input responsive when user input triggers expensive computation or renders.
+
 ### rerender-simple-expression-in-memo.md
 **Impact:** LOW-MEDIUM
 Don't wrap simple boolean/number/string expressions in useMemo — the overhead exceeds the benefit.
