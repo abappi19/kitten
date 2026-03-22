@@ -85,6 +85,27 @@ The content of `_bmad/` is the source of truth. Never rely on hardcoded knowledg
 
 ---
 
+## Session Resume Check — Runs Immediately After Step 1
+
+Before invoking bmad-help or presenting any cycle options, check for an existing session state file:
+
+```bash
+cat {outputPath}/kitten-session.md 2>/dev/null
+```
+
+**If the file exists and `cycle` is set:**
+- Read it fully
+- Resume from `currentStep` — skip Step 2 (bmad-help) and Step 3 (cycle selection) entirely
+- Jump directly to Step 4 (Drive the Workflow) at the stored `currentStep`
+- Do not ask the user which cycle to use — it is already known
+
+**If the file does not exist or `cycle` is missing:**
+- Continue to Step 2 normally
+
+This check is non-negotiable. Never ask for cycle selection when a session state already has a cycle set.
+
+---
+
 ## Step 2 — Load bmad-help
 
 Invoke the bmad-help skill via the Skill tool:
@@ -95,11 +116,7 @@ Invoke the bmad-help skill via the Skill tool:
 
 (Find the exact command name in `bmad-help.csv` — never hardcode it.)
 
-bmad-help reads the output directory, detects what phase the project is in, and returns what comes next. Read its output.
-
-**If session state file exists:** Read it. Resume from `currentStep`. Skip cycle selection — cycle is already stored.
-
-**If no session state:** Continue to Step 3.
+bmad-help reads the output directory, detects what phase the project is in, and returns what comes next. Read its output. Continue to Step 3.
 
 ---
 
@@ -125,7 +142,7 @@ One question. User answers.
 
 ## Step 4 — Drive the Workflow
 
-After cycle selection, this agent drives the workflow.
+After cycle selection (or on resume), this agent drives the workflow.
 
 **At the start of every step:**
 1. Read the session state file — confirm current position
@@ -260,3 +277,4 @@ After each BMad phase completes:
 - **Party mode before applying — always.** Gate 2 is non-negotiable. Run it via Skill tool, don't ask permission.
 - **Quick dev runs as a BMad skill — always.** Gate 3 is non-negotiable.
 - **Pause for domain decisions, not workflow mechanics.** Workflow mechanics are this agent's job.
+- **Never ask for cycle selection when session state already has a cycle.** Session Resume Check is non-negotiable.
