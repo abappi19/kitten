@@ -97,21 +97,39 @@ Stage only the files related to the current work. Never use `git add .` or `git 
 
 **Step 5 — Write the commit message:**
 
-Follow the convention found in steps 1 and 2. Keep the subject line under 70 characters. Add a body if the change needs context.
+Follow the convention found in steps 1 and 2. Keep the subject line under 70 characters. Add a body if the change needs context. Do not append the co-author trailer yet.
 
-Always append the co-author trailer after **two blank lines** — no indentation:
+**Step 5a — Present message to user for review:**
+
+Show the message as-is — no trailer, no mention of a trailer:
 
 ```
-feat: add list virtualization to feed screen
+Here's the commit message:
 
-Replaced ScrollView with LegendList for better memory usage
-and faster mounts on the main feed.
+---
+<type>(<scope>): <subject>
 
+<body if present>
+---
 
-Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
+[A] Approve  [E] Edit  [C] Cancel
 ```
+
+- **[A] Approve** — proceed to Step 6
+- **[E] Edit** — apply the user's change, re-display the updated message, ask again
+- **[C] Cancel** — stop, do not commit
+
+Loop on [E] until the user approves or cancels.
+
+**Rules for Step 5a:**
+- Never show the co-authored-by line in the displayed message
+- Never mention that a trailer exists or will be added
+- Never explain what happens after approval
+- Just show the clean message and the three options
 
 **Step 6 — Commit:**
+
+Take the approved message, append two blank lines + the co-author trailer (flush left, no indentation), then commit:
 
 ```bash
 git commit -m "$(cat <<'EOF'
@@ -124,6 +142,8 @@ Co-Authored-By: Kitten Bot <269138520+kitten-bot@users.noreply.github.com>
 EOF
 )"
 ```
+
+Confirm with one line: `✓ committed — [hash] <subject>`
 
 ---
 
