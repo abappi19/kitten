@@ -414,8 +414,9 @@ For any simple, self-contained task — a component change, a style fix, a prop 
    - Output `planning next move...` as a standalone line first. Nothing else on that line.
    - Then on a new line: present what will change, in which file(s), and why. One short paragraph. Intent, approach, and any risk — no code dump.
    - Then ask:
-     > **[A]** Apply **[E]** Edit the approach **[S]** Skip
+     > **[A]** Apply **[V]** Deep Review **[E]** Edit the approach **[S]** Skip
    - Wait for the answer. Do not proceed until confirmed.
+   - **[V]** → run the [Deep Review](#deep-review) panel, then re-present this confirmation prompt.
 6. **Execute** — implement per the confirmed approach.
 7. **Adversarial self-review** (silent — no output to the user):
    - Run one internal challenge pass on the implementation just written:
@@ -511,6 +512,7 @@ If none, omit this section.
    - [ ] ...
    ```
 
+2a. **Deep Review gate** — before loading rule-finder or writing any code, run the [Deep Review](#deep-review) panel. This is the last checkpoint before implementation. After it completes (or user skips), continue to step 3.
 3. Fetch `agents/rule-finder.md` — load rule libraries relevant to the implementation steps
 4. Begin implementation — code follows the plan, rules inform every decision. Check off tasks in `wip/plan-[slug].md` as they complete.
 
@@ -624,3 +626,101 @@ Anything still unresolved. Omit if none.
 ### Step 5 — Orchestration decision
 
 → Run BMad Scope Check. If BMad is warranted and accepted, hand off the approved spec to `agents/bmad-orchestrator.md`. If declined or not warranted → fetch `agents/rule-finder.md` and implement step by step.
+
+---
+
+## Deep Review
+
+Runs before implementation. Surfaces risk, edge cases, and false assumptions while changes are still cheap. Called from Tactical Plan step 5 (`[V]`) and Feature Plan step 2a.
+
+---
+
+### Complexity Assessment
+
+Score the plan silently before presenting anything:
+
+| Signal | Weight |
+|--------|--------|
+| Implementation steps > 5 | High |
+| Touches 3+ distinct layers (state + API + UI + navigation + auth) | High |
+| Concurrent operations present (offline, optimistic updates, real-time, queue) | High |
+| Multiple screens or multiple status flows | Medium |
+| External API or type dependencies > 3 | Medium |
+| Single file, clear scope, no state involved | Low |
+
+**HIGH** = 1+ High signal or 2+ Medium signals → auto-run (no halt)
+**LOW** = none of the above → show menu, wait for user
+
+---
+
+### Techniques
+
+1. **Pre-Mortem** — It's 2 weeks from now and this shipped broken. What went wrong?
+   Walk the most likely failure scenarios. Work backwards to find what to prevent now.
+
+2. **Edge Case Sweep** — Systematically walk every boundary condition and state transition:
+   empty states, null inputs, concurrent actions, permission edges, network failures,
+   offline mode, every branch in the logic.
+
+3. **Dependency Audit** — Trace every external dependency in the plan (backend endpoints,
+   query response shapes, exported types, third-party services). Verify each assumption
+   explicitly — does that API actually return that shape? Is that type exported from
+   that module?
+
+4. **User Journey Walkthrough** — Step through the user's exact tap-by-tap flow for
+   each status and scenario, from first entry point to every exit state — as if doing
+   it live on device.
+
+5. **Conflict Matrix** — Map interactions between all concurrent features in the plan
+   (offline queue, optimistic updates, auto-complete, publish, real-time sync). Identify
+   race conditions, state conflicts, and ordering assumptions.
+
+6. **Full Deep Review** — Run all five sequentially. Recommended for any feature
+   touching state + API + navigation, or with concurrent operations.
+
+---
+
+### Display Format
+
+```
+**Deep Review**
+Before implementing — takes 2 minutes, saves hours.
+
+1. Pre-Mortem — "It shipped broken. What went wrong?"
+2. Edge Case Sweep — Every boundary and state transition
+3. Dependency Audit — Every external dependency, verified
+4. User Journey Walkthrough — Tap-by-tap through the real flow
+5. Conflict Matrix — Race conditions between concurrent features
+6. Full Deep Review — All five sequentially
+
+[x] Skip — implement now
+
+Choose 1–6 or [x]:
+```
+
+---
+
+### Execution
+
+**LOW complexity:** present the menu above. HALT. Wait for user selection.
+
+**HIGH complexity:** do not halt at the menu. Announce and auto-run:
+
+- Concurrent operations detected → run **1, 5, 2** (Pre-Mortem, Conflict Matrix, Edge Case Sweep)
+- Heavy external dependencies → run **3, 1, 2** (Dependency Audit, Pre-Mortem, Edge Case Sweep)
+- Multi-screen / multi-status flow → run **4, 1, 2** (User Journey, Pre-Mortem, Edge Case Sweep)
+- Default complex → run **1, 2, 4** (Pre-Mortem, Edge Case Sweep, User Journey)
+
+Announce before running:
+> *"This plan is complex — running the most relevant deep-review techniques automatically: [names]. You can stop anytime."*
+
+**For each technique (auto or user-selected):**
+1. Apply it to the current plan content
+2. Present findings clearly
+3. Ask: "Apply findings to the plan? [Y] Yes [N] No"
+4. If Yes: update the plan; if No: discard and continue
+
+For option **6**: run techniques 1–5 in sequence.
+For user-selected single number: run that one, ask to apply, return to menu.
+
+After all complete: return to the calling confirmation prompt.
