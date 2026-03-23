@@ -1,6 +1,6 @@
 ---
 title: Bappi's CI/CD Patterns
-description: EAS build profiles, GitHub Actions for mobile builds, Jenkins for backend microservice deployments, release-please, and the branch-to-environment mapping.
+description: EAS build profiles, GitHub Actions for mobile builds, EAS Workflows (.eas/workflows/*.yml) with expression syntax and trigger types, Jenkins for backend microservice deployments, release-please, and the branch-to-environment mapping.
 type: reference
 ---
 

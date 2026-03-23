@@ -1,6 +1,6 @@
 ---
 title: Bappi's Next.js & Web Patterns
-description: Next.js ISR patterns, OTT web architecture, Tamagui cross-platform integration, Tailwind setup, syncpack/knip for monorepo health, and web-specific service patterns.
+description: Next.js ISR patterns, OTT web architecture, Tamagui cross-platform integration, Tailwind setup, syncpack/knip for monorepo health, web-specific service patterns, Expo Router API routes (+api.ts), and EAS Hosting Cloudflare Workers constraints.
 type: reference
 ---
 

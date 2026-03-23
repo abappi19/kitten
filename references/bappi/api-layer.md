@@ -1,6 +1,6 @@
 ---
 title: Bappi's API Layer
-description: Custom FetchClient class with automatic token injection, 401/403 refresh intercept, exponential backoff, response parsing, and endpoint constant structure. Also covers the Axios apiClient pattern used in older projects.
+description: Custom FetchClient class with automatic token injection, 401/403 refresh intercept, exponential backoff, response parsing, TypeScript contract typing with generic methods and EndpointResponses map, and endpoint constant structure. Also covers the Axios apiClient pattern used in older projects.
 type: reference
 ---
 

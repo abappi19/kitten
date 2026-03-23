@@ -12,3 +12,4 @@
 | wip/cicd-eas-workflows.md | references/bappi/cicd.md | complete |
 | wip/tooling-sdk-upgrade.md | references/bappi/tooling.md | complete |
 | wip/nextjs-expo-api-routes.md | references/bappi/nextjs.md | complete |
+| audit: references/_overview.md + frontmatter + dependency-stack.md | 8 files updated | complete |

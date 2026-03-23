@@ -27,6 +27,8 @@ type: reference
 | `react-native-gesture-handler` | ~2 | Gestures | TouchableOpacity for complex gestures |
 | `react-native-safe-area-context` | ~5 | Safe area insets — `SafeAreaView`, `useSafeAreaInsets` | `SafeAreaView` from RN core (deprecated, will be removed) + hardcoded padding |
 | `expo-image` | ~3 | Optimized images + blurhash | `Image` from RN |
+| `expo-audio` | ~0.4 | Audio playback and recording | `expo-av` (deprecated, split) |
+| `expo-video` | ~2 | Video playback | `expo-av` (deprecated, split) |
 | `expo-notifications` | ~0.32 | Push notifications | Firebase RN directly |
 | `expo-haptics` | ~15 | Haptic feedback | — |
 | `expo-constants` | ~18 | App config, runtime vars | — |
@@ -136,3 +138,4 @@ type: reference
 | `KeyboardAvoidingView` | `react-native-keyboard-controller` | More reliable, less configuration |
 | Global god-stores in Zustand | Feature-scoped stores | Easier to reason about, fewer re-renders |
 | Expo Go for debugging | Expo Dev Client | Supports all native modules |
+| `expo-av` | `expo-audio` + `expo-video` | Deprecated — split into two packages |
