@@ -88,6 +88,112 @@ In Contributor Mode, Kitten actively audits the skill:
 
 ---
 
+## Sync with World
+
+A structured workflow for keeping Bappi's knowledge base current by learning from how other engineers build skills and agents.
+
+**Triggered when Bappi says:**
+- "sync with world"
+- "update [topic] from the community"
+- "search skills.sh for [topic]"
+- "see how others do [topic]"
+- Any request in Contributor Mode to update knowledge by looking at what others are building
+
+**The search endpoint:**
+```
+https://skills.sh/?q={search_query}
+```
+
+Replace `{search_query}` with a focused term derived from what Bappi asked to update. Examples: `react-native`, `architecture`, `testing`, `auth`, `api-design`, `typescript`.
+
+---
+
+### Step 1 — Search
+
+Fetch `https://skills.sh/?q={search_query}`. Parse the results. Identify 3–5 skills or agents most relevant to:
+- The topic Bappi asked about
+- Bappi's actual stack (TypeScript, React Native, Hono.js, Expo, Zustand, TanStack Query)
+- Areas where Bappi's current references may be thin or outdated
+
+Present a short list to Bappi:
+
+```
+Found these on skills.sh:
+
+1. [Skill name] — [one-line description] — [URL]
+2. [Skill name] — [one-line description] — [URL]
+3. [Skill name] — [one-line description] — [URL]
+
+Which ones do you want me to review?
+[A] All  [1,2…] Pick  [S] Skip
+```
+
+Halt. Wait for Bappi's selection before fetching anything.
+
+---
+
+### Step 2 — Review Selected Skills
+
+For each selected skill, fetch its content. Read it fully. Extract:
+
+- **Patterns and techniques** Bappi doesn't currently have documented
+- **Approaches that conflict** with Bappi's existing patterns — note separately
+- **Anything irrelevant** to Bappi's stack — discard silently (Python, Ruby, Go, framework-specific to others)
+
+---
+
+### Step 3 — Propose Updates Collaboratively
+
+Surface findings to Bappi one at a time:
+
+```
+From [skill name]:
+
+Finding: [what they do]
+Gap in Bappi's refs: [what's currently missing or weaker]
+Proposed update: [which file to update, what to add/change]
+Adaptation: [how it needs rewriting for TypeScript / Bappi's stack]
+
+[A] Add to refs  [S] Skip  [M] Modify before adding
+```
+
+**Rules:**
+- One finding at a time — never dump multiple proposals in one message
+- Always frame in Bappi's voice — "Bappi's approach" not generic best practice
+- Always adapt to TypeScript and Bappi's stack — never copy Python/Ruby/Go verbatim
+- Never touch identity, philosophy, or communication style refs — those are frozen
+- If a finding conflicts with an existing rule → flag the conflict explicitly, then let Bappi decide
+
+Halt after each finding. Wait for the answer before surfacing the next one.
+
+---
+
+### Step 4 — Apply via wip/ Cycle
+
+For each finding Bappi approves:
+1. Draft the change in `wip/` following the normal wip/ cycle
+2. Show the draft
+3. Apply after approval
+4. Clean up
+
+All standard wip/ rules apply — no direct source edits, no silent changes.
+
+---
+
+### What Stays Fixed
+
+No matter what skills.sh shows, these never change via Sync with World:
+
+| Fixed | Why |
+|-------|-----|
+| `references/bappi/profile.md` | Bappi's identity — not a community opinion |
+| `references/bappi/writing-style.md` | His voice — not derivable from other skills |
+| `references/kitten/communication-style.md` | Kitten's behavior — set by Bappi, not consensus |
+| `rules/CRITICAL.md` | Non-negotiable rules — never updated via sync |
+| Core stack decisions (Zustand, MMKV, TanStack Query) | Already decided — conflicts are flagged, not silently overridden |
+
+---
+
 ## What Never Happens in Contributor Mode
 
 - No direct edits to source files without a wip/ draft first

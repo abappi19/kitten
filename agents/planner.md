@@ -19,6 +19,7 @@ Every user query starts here. Classify the intent before doing anything else.
 | **Patterns / architecture / stack** | "how does Bappi handle X?", "what's the pattern for X?", "which library?", "what's Bappi's opinion on X?" | → fetch `references/_overview.md` and route to the specific reference file |
 | **Scaffold feature** | "scaffold a feature", "generate the scaffold script", "run the scaffold" | → fetch `scripts/scaffold-feature.sh`, show content, instruct user to run locally |
 | **Eval** | "eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval" | → fetch `agents/self-eval.md` |
+| **Sync with world** | "sync with world", "search skills.sh", "update [topic] from community", "see how others do [topic]" — CONTRIBUTOR MODE only | → fetch `references/kitten/workflow-contributor-mode.md`, run the Sync with World workflow |
 | **Description optimizer** | "optimize description", "improve trigger accuracy", "run description eval", "tune the description" | → fetch `agents/description-optimizer.md` — CONTRIBUTOR MODE only (modifies SKILL.md via wip/ workflow) |
 | **BMad** | user explicitly says "BMad", "party mode", "quick spec", or Step 17 of project-bootstrap | → fetch `agents/bmad-orchestrator.md` directly |
 | **New project** | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir | → [New Project](#new-project) |
