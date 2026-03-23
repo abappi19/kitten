@@ -188,6 +188,78 @@ queryClient.refetchQueries({ queryKey: queryKeys.myFeature.list(), exact: false 
 
 ---
 
+## useInfiniteQuery (Paginated Lists)
+
+Used for content feeds, search results, and any list that loads more on scroll.
+
+```ts
+export function useMyFeatureFeed() {
+    return useInfiniteQuery({
+        queryKey: queryKeys.myFeature.feed(),
+        queryFn: ({ pageParam = 1 }) =>
+            fetchClient.get<MyFeaturePage>(`${Endpoints.myFeature.feed}?page=${pageParam}`),
+        initialPageParam: 1,
+        getNextPageParam: lastPage => lastPage.nextPage ?? undefined,
+    });
+}
+```
+
+`getNextPageParam` returns `undefined` when there are no more pages — TanStack Query sets `hasNextPage: false` automatically.
+
+### FlashList Integration
+
+Flatten `pages` before passing to `FlashList`:
+
+```ts
+const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useMyFeatureFeed();
+
+const items = useMemo(
+    () => data?.pages.flatMap(page => page.data) ?? [],
+    [data]
+);
+
+<FlashList
+    data={items}
+    renderItem={({ item }) => <ItemCard item={item} />}
+    estimatedItemSize={80}
+    onEndReached={() => { if (hasNextPage) fetchNextPage(); }}
+    onEndReachedThreshold={0.5}
+    ListFooterComponent={isFetchingNextPage ? <ActivityIndicator /> : null}
+/>
+```
+
+### Cache Update for Infinite Queries
+
+```ts
+queryClient.setQueryData(
+    queryKeys.myFeature.feed(),
+    (prev: InfiniteData<MyFeaturePage> | undefined) => {
+        if (!prev) return prev;
+        return {
+            ...prev,
+            pages: prev.pages.map(page => ({
+                ...page,
+                data: page.data.map(item =>
+                    item.id === updated.id ? updated : item
+                ),
+            })),
+        };
+    }
+);
+```
+
+### Expected Page Shape
+
+```ts
+interface MyFeaturePage {
+    data: MyFeatureItem[];
+    nextPage: number | null;  // null signals end of list
+    total: number;
+}
+```
+
+---
+
 ## Provider Ordering
 
 `QueryClientProvider` (or `PersistQueryClientProvider`) must wrap every component that calls a TanStack Query hook — including content rendered inside portal-based providers.

@@ -30,7 +30,7 @@ Identity, philosophy, and real-world engineering knowledge extracted from Bappi'
 |------|-------|-------------|--------------|
 | `references/bappi/api-layer.md` | API Layer | FetchClient class (native fetch), 401/403 refresh intercept with exponential backoff, Axios apiClient with refresh queue, endpoint constants structure, TypeScript contract typing with generic FetchClient methods and EndpointResponses map. | Implementing API calls, reviewing network layer, designing fetch abstraction, handling token refresh. |
 | `references/bappi/state-management.md` | State Management (Zustand) | Store patterns, persist middleware, non-persisted flow state, outside-React access via .getState(), client vs server state separation. | Designing stores, reviewing Zustand usage, deciding what goes in Zustand vs TanStack Query. |
-| `references/bappi/server-state.md` | Server State (TanStack Query) | QueryClient config, query persistence, query key factories, useQuery/useMutation patterns, cache manipulation, cross-platform persistence. | Implementing data fetching, mutations, caching, or reviewing service hook structure. |
+| `references/bappi/server-state.md` | Server State (TanStack Query) | QueryClient config, query persistence, query key factories, useQuery/useMutation patterns, useInfiniteQuery with FlashList integration, cache manipulation, cross-platform persistence. | Implementing data fetching, mutations, caching, infinite/paginated lists, or reviewing service hook structure. |
 | `references/bappi/schema-validation.md` | Schema & Validation (Zod) | Per-feature schema files, z.infer for type derivation, cross-field refinements, response interfaces vs form schemas, React Hook Form integration. | Writing form validation, API payloads, DTO types, or any data contract between layers. |
 
 ### Auth, Navigation & Storage
@@ -39,7 +39,7 @@ Identity, philosophy, and real-world engineering knowledge extracted from Bappi'
 |------|-------|-------------|--------------|
 | `references/bappi/auth-flow.md` | Auth Flow | Login/register/logout sequences, forgot password/OTP flow, token refresh, AuthProvider context, social auth, multi-role navigation. | Any auth feature — login, logout, registration, password reset, social auth, auth guards. |
 | `references/bappi/navigation.md` | Navigation Patterns | Expo Router file structure, route groups, tab navigators, auth guards, post-mutation navigation rules (replace vs push), entry screen routing, mutation screens. | Navigation — route structure, auth guards, tab setup, deep linking, navigation after mutations. |
-| `references/bappi/storage.md` | Storage Patterns | SecureStore for tokens, AsyncStorageService singleton, cross-platform TokenService, token key constants, query cache persistence, storage decision table. | Any storage implementation — tokens, user data, app preferences, query cache. |
+| `references/bappi/storage.md` | Storage Patterns | SecureStore for tokens, MMKV for synchronous UI state (Zustand persist integration), AsyncStorageService singleton, cross-platform TokenService, token key constants, query cache persistence, storage decision table. | Any storage implementation — tokens, user data, MMKV sync state, app preferences, query cache. |
 | `references/bappi/env-config.md` | Environment Config | getEnvVars() factory, EXPO_PUBLIC_ prefix, per-environment config objects, app.config.ts runtime injection, EAS build profile env, Turbo globalEnv. | Setting up env vars, reviewing config access, working with app.config.ts or eas.json. |
 
 ### UI & Patterns
@@ -53,6 +53,7 @@ Identity, philosophy, and real-world engineering knowledge extracted from Bappi'
 | File | Title | Description | When to load |
 |------|-------|-------------|--------------|
 | `references/bappi/tooling.md` | Tooling Setup | ESLint + Prettier (preferred) or Biome (alternative), lint-staged, Husky hooks, Commitlint (wip/hotfix types), Changesets, bun, EAS build profiles, verify script, knip, syncpack, Expo SDK upgrade sequence, CNG check, deprecation map, React Compiler setup, VSCode config. | Setting up project tooling, writing commit messages, troubleshooting lint/format/hook failures, upgrading Expo SDK. |
+| `references/bappi/hono.md` | Hono Patterns | Hono as the preferred lightweight backend — app setup, route handlers, middleware (auth, CORS, logger), Zod validation with zValidator, router splitting, Cloudflare Workers deployment, and when to use Hono vs NestJS vs Next.js API routes. | Building a new lightweight backend, Cloudflare Workers API, or deciding between Hono / NestJS / Next.js routes. |
 | `references/bappi/backend.md` | Backend Patterns (NestJS) | Microservices architecture, gateway controller pattern, RabbitMQ transport, TypeORM, Redis, AWS S3, Firebase push, Ably websockets, throttling, Swagger, Dockerfile, Jenkins pipeline. | Working on or reviewing NestJS backend code — microservice architecture, module setup, infrastructure. |
 | `references/bappi/nextjs.md` | Next.js & Web Patterns | ISR patterns, App Router, Tamagui cross-platform, Tailwind setup, syncpack/knip for monorepo health, web-specific service patterns, Expo Router API routes (+api.ts), EAS Hosting Cloudflare Workers constraints. | Working on Next.js web apps, cross-platform Tamagui setups, web-specific concerns in a monorepo, or Expo API routes on EAS Hosting. |
 | `references/bappi/cicd.md` | CI/CD Patterns | EAS build profiles, GitHub Actions for mobile builds, EAS Workflows (.eas/workflows/*.yml) with expression syntax and trigger types, Jenkins for backend microservices (parallel Docker builds), release-please, branch→environment mapping. | Setting up CI/CD, configuring EAS builds, writing GitHub Actions workflows, deployment strategy. |
@@ -181,11 +182,12 @@ BMad workflow methodology — best practices for running BMad effectively.
 | Auth — login, logout, tokens | `bappi/auth-flow.md` |
 | Navigation / Expo Router | `bappi/navigation.md` |
 | Zod schemas / form validation | `bappi/schema-validation.md` |
-| Storage (tokens, AsyncStorage) | `bappi/storage.md` |
+| Storage (tokens, AsyncStorage, MMKV) | `bappi/storage.md` |
 | Environment variables | `bappi/env-config.md` |
 | UI components / theme | `bappi/ui-patterns.md` |
 | Tooling (ESLint, Prettier, Biome, Husky, commits) | `bappi/tooling.md` |
 | Monorepo / Turborepo | `bappi/monorepo.md` |
+| Hono backend / Cloudflare Workers API | `bappi/hono.md` |
 | NestJS backend | `bappi/backend.md` |
 | Next.js / web | `bappi/nextjs.md` |
 | CI/CD / EAS / Jenkins | `bappi/cicd.md` |

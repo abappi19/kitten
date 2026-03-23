@@ -1,6 +1,6 @@
 ---
 title: Bappi's Storage Patterns
-description: Storage layer decisions — SecureStore for tokens, AsyncStorageService singleton wrapper, MMKV where it appears, storage key constants, and query cache persistence. What goes where and why.
+description: Storage layer decisions — SecureStore for tokens, MMKV for synchronous UI state (Zustand persist integration), AsyncStorageService singleton wrapper, storage key constants, and query cache persistence. What goes where and why.
 type: reference
 ---
 
@@ -15,6 +15,7 @@ type: reference
 | User role / type | `expo-secure-store` | Determines routing — treat as auth |
 | User info (non-sensitive) | `AsyncStorage` via `AsyncStorageService` | Serializable, non-secret |
 | App preferences | `AsyncStorage` | Serializable, non-secret |
+| Feature flags / sync UI state | `react-native-mmkv` | Synchronous reads, C++ speed |
 | TanStack Query cache | `AsyncStorage` via persister | Serialized query state |
 | Web tokens | `localStorage` | No SecureStore on web |
 
@@ -228,6 +229,77 @@ persistQueryClient({
     },
 });
 ```
+
+---
+
+## MMKV (Synchronous Key-Value)
+
+`react-native-mmkv` is Bappi's preference over AsyncStorage for any data that needs synchronous reads — UI preferences, feature flags, non-sensitive app state. Faster than AsyncStorage because it runs on the C++ layer with no async overhead.
+
+```ts
+import { MMKV } from "react-native-mmkv";
+
+export const appStorage = new MMKV({ id: "app-storage" });
+```
+
+Basic operations — synchronous, no `await`:
+
+```ts
+// Write
+appStorage.set("theme", "dark");
+appStorage.set("hasOnboarded", true);
+appStorage.set("lastSyncTime", Date.now());
+
+// Read
+const theme = appStorage.getString("theme");            // string | undefined
+const hasOnboarded = appStorage.getBoolean("hasOnboarded"); // boolean | undefined
+const syncTime = appStorage.getNumber("lastSyncTime");  // number | undefined
+
+// Delete
+appStorage.delete("hasOnboarded");
+```
+
+### When to use MMKV
+
+| Use case | Storage |
+|----------|---------|
+| UI theme / language preference | MMKV |
+| Feature flags | MMKV |
+| Has-seen-onboarding flag | MMKV |
+| Non-sensitive app state (sync reads needed) | MMKV |
+| JWT / refresh token | `expo-secure-store` — never MMKV |
+| TanStack Query cache | AsyncStorage via persister |
+| Sensitive user data | `expo-secure-store` |
+
+### Zustand Persist with MMKV
+
+```ts
+import { MMKV } from "react-native-mmkv";
+import type { StateStorage } from "zustand/middleware";
+
+const storage = new MMKV();
+
+const zustandMmkvStorage: StateStorage = {
+    setItem: (name, value) => storage.set(name, value),
+    getItem: name => storage.getString(name) ?? null,
+    removeItem: name => storage.delete(name),
+};
+
+export const useAppPreferencesStore = create<AppPreferencesStore>()(
+    persist(
+        set => ({
+            theme: "dark",
+            setTheme: theme => set({ theme }),
+        }),
+        {
+            name: "app-preferences",
+            storage: createJSONStorage(() => zustandMmkvStorage),
+        }
+    )
+);
+```
+
+Synchronous reads mean the initial state is available immediately — no rehydration flash.
 
 ---
 

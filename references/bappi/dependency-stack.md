@@ -40,6 +40,8 @@ type: reference
 | `expo-document-picker` | ~14 | File picker | — |
 | `expo-file-system` | ~19 | File I/O | — |
 | `expo-clipboard` | ~8 | Clipboard | — |
+| `react-native-mmkv` | ^3 | Synchronous key-value storage | AsyncStorage for non-sensitive data |
+| `@gorhom/bottom-sheet` | ^5 | Bottom sheet and bottom sheet modal | — |
 | `expo-location` | ~19 | Geolocation | — |
 | `expo-linear-gradient` | ~15 | Gradient views | — |
 | `react-native-keyboard-controller` | ^1 | Keyboard handling | KeyboardAvoidingView |
