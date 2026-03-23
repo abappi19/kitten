@@ -226,6 +226,161 @@ knip --dependencies        # focus on unused npm deps
 
 ---
 
+## Expo Router API Routes
+
+Server-side endpoints co-located in the `app/` directory using the `+api.ts` file suffix. Deployed to EAS Hosting — runs on **Cloudflare Workers**, not Node.js.
+
+### File Naming
+
+```
+app/
+  api/
+    hello+api.ts            → GET /api/hello
+    users+api.ts            → /api/users
+    users/[id]+api.ts       → /api/users/:id
+```
+
+### Route Structure
+
+```ts
+// app/api/users/[id]+api.ts
+export function GET(request: Request, { id }: { id: string }) {
+  return Response.json({ userId: id });
+}
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  return Response.json({ created: true }, { status: 201 });
+}
+```
+
+Each HTTP method is a named export. Dynamic route params are passed as the second argument.
+
+### When to Use
+
+- Hiding secrets from the client (API keys, DB credentials)
+- Proxying third-party APIs
+- Server-side validation before hitting a database
+- Webhook receivers
+- Rate limiting at server level
+
+### When NOT to Use
+
+- Real-time updates (no WebSockets — use a dedicated service)
+- Heavy file I/O (no `fs` module on Workers)
+- Simple CRUD already handled by a managed backend (Supabase, Firebase)
+
+---
+
+### EAS Hosting Runtime Constraints
+
+API routes on EAS Hosting run on **Cloudflare Workers** — not Node.js. This changes what's available:
+
+| Unavailable | Use instead |
+|-------------|------------|
+| `fs` module | Not available — no filesystem |
+| Node crypto | Web Crypto API (`crypto.subtle`) |
+| Native Node modules | Web API equivalents only |
+| Persistent connections | No WebSockets — use Durable Objects or external service |
+| Long-running processes | 30-second CPU timeout |
+
+**Database must be cloud-based** (Workers can't reach `localhost`):
+- Turso / libSQL — distributed SQLite at the edge
+- Neon — serverless Postgres
+- PlanetScale — serverless MySQL
+- Supabase — Postgres with REST API
+
+```ts
+// Turso example
+import { createClient } from "@libsql/client/web";
+
+const db = createClient({
+  url: process.env.TURSO_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
+});
+
+export async function GET() {
+  const result = await db.execute("SELECT * FROM users");
+  return Response.json(result.rows);
+}
+```
+
+---
+
+### Environment Variables
+
+Server-side secrets via `process.env` — never `EXPO_PUBLIC_`:
+
+```ts
+// ✅ Server-only — safe
+const apiKey = process.env.OPENAI_API_KEY;
+
+// ❌ Exposed to client bundle
+const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
+```
+
+Local: add to `.env` (never commit). EAS Hosting: `eas env:create --name KEY --value val --environment production`.
+
+---
+
+### CORS
+
+```ts
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export function OPTIONS() {
+  return new Response(null, { headers: corsHeaders });
+}
+
+export function GET() {
+  return Response.json({ data: "value" }, { headers: corsHeaders });
+}
+```
+
+Always add an `OPTIONS` export when CORS is needed — preflight requests hit it first.
+
+---
+
+### Auth Pattern
+
+```ts
+async function requireAuth(request: Request) {
+  const token = request.headers.get("Authorization")?.replace("Bearer ", "");
+  if (!token) {
+    throw Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  return verifyToken(token); // returns decoded payload
+}
+
+export async function GET(request: Request) {
+  const user = await requireAuth(request);
+  return Response.json({ userId: user.id });
+}
+```
+
+---
+
+### Deploying to EAS Hosting
+
+```bash
+# Export web build
+npx expo export -p web
+
+# Deploy
+npx eas-cli@latest deploy --prod
+
+# Manage secrets
+eas env:create --name OPENAI_API_KEY --value sk-xxx --environment production
+```
+
+PR preview URLs are generated automatically on every pull request — no extra config needed.
+
+---
+
 ## Styling Pattern
 
 Older web apps: CSS Modules alongside styled components.

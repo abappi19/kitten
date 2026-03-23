@@ -9,3 +9,6 @@
 | wip/sync-with-world.md | workflow-contributor-mode.md + agents/planner.md | complete |
 | wip/debugging-iron-law.md | references/bappi/debugging.md | complete |
 | wip/api-layer-typescript-contract.md | references/bappi/api-layer.md | complete |
+| wip/cicd-eas-workflows.md | references/bappi/cicd.md | complete |
+| wip/tooling-sdk-upgrade.md | references/bappi/tooling.md | complete |
+| wip/nextjs-expo-api-routes.md | references/bappi/nextjs.md | complete |

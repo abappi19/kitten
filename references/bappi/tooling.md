@@ -335,6 +335,76 @@ Used in monorepos to ensure consistent versions across all packages:
 
 ---
 
+## Expo SDK Upgrade
+
+Canonical upgrade sequence — run in this order every time.
+
+```bash
+# 1. Upgrade Expo and core deps
+npx expo install expo@latest
+
+# 2. Fix all managed dependency versions
+npx expo install --fix
+
+# 3. Diagnose issues
+npx expo-doctor
+
+# 4. Clear caches and reinstall
+rm -rf node_modules && bun install
+npx expo start --clear
+```
+
+**`expo install --fix`** resolves version mismatches between your installed packages and what the current Expo SDK expects. Run it after every SDK bump — never manually align versions.
+
+**`expo-doctor`** surfaces: incompatible package versions, missing config, deprecated APIs, and native module issues. Fix everything it flags before building.
+
+---
+
+### CNG Check (Before Native Rebuild)
+
+Check whether the project uses Continuous Native Generation before running any native rebuild steps:
+
+```bash
+ls ios/ 2>/dev/null && echo "managed ios" || echo "CNG — no ios dir"
+ls android/ 2>/dev/null && echo "managed android" || echo "CNG — no android dir"
+```
+
+- **`ios/` and `android/` absent** → CNG project. Skip native rebuild. EAS regenerates them at build time from `app.config.ts`.
+- **Directories present** → Managed native. Run `npx expo prebuild` to regenerate after SDK bump.
+
+---
+
+### Deprecation Map
+
+| Remove | Replace with | Notes |
+|--------|-------------|-------|
+| `expo-av` | `expo-audio` + `expo-video` | Split into two packages |
+| `expo-permissions` | Individual permission APIs | e.g. `expo-camera`, `expo-location` expose their own `requestPermissionsAsync` |
+| `AsyncStorage` (community) | MMKV or `expo-sqlite` | MMKV for key-value, SQLite for structured data |
+| `@babel/core` (explicit dep) | Remove | Now implicit — no need to list it |
+| `babel-preset-expo` (explicit dep) | Remove | Same — implicit since SDK 50+ |
+| `SafeAreaView` from `react-native` | `react-native-safe-area-context` | Core version deprecated |
+
+---
+
+### React Compiler (SDK 54+)
+
+Enable in `app.json` after upgrading to SDK 54 or later:
+
+```json
+{
+  "expo": {
+    "experiments": {
+      "reactCompiler": true
+    }
+  }
+}
+```
+
+React Compiler eliminates most manual `useMemo`/`useCallback` calls. After enabling, audit Reanimated shared value access — use `.get()` / `.set()` instead of `.value` for compiler compatibility.
+
+---
+
 ## VSCode Config
 
 `.vscode/settings.json` in every project:

@@ -261,6 +261,105 @@ jobs:
 
 ---
 
+## EAS Workflows
+
+Expo's native CI/CD system — an alternative to GitHub Actions that runs inside Expo infrastructure. Workflow files live in `.eas/workflows/*.yml`. No external CI setup needed.
+
+**When to use EAS Workflows over GitHub Actions:**
+- Mobile-only projects already on EAS — fewer moving parts
+- Want PR preview builds without GitHub Actions secrets setup
+- Need EAS-managed triggers (push, PR, schedule) without a GitHub plan
+
+**When to stick with GitHub Actions:**
+- Monorepos with backend + mobile in one repo — GitHub Actions handles both
+- Need to run non-EAS steps (lint, type-check, unit tests) in the same pipeline
+- Already have GitHub Actions in place — no migration value
+
+---
+
+### Structure
+
+```yaml
+# .eas/workflows/build-production.yml
+name: Production Build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    type: build
+    params:
+      platform: all
+      profile: production
+```
+
+Top-level keys:
+- `name` — display name in Expo dashboard
+- `on` — at least one trigger (required)
+- `jobs` — job definitions (required)
+- `defaults` — shared job config
+- `concurrency` — parallel execution control
+
+---
+
+### Triggers
+
+```yaml
+on:
+  push:
+    branches: [main, staging]     # on push to branch
+  pull_request:
+    branches: [main]              # on PR open/update
+  workflow_dispatch:              # manual trigger with inputs
+    inputs:
+      platform:
+        type: string
+        default: all
+```
+
+---
+
+### Expression Syntax
+
+Dynamic values use `${{ }}` with these contexts:
+
+| Context | Examples |
+|---------|---------|
+| `github.*` | `github.ref`, `github.sha`, `github.actor` |
+| `inputs.*` | `inputs.platform`, `inputs.profile` |
+| `needs.*` | `needs.build.outputs.buildId` |
+| `steps.*` | `steps.myStep.outputs.value` |
+| `workflow.*` | `workflow.name`, `workflow.id` |
+
+```yaml
+jobs:
+  build:
+    type: build
+    params:
+      platform: ${{ inputs.platform || 'all' }}
+      profile: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+```
+
+---
+
+### Schema Validation
+
+Validate workflow files locally before pushing:
+
+```bash
+# Fetch the latest schema
+curl https://api.expo.dev/v2/workflows/schema > eas-workflow-schema.json
+
+# Validate with ajv or similar
+npx ajv validate -s eas-workflow-schema.json -d .eas/workflows/build.yml
+```
+
+Schema endpoint: `https://api.expo.dev/v2/workflows/schema`
+
+---
+
 ## `.easignore`
 
 Exclude files from EAS build uploads:
