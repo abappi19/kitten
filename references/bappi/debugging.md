@@ -175,6 +175,44 @@ These bite production and aren't obvious:
 
 ---
 
+## Iron Law — Root Cause First
+
+Never propose a fix without completing root cause investigation. Symptom fixes are failure.
+
+> **"NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST."**
+
+Treat this as the floor of every debugging session. A fast wrong fix costs more than a slow right one.
+
+---
+
+## Attempt Counter — Architecture Checkpoint
+
+Track fix attempts explicitly. If the fix isn't working, don't reach for Fix #4.
+
+```
+Attempt 1 → small targeted change, verify result
+Attempt 2 → new hypothesis, different angle, verify result
+Attempt 3 → re-read root cause evidence, one more attempt
+After 3 failures → STOP. Question the architecture.
+```
+
+**After 3 failed attempts:**
+
+- Step back from the symptom entirely
+- Ask: *is the architecture itself the problem?*
+- Look for a structural mismatch — wrong layer, wrong abstraction, wrong mental model
+- Don't attempt Fix #4 until the architectural question is answered
+
+**Why:** Three failed fixes in a row almost always means the root cause diagnosis was wrong, not that the fix was bad. Continuing to fix is compounding the error.
+
+**Red flags that trigger an early checkpoint (regardless of attempt count):**
+- The fix makes sense but the behavior doesn't change
+- Each fix breaks something different
+- The bug disappears and reappears unpredictably
+- "Quick fix for now, investigate later" thinking creeps in
+
+---
+
 ## Expo Dev Client
 
 Use dev client for debugging native modules — not Expo Go:

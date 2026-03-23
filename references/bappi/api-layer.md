@@ -279,3 +279,99 @@ fetchClient.post(Endpoints.auth.login, payload);
 // ✅ GOOD — login doesn't need a token
 fetchClient.post(Endpoints.auth.login, payload, { skipAuthorization: true });
 ```
+
+---
+
+## TypeScript Contract Typing
+
+FetchClient methods are generic — always pass response and body types at the call site. This gives compile-time validation on every API call instead of runtime surprises.
+
+### Generic FetchClient Methods
+
+Add generics to each method signature:
+
+```ts
+class FetchClient {
+    get<TResponse>(endpoint: string, options?: FetchOptions): Promise<TResponse>
+    post<TResponse, TBody extends Record<string, unknown>>(
+        endpoint: string,
+        body: TBody,
+        options?: FetchOptions
+    ): Promise<TResponse>
+    put<TResponse, TBody extends Record<string, unknown>>(
+        endpoint: string,
+        body: TBody,
+        options?: FetchOptions
+    ): Promise<TResponse>
+    patch<TResponse, TBody extends Record<string, unknown>>(
+        endpoint: string,
+        body: TBody,
+        options?: FetchOptions
+    ): Promise<TResponse>
+    delete<TResponse>(endpoint: string, options?: FetchOptions): Promise<TResponse>
+}
+```
+
+**Usage — response type is inferred at the call site:**
+
+```ts
+// ✅ Return type is UserProfile — no manual assertion needed
+const user = await fetchClient.get<UserProfile>(Endpoints.auth.user);
+
+// ✅ Body is typed — wrong shape fails at compile time
+const session = await fetchClient.post<AuthSession, LoginPayload>(
+    Endpoints.auth.login,
+    payload,
+    { skipAuthorization: true }
+);
+```
+
+---
+
+### Endpoint Response Map
+
+Co-locate response types with the Endpoints constant. One file owns the entire API contract.
+
+```ts
+// endpoints.ts
+
+export const Endpoints = {
+    auth: {
+        login: "/auth/login",
+        user: "/auth/user",
+        logout: "/auth/logout",
+    },
+    myFeature: {
+        list: "/my-feature/list",
+        create: "/my-feature/create",
+        update: (id: string) => `/my-feature/${id}/update`,
+    },
+} as const;
+
+// Response types live alongside the endpoints they describe
+export type EndpointResponses = {
+    auth: {
+        login: AuthSession;
+        user: UserProfile;
+        logout: void;
+    };
+    myFeature: {
+        list: MyFeatureItem[];
+        create: MyFeatureItem;
+        update: MyFeatureItem;
+    };
+};
+```
+
+Service hooks pick their types directly from the map — no duplication:
+
+```ts
+import { Endpoints, EndpointResponses } from "@/lib/api/endpoints";
+
+type MyFeatureList = EndpointResponses["myFeature"]["list"];
+
+export const getMyFeatureList = () =>
+    fetchClient.get<MyFeatureList>(Endpoints.myFeature.list);
+```
+
+**Why:** when the backend changes a response shape, update `EndpointResponses` once — TypeScript flags every service hook that breaks. No runtime surprises.
