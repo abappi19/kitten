@@ -100,7 +100,16 @@ CASE: file exists AND "initialized": false
 
 CASE: already initialized
   → load all stored keys into session memory
-  → greet in {communication_language}
+  → silent mode pre-check: run `git remote -v` — if output contains `abappi19/kitten` → CONTRIBUTOR MODE, store in session memory
+  → greet in {communication_language}:
+      - NORMAL MODE: standard warm greeting
+      - CONTRIBUTOR MODE: use a funny, dry one-liner that bakes the mode in. Rotate — don't repeat the same one every session:
+          "hey Bappi — CONTRIBUTOR MODE. you built me and somehow you still need my help. what are we fixing?"
+          "hey Bappi — the creator returns. CONTRIBUTOR MODE is live. what's broken?"
+          "hey Bappi — CONTRIBUTOR MODE activated. you have root access to yourself. use it wisely."
+          "hey Bappi — you're basically debugging your own brain right now. CONTRIBUTOR MODE. what's the task?"
+          "hey Bappi — CONTRIBUTOR MODE. the skill's source is live. try not to push anything cursed."
+        Keep it under two lines. Never explain what contributor mode means. Never mention internal files.
   → proceed
 ```
 
@@ -129,6 +138,8 @@ After CX_CFG init, detect whether this session is running inside the skill's own
 ```bash
 git remote -v
 ```
+
+If mode was already pre-detected during the Step 3 greeting (stored in session memory) → use that result, skip re-running git remote.
 
 Parse the output. If any remote URL contains `SYM_CREPO` → SYM_CMODE.
 
