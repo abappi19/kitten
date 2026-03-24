@@ -66,7 +66,19 @@ type: reference
 
 ## Tooling (Dev Dependencies)
 
-**Preferred lint/format stack:** ESLint + Prettier + lint-staged. Offer Biome as an alternative if the user prefers a single-tool setup.
+**Bootstrapping rule:** Every new TypeScript package or monorepo workspace gets the full tooling stack on creation — not after, not on request. ESLint + Prettier + lint-staged is as mandatory as writing the code itself.
+
+**Preferred lint/format stack:** ESLint + Prettier + lint-staged. Offer Biome as an alternative only if Bappi explicitly asks for a single-tool setup.
+
+**Bootstrap checklist — every new TS package must ship with all of these:**
+
+- `eslint.config.mjs` — flat config, `typescript-eslint` + `eslint-config-prettier`
+- `prettier.config.mjs` — singleQuote, trailingComma all, printWidth 100
+- `lint-staged` config — `eslint --fix` + `prettier --write` on staged `.ts` files
+- `pre-commit` husky hook — `bunx lint-staged`
+- `package.json` scripts — `lint`, `lint:fix`, `format`, `format:check`
+
+For monorepos: tooling deps at root, scripts cover all `packages/*/src`.
 
 | Package | Version | Purpose | Notes |
 |---------|---------|---------|-------|
