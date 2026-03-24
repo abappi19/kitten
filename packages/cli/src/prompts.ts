@@ -3,8 +3,7 @@ import type { CommLang, Branch } from './types.js';
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
-const ask = (q: string): Promise<string> =>
-  new Promise((res) => rl.question(q, res));
+const ask = (q: string): Promise<string> => new Promise((res) => rl.question(q, res));
 
 const askSecret = (q: string): Promise<string> =>
   new Promise((res) => {

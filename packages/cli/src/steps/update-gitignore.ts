@@ -1,7 +1,7 @@
 import fs from 'fs';
 import type { Step } from '../types.js';
 
-const ENTRY   = '_kitten-bot/';
+const ENTRY = '_kitten-bot/';
 const COMMENT = '# kitten-bot drafts';
 
 export const updateGitignore: Step = {

@@ -8,11 +8,26 @@
   ],
   "scripts": {
     "prepare": "husky",
-    "build": "bun run --cwd packages/cli build"
+    "build": "bun run --cwd packages/cli build",
+    "lint": "eslint packages/*/src packages/*/scripts",
+    "lint:fix": "eslint packages/*/src packages/*/scripts --fix",
+    "format": "prettier --write packages/*/src packages/*/scripts",
+    "format:check": "prettier --check packages/*/src packages/*/scripts"
+  },
+  "lint-staged": {
+    "packages/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
-    "husky": "^9.1.7"
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1",
+    "typescript-eslint": "^8.57.2"
   }
 }

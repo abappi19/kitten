@@ -11,7 +11,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { manifest } from '../src/manifest.js';
 
-const __dirname  = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SKILL_ROOT = path.join(__dirname, '..', '..', '.claude', 'skills', 'kitten-bot');
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
 
@@ -28,7 +28,7 @@ function copyDir(src: string, dest: string): void {
   fs.mkdirSync(dest, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
     if (skip(entry.name)) continue;
-    const srcPath  = path.join(src, entry.name);
+    const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
     if (entry.isDirectory()) {
       copyDir(srcPath, destPath);
@@ -40,7 +40,7 @@ function copyDir(src: string, dest: string): void {
 }
 
 function copyFile(relPath: string): void {
-  const src  = path.join(SKILL_ROOT, relPath);
+  const src = path.join(SKILL_ROOT, relPath);
   const dest = path.join(PUBLIC_DIR, relPath);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.copyFileSync(src, dest);
@@ -51,7 +51,7 @@ const KLOAD_AUTH_PLACEHOLDER = "_AUTH_V    = ''";
 
 function patchKLoad(token: string): void {
   const kloadPath = path.join(PUBLIC_DIR, 'scripts', 'k_load.py');
-  const encoded   = Buffer.from(token).toString('base64');
+  const encoded = Buffer.from(token).toString('base64');
 
   let src = fs.readFileSync(kloadPath, 'utf-8');
   if (!src.includes(KLOAD_AUTH_PLACEHOLDER)) {

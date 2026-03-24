@@ -21,8 +21,8 @@ async function install(): Promise<void> {
   const config = {
     userName: await askName(),
     commLang: await askLanguage(),
-    token:    await askToken(),
-    branch:   await askBranch(),
+    token: await askToken(),
+    branch: await askBranch(),
   };
 
   close();
@@ -30,8 +30,8 @@ async function install(): Promise<void> {
   const ctx: InstallContext = {
     config,
     bundleDir: path.join(__dirname, '..', 'public'),
-    skillDir:  '.claude/skills/kitten-bot',
-    draftDir:  '_kitten-bot',
+    skillDir: '.claude/skills/kitten-bot',
+    draftDir: '_kitten-bot',
   };
 
   console.log('\n  \x1b[36m→\x1b[0m Installing kitten-bot...\n');
@@ -42,7 +42,7 @@ async function install(): Promise<void> {
   console.log('  Start a session: open Claude Code in this project and type /kitten-bot\n');
 }
 
-const [,, command] = process.argv;
+const [, , command] = process.argv;
 
 if (command === 'install') {
   install().catch((e: Error) => {
