@@ -1,14 +1,15 @@
 {
-  "name": "kitten-bot",
+  "name": "kitten-bot-monorepo",
   "version": "1.0.0",
-  "description": "Kitten Bot — Bappi's AI skill. Configuration and agent definitions.",
+  "description": "Kitten Bot — monorepo for skill content, CLI, and tooling",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "build": "bun run --cwd packages/cli build"
   },
-  "keywords": [],
-  "author": "Bappi",
-  "license": "ISC",
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
