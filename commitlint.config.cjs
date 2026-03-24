@@ -16,6 +16,7 @@ module.exports = {
         'scripts',          // k_load.py and other scripts
         'config',           // config.json / config.template.json
         'ci',               // commitlint, husky, tooling
+        'cli',              // npx installer package
       ],
     ],
 

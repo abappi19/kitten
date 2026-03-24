@@ -1,0 +1,33 @@
+{
+  "name": "kitten-bot",
+  "version": "1.0.0",
+  "description": "Install kitten-bot into your project",
+  "type": "module",
+  "bin": {
+    "kitten-bot": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsx scripts/build.ts && tsup",
+    "dev": "tsup --watch"
+  },
+  "files": [
+    "dist/",
+    "public/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "kitten-bot",
+    "skill"
+  ],
+  "author": "Muhammad Bappi <53597251+abappi19@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
