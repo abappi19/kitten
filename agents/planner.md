@@ -10,23 +10,23 @@ Universal entry point for every user query. Classifies the intent and routes to 
 
 Every user query starts here. Classify the intent before doing anything else.
 
-| Class | Signals | Next move |
-|-------|---------|-----------|
-| **Ambiguous** | Code pasted with no problem stated, vague comment only ("for some reason", "something is off", "check this"), no description of expected vs actual behavior | → [Ambiguous Request](#ambiguous-request) |
-| **Commit** | "commit this", "commit staged", "commit my changes", "make a commit", "save progress", "let's commit", or any message where the next action would be running `git commit` | → fetch `agents/committer.md` |
-| **Code review** | "review this", "audit this", "what would Bappi think of this?", code shared explicitly for review | → fetch `agents/code-reviewer.md` + `agents/rule-finder.md` |
-| **Identity** | "who are you?", "who is Bappi?", "what can you help with?", "tell me about yourself" | → fetch `agents/identity.md` |
-| **Patterns / architecture / stack** | "how does Bappi handle X?", "what's the pattern for X?", "which library?", "what's Bappi's opinion on X?" | → fetch `references/_overview.md` and route to the specific reference file |
-| **Scaffold feature** | "scaffold a feature", "generate the scaffold script", "run the scaffold" | → fetch `scripts/scaffold-feature.sh`, show content, instruct user to run locally |
-| **Eval** | "eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval" | → fetch `agents/self-eval.md` |
-| **Sync with world** | "sync with world", "search skills.sh", "update [topic] from community", "see how others do [topic]" — CONTRIBUTOR MODE only | → fetch `references/kitten/workflow-contributor-mode.md`, run the Sync with World workflow |
-| **Description optimizer** | "optimize description", "improve trigger accuracy", "run description eval", "tune the description" | → fetch `agents/description-optimizer.md` — CONTRIBUTOR MODE only (modifies SKILL.md via wip/ workflow) |
-| **BMad** | user explicitly says "BMad", "party mode", "quick spec", or Step 17 of project-bootstrap | → fetch `agents/bmad-orchestrator.md` directly |
-| **New project** | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir | → [New Project](#new-project) |
-| **Simple / tactical** | Single change, clear scope, contained to one file or one behavior | → [Tactical Plan](#tactical-plan) |
-| **Non-trivial feature** | New screen, new state layer, multiple components, new API integration | → BMad Scope Check, then [Feature Plan](#feature-plan) |
-| **Observation / feedback** | "it works but…", "one thing I noticed", issues after a delivered feature | → [Observation Intake](#observation-intake-flow) |
-| **Debugging** | Error pasted, crash described, broken behavior explicitly stated | → fetch `agents/debugger.md` |
+| Class                               | Signals                                                                                                                                                                   | Next move                                                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Ambiguous**                       | Code pasted with no problem stated, vague comment only ("for some reason", "something is off", "check this"), no description of expected vs actual behavior               | → [Ambiguous Request](#ambiguous-request)                                                               |
+| **Commit**                          | "commit this", "commit staged", "commit my changes", "make a commit", "save progress", "let's commit", or any message where the next action would be running `git commit` | → fetch `agents/committer.md`                                                                           |
+| **Code review**                     | "review this", "audit this", "what would Bappi think of this?", code shared explicitly for review                                                                         | → fetch `agents/code-reviewer.md` + `agents/rule-finder.md`                                             |
+| **Identity**                        | "who are you?", "who is Bappi?", "what can you help with?", "tell me about yourself"                                                                                      | → fetch `agents/identity.md`                                                                            |
+| **Patterns / architecture / stack** | "how does Bappi handle X?", "what's the pattern for X?", "which library?", "what's Bappi's opinion on X?"                                                                 | → fetch `references/_overview.md` and route to the specific reference file                              |
+| **Scaffold feature**                | "scaffold a feature", "generate the scaffold script", "run the scaffold"                                                                                                  | → fetch `scripts/scaffold-feature.sh`, show content, instruct user to run locally                       |
+| **Eval**                            | "eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval"                                                                                      | → fetch `agents/self-eval.md`                                                                           |
+| **Sync with world**                 | "sync with world", "search skills.sh", "update [topic] from community", "see how others do [topic]" — CONTRIBUTOR MODE only                                               | → fetch `references/kitten/workflow-contributor-mode.md`, run the Sync with World workflow              |
+| **Description optimizer**           | "optimize description", "improve trigger accuracy", "run description eval", "tune the description"                                                                        | → fetch `agents/description-optimizer.md` — CONTRIBUTOR MODE only (modifies SKILL.md via wip/ workflow) |
+| **BMad**                            | user explicitly says "BMad", "party mode", "quick spec", or Step 17 of project-bootstrap                                                                                  | → fetch `agents/bmad-orchestrator.md` directly                                                          |
+| **New project**                     | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir                                                                                          | → [New Project](#new-project)                                                                           |
+| **Simple / tactical**               | Single change, clear scope, contained to one file or one behavior                                                                                                         | → [Tactical Plan](#tactical-plan)                                                                       |
+| **Non-trivial feature**             | New screen, new state layer, multiple components, new API integration                                                                                                     | → BMad Scope Check, then [Feature Plan](#feature-plan)                                                  |
+| **Observation / feedback**          | "it works but…", "one thing I noticed", issues after a delivered feature                                                                                                  | → [Observation Intake](#observation-intake-flow)                                                        |
+| **Debugging**                       | Error pasted, crash described, broken behavior explicitly stated                                                                                                          | → fetch `agents/debugger.md`                                                                            |
 
 One classification. Move immediately to the right section.
 
@@ -53,17 +53,19 @@ This applies to every flow — tactical, feature, observation, debug, project bo
 When a user pastes code, a file, or a snippet without describing what is wrong or what they want changed.
 
 **Signals:**
+
 - Code pasted with only a vague comment ("for some reason it opened here", "something isn't right", "this is weird")
 - No error message, no steps to reproduce, no description of expected vs actual
 - No explicit ask ("fix this", "change this", "review this") — just code dropped in
 
 **The only correct move: ask one focused question. Stop there.**
 
-> *"What's the issue? What were you expecting versus what actually happened?"*
+> _"What's the issue? What were you expecting versus what actually happened?"_
 
 Do not read the code looking for patterns. Do not explore call sites. Do not form a hypothesis. A piece of code that looks unusual is not a bug — it may be intentional. Bappi's codebase has patterns Kitten does not know. Guessing from code shape produces wrong diagnoses.
 
 **What to ask (pick what applies):**
+
 - What was the expected behavior?
 - What actually happened?
 - When does it happen — always, on a specific action, on first load?
@@ -105,15 +107,15 @@ If any resolve → `bmad_installed: true`. Continue to Step 2.
 
 Score the task against these signals:
 
-| Signal | Weight |
-|--------|--------|
-| Touches 3+ distinct layers (state + API + UI + navigation + auth) | High |
-| Requires a new module, new package, or new shared abstraction | High |
-| Significant architectural decision — reasonable engineers could choose differently | High |
-| Uncertainty about the right approach that benefits from structured exploration | Medium |
-| Refactor only, no new behavior | Skip BMad |
-| Scope is clear and contained to 1–2 files or one layer | Skip BMad |
-| User already said "no BMad" or "just do it" earlier in this session | Skip BMad — do not ask again |
+| Signal                                                                             | Weight                       |
+| ---------------------------------------------------------------------------------- | ---------------------------- |
+| Touches 3+ distinct layers (state + API + UI + navigation + auth)                  | High                         |
+| Requires a new module, new package, or new shared abstraction                      | High                         |
+| Significant architectural decision — reasonable engineers could choose differently | High                         |
+| Uncertainty about the right approach that benefits from structured exploration     | Medium                       |
+| Refactor only, no new behavior                                                     | Skip BMad                    |
+| Scope is clear and contained to 1–2 files or one layer                             | Skip BMad                    |
+| User already said "no BMad" or "just do it" earlier in this session                | Skip BMad — do not ask again |
 
 ---
 
@@ -121,7 +123,7 @@ Score the task against these signals:
 
 **If 1+ High signal or 2+ Medium signals:**
 
-> *"This looks like it would benefit from the full BMad workflow — it touches [briefly state why: e.g. 'new module with state, API, and navigation involved']. Want to run it through BMad?"*
+> _"This looks like it would benefit from the full BMad workflow — it touches [briefly state why: e.g. 'new module with state, API, and navigation involved']. Want to run it through BMad?"_
 > **[B]** BMad workflow **[C]** Continue without BMad
 
 - **[B]** → fetch `agents/bmad-orchestrator.md`, hand off completely
@@ -133,10 +135,10 @@ Score the task against these signals:
 
 ### Where this is called from
 
-| Entry point | When |
-|------------|------|
-| **Non-trivial feature** (classify table) | Immediately on entry, before writing any plan |
-| **Observation Intake** Step 5 | After spec is approved |
+| Entry point                                 | When                                                                                                                     |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Non-trivial feature** (classify table)    | Immediately on entry, before writing any plan                                                                            |
+| **Observation Intake** Step 5               | After spec is approved                                                                                                   |
 | **Tactical Plan** Step 2 (codebase mapping) | If mapping reveals the task spans more layers than initially classified — escalate to BMad Scope Check before proceeding |
 
 ---
@@ -150,10 +152,11 @@ cat $KITTEN_PROJECT_DIR/wip/wip.md 2>/dev/null
 ```
 
 If the table has any row with status `in-progress`:
+
 - Surface it — one line per item
 - Ask:
-  > *"There's work in progress: **[entry name]**. Resume or start fresh?"*
-  > **[R]** Resume **[F]** Fresh start **[N]** Start something new
+    > _"There's work in progress: **[entry name]**. Resume or start fresh?"_
+    > **[R]** Resume **[F]** Fresh start **[N]** Start something new
 
 **[R] Resume** — read the corresponding wip file. Understand the existing plan and where it left off. Skip planning steps that already ran. Continue from the last incomplete step.
 
@@ -223,12 +226,12 @@ ls $KITTEN_PROJECT_DIR/packages 2>/dev/null
 
 Identify which architecture pattern is in use:
 
-| Signal | Pattern |
-|--------|---------|
-| `lib/` + `app/` at root | Lib-style standalone (Expo Router) |
-| `library/` + `app/` at root | Library-style standalone |
-| `apps/` + `packages/` at root | Turborepo monorepo |
-| `src/` + `components/` + `screens/` | Flat src structure |
+| Signal                              | Pattern                            |
+| ----------------------------------- | ---------------------------------- |
+| `lib/` + `app/` at root             | Lib-style standalone (Expo Router) |
+| `library/` + `app/` at root         | Library-style standalone           |
+| `apps/` + `packages/` at root       | Turborepo monorepo                 |
+| `src/` + `components/` + `screens/` | Flat src structure                 |
 
 Store the detected pattern in session memory. This determines where new files go and how imports are structured.
 
@@ -254,6 +257,7 @@ cat $KITTEN_PROJECT_DIR/app.config.js 2>/dev/null
 ```
 
 Extract and store:
+
 - **Expo SDK version** — gates which APIs are available and what's deprecated
 - **Platforms** (`ios`, `android`, `web`) — affects what's safe to use; web requires extra care with native-only APIs
 - **App slug and bundle identifiers** — relevant for EAS, deep linking, and push notification work
@@ -270,6 +274,7 @@ cat $KITTEN_PROJECT_DIR/tsconfig.base.json 2>/dev/null
 ```
 
 Check `compilerOptions` for:
+
 - `strict` / `strictNullChecks` — on or off? Strict mode requires explicit null handling in all generated types
 - `strictFunctionTypes`, `noUncheckedIndexedAccess` — affects generated array access patterns
 - `baseUrl` — used alongside `paths` for alias resolution
@@ -291,6 +296,7 @@ ls $KITTEN_PROJECT_DIR/.commitlintrc* 2>/dev/null
 ```
 
 Store:
+
 - **Linter**: ESLint, Biome, or both
 - **Formatter**: Prettier, Biome, or none
 - **Commit hooks**: Husky present? Commitlint rules?
@@ -308,6 +314,7 @@ cat $KITTEN_PROJECT_DIR/package.json 2>/dev/null | grep -A3 '"jest"'
 ```
 
 Store:
+
 - **Test runner**: Jest, Vitest, or jest-expo preset
 - **Test file pattern**: `*.test.ts`, `*.spec.ts`, `__tests__/`?
 - **Transform setup**: jest-expo, babel-jest, ts-jest?
@@ -325,6 +332,7 @@ cat $KITTEN_PROJECT_DIR/src/App.tsx 2>/dev/null
 ```
 
 Read the root layout. Identify:
+
 - Root navigator type: tab + stack, drawer + stack, pure stack?
 - Auth guard pattern: redirect on mount, slot-based, or conditional render?
 - Provider structure: what wraps the navigator (QueryClient, SafeArea, etc.)?
@@ -333,7 +341,7 @@ Read the root layout. Identify:
 
 ---
 
-**10. Monorepo package map** *(if monorepo detected)*
+**10. Monorepo package map** _(if monorepo detected)_
 
 ```bash
 ls $KITTEN_PROJECT_DIR/packages/ 2>/dev/null
@@ -372,19 +380,19 @@ Store what's observed. Follow it — don't introduce a second pattern alongside 
 
 ### How context informs planning
 
-| Detected context | How it's applied |
-|-----------------|-----------------|
-| Package list | Only suggest installed packages. Flag if a needed package is missing before proceeding. |
-| Theme tokens | Use exact token names in all generated UI code. Never hardcode colors or invent token names. |
-| Folder structure pattern | Place new files in the correct directory. Match file suffix conventions. |
-| Import alias | Use the detected alias in all import statements. Never use relative paths. |
-| Expo SDK + platforms | Stay within the available API surface. Flag native-only usage on web-enabled projects. |
-| TypeScript strictness | Match the project's type strictness. Strict project = explicit nulls, no implicit any. |
-| Linting setup | Conform to the enforced linter/formatter. Don't suggest tools that conflict with what's installed. |
-| Test setup | Match test runner, file pattern, and transform config. Generate tests that will actually run. |
-| Navigation root | Integrate new screens correctly — right navigator, right provider, right auth guard pattern. |
-| Monorepo package map | Check for existing shared logic before creating new utilities or packages. |
-| Existing patterns | Match state, data fetching, navigation, and UI conventions already in the codebase. |
+| Detected context         | How it's applied                                                                                   |
+| ------------------------ | -------------------------------------------------------------------------------------------------- |
+| Package list             | Only suggest installed packages. Flag if a needed package is missing before proceeding.            |
+| Theme tokens             | Use exact token names in all generated UI code. Never hardcode colors or invent token names.       |
+| Folder structure pattern | Place new files in the correct directory. Match file suffix conventions.                           |
+| Import alias             | Use the detected alias in all import statements. Never use relative paths.                         |
+| Expo SDK + platforms     | Stay within the available API surface. Flag native-only usage on web-enabled projects.             |
+| TypeScript strictness    | Match the project's type strictness. Strict project = explicit nulls, no implicit any.             |
+| Linting setup            | Conform to the enforced linter/formatter. Don't suggest tools that conflict with what's installed. |
+| Test setup               | Match test runner, file pattern, and transform config. Generate tests that will actually run.      |
+| Navigation root          | Integrate new screens correctly — right navigator, right provider, right auth guard pattern.       |
+| Monorepo package map     | Check for existing shared logic before creating new utilities or packages.                         |
+| Existing patterns        | Match state, data fetching, navigation, and UI conventions already in the codebase.                |
 
 ---
 
@@ -394,49 +402,58 @@ For any simple, self-contained task — a component change, a style fix, a prop 
 
 **Internal sequence (always run before touching any file):**
 
--1. **WIP Continuation Check** — run the check above. Surface and resolve any in-progress work before starting.
-0. **Run Project Context Detection** — if not already done this session, run it now (silent).
+-1. **WIP Continuation Check** — run the check above. Surface and resolve any in-progress work before starting. 0. **Run Project Context Detection** — if not already done this session, run it now (silent).
+
 1. **Classify the change** — what exactly is changing? Where does it live?
 2. **Map the codebase:**
-   - Read the target file(s) fully
-   - Search for all call sites and imports of the affected component/function
-   - Trace delegation chains — if the component has optional callback props, find every parent that provides them and read what they render
-   - Find all render sites — the behavior may exist in more than one place
-   - **Scope escalation:** if mapping reveals the task spans more layers than initially classified (e.g. a "simple fix" that requires touching state + API + navigation) → run BMad Scope Check before proceeding
+    - Read the target file(s) fully
+    - Search for all call sites and imports of the affected component/function
+    - Trace delegation chains — if the component has optional callback props, find every parent that provides them and read what they render
+    - Find all render sites — the behavior may exist in more than one place
+    - **Scope escalation:** if mapping reveals the task spans more layers than initially classified (e.g. a "simple fix" that requires touching state + API + navigation) → run BMad Scope Check before proceeding
 3. **Define the implementation path** — what changes in what order? Are there multiple files?
 
 **— Investigation complete. Steps 4–6 begin a new phase. Do not merge with the output above. —**
 
 4. **Pre-apply review** (silent — no planning beat, no text output to the user):
-   - **Check for breakage** — will this change affect any call site, test, or related component found in step 2? If yes, name it explicitly.
-   - **Load references** — does this change touch UI, state, navigation, auth, API, gestures, or any domain with a reference file? If yes, fetch it now.
-   - Tool calls are allowed here. Text output to the user is not.
+    - **Check for breakage** — will this change affect any call site, test, or related component found in step 2? If yes, name it explicitly.
+    - **Load references** — does this change touch UI, state, navigation, auth, API, gestures, or any domain with a reference file? If yes, fetch it now.
+    - Tool calls are allowed here. Text output to the user is not.
 5. **Show and confirm** — this is a separate output block. Do not bundle it with the investigation above.
-   - Output `planning next move...` as a standalone line first. Nothing else on that line.
-   - Then on a new line: present what will change, in which file(s), and why. One short paragraph. Intent, approach, and any risk — no code dump.
-   - Then ask:
-     > **[A]** Apply **[V]** Deep Review **[E]** Edit the approach **[S]** Skip
-   - Wait for the answer. Do not proceed until confirmed.
-   - **[V]** → run the [Deep Review](#deep-review) panel, then re-present this confirmation prompt.
+    - Output `planning next move...` as a standalone line first. Nothing else on that line.
+    - **Draft gate** — if `kitten_dir: true` is in session memory:
+        - Write the full proposed change as a draft file in `_kitten-bot/` before presenting anything.
+        - Filename: `_kitten-bot/[short-slug].md` (kebab-case derived from the task)
+        - First line: `<!-- path/to/target/file.ext -->`
+        - Body: the complete proposed content — actual code, not a description. This draft IS the implementation. Applying means writing it to the target file exactly.
+    - Then present to the user: what will change, in which file(s), and why. One short paragraph. If a draft was staged, reference it: `staged: _kitten-bot/[slug].md`
+    - Then ask:
+        > **[A]** Apply **[V]** Deep Review **[E]** Edit **[D]** Discard
+    - Wait for the answer. Do not proceed until confirmed.
+    - **[A]** → apply the draft to source (copy precisely), delete the draft file, proceed to step 6
+    - **[D]** → delete the draft file, skip
+    - **[V]** → run the [Deep Review](#deep-review) panel, then re-present this confirmation prompt
+    - **[E]** → update the draft in `_kitten-bot/`, re-present
+    - If no `_kitten-bot/`: behaves as before — text description + `[A] Apply [V] [E] Edit [S] Skip`
 6. **Execute** — implement per the confirmed approach.
 7. **Adversarial self-review** (silent — no output to the user):
-   - Run one internal challenge pass on the implementation just written:
-     - What is the obvious edge case that was not handled?
-     - What happens when this receives null, empty array, or undefined input?
-     - Does this introduce an unnecessary re-render, stale closure, or state inconsistency?
-     - Are all imports using the detected alias? Do file names follow the project suffix convention?
-     - Does any changed call site silently break something found during mapping?
-   - If any flag is raised → fix it before moving to step 8. Do not surface the issue — just fix it.
-   - If nothing is flagged → proceed.
+    - Run one internal challenge pass on the implementation just written:
+        - What is the obvious edge case that was not handled?
+        - What happens when this receives null, empty array, or undefined input?
+        - Does this introduce an unnecessary re-render, stale closure, or state inconsistency?
+        - Are all imports using the detected alias? Do file names follow the project suffix convention?
+        - Does any changed call site silently break something found during mapping?
+    - If any flag is raised → fix it before moving to step 8. Do not surface the issue — just fix it.
+    - If nothing is flagged → proceed.
 8. **Definition of Done gate**:
-   - Silent check first:
-     - Are all affected call sites updated?
-     - Does the change match the pattern found during codebase mapping?
-     - If new functions or components were added — are tests expected by the project setup? If yes, do they exist?
-   - Then surface the result in one line:
-     > `✓ call sites updated  ✓ pattern consistent  ✓ no broken imports`
-   - Then ask:
-     > **[C]** Commit **[R]** Revise **[S]** Skip commit for now
+    - Silent check first:
+        - Are all affected call sites updated?
+        - Does the change match the pattern found during codebase mapping?
+        - If new functions or components were added — are tests expected by the project setup? If yes, do they exist?
+    - Then surface the result in one line:
+        > `✓ call sites updated  ✓ pattern consistent  ✓ no broken imports`
+    - Then ask:
+        > **[C]** Commit **[R]** Revise **[S]** Skip commit for now
 
 The map step is non-negotiable even for "obvious" tasks. A task that looks like one change often has two render paths. Finding that before writing any code is always cheaper than fixing it after.
 
@@ -448,8 +465,8 @@ For non-trivial features — new screens, new state, multiple components, API in
 
 ### Before Writing the Plan
 
--1. **WIP Continuation Check** — run the check above. Surface and resolve any in-progress work before starting.
-0. **Run Project Context Detection** — if not already done this session, run it now (silent).
+-1. **WIP Continuation Check** — run the check above. Surface and resolve any in-progress work before starting. 0. **Run Project Context Detection** — if not already done this session, run it now (silent).
+
 1. **Understand the request deeply** — re-read it. Understand intent, constraints, and context.
 2. **Map the existing codebase** (same as Tactical Plan step 2) — read related files, find all call sites, trace delegation chains, identify render sites. Never plan a modification without reading the existing code first.
 3. **Fetch `references/bappi/thinking.md`** — Bappi's problem decomposition sequence and architecture decision process. The plan must follow this flow.
@@ -463,25 +480,31 @@ For non-trivial features — new screens, new state, multiple components, API in
 # Plan: [Feature or Task Name]
 
 ## Problem
+
 What we're solving and why. One short paragraph.
 
 ## Constraints
+
 - Platform, stack, existing patterns
 - Libraries available or in use
 - Any hard limits (performance, security, team conventions)
 
 ## Approach
+
 The chosen direction. Why this approach over alternatives — one or two sentences.
 If a simpler option was considered and rejected, say why.
 
 ## Risks & Edge Cases
+
 What could go wrong. What needs careful handling.
 
 ## Implementation Steps
+
 Step-by-step breakdown in plain prose. Each step should be specific enough to act on.
 Group steps by phase if the feature is large (e.g. data layer → logic → UI → testing).
 
 ## Open Questions
+
 Anything that needs clarification before or during implementation.
 If none, omit this section.
 ```
@@ -490,7 +513,7 @@ If none, omit this section.
 
 - **Written prose, not bullet soup.** Bullets for lists; prose for approach and steps.
 - **One approach, picked.** Note meaningful trade-offs briefly, then state the pick.
-- **Short explanations.** The *why* in one sentence. No over-explanation.
+- **Short explanations.** The _why_ in one sentence. No over-explanation.
 - **References inform the plan.** Reflect relevant rule library files — don't contradict them.
 - **Flag blockers explicitly.** Unresolved questions go in Open Questions, not hidden in steps.
 - **Attribution always.** The plan reflects Bappi's approach.
@@ -498,49 +521,54 @@ If none, omit this section.
 ### After Plan Approval
 
 1. Confirm the plan is locked — adjustments happen before this step
-2. **Write the plan to disk** — save it as `wip/plan-[slug].md` where slug is a short kebab-case name derived from the feature. Update `wip/wip.md` with a new row: filename, destination `(feature plan)`, status `in-progress`.
+2. **Write the plan to disk** — if `kitten_dir: true`, save as `_kitten-bot/plan-[slug].md`; otherwise save as `wip/plan-[slug].md`. Slug is a short kebab-case name derived from the feature. Update the tracker (`wip/wip.md` or nothing if no wip/ in the project) with a new row: filename, destination `(feature plan)`, status `in-progress`.
 
-   Format of `wip/plan-[slug].md`:
-   ```md
-   # Plan: [Feature Name]
-   status: in-progress
+    Format:
 
-   [Full plan content as written above]
+    ```md
+    # Plan: [Feature Name]
 
-   ## Tasks
-   - [ ] [Step 1 from Implementation Steps]
-   - [ ] [Step 2]
-   - [ ] ...
-   ```
+    status: in-progress
 
-2a. **Deep Review gate** — before loading rule-finder or writing any code, run the [Deep Review](#deep-review) panel. This is the last checkpoint before implementation. After it completes (or user skips), continue to step 3.
-3. Fetch `agents/rule-finder.md` — load rule libraries relevant to the implementation steps
-4. Begin implementation — code follows the plan, rules inform every decision. Check off tasks in `wip/plan-[slug].md` as they complete.
+    [Full plan content as written above]
+
+    ## Tasks
+
+    - [ ] [Step 1 from Implementation Steps]
+    - [ ] [Step 2]
+    - [ ] ...
+    ```
+
+2a. **Deep Review gate** — before loading rule-finder or writing any code, run the [Deep Review](#deep-review) panel. This is the last checkpoint before implementation. After it completes (or user skips), continue to step 3. 3. Fetch `agents/rule-finder.md` — load rule libraries relevant to the implementation steps 4. Begin implementation — for each file change, use the draft gate:
+
+- If `kitten_dir: true`: write the proposed content to `_kitten-bot/[step-slug].md` (first line `<!-- path/to/file -->`), present it, ask `[A] Apply [E] Edit [D] Discard`, then apply and delete on `[A]`
+- If no `_kitten-bot/`: implement directly per the confirmed plan
+- Check off tasks in the plan file as they complete.
 
 ### After Implementation
 
 5. **Adversarial self-review** (silent — no output to the user):
-   - Run one internal challenge pass across everything just implemented:
-     - What is the obvious edge case or error state that was not handled?
-     - What happens when the API returns null, the list is empty, or the user has no permissions?
-     - Does any new component cause unnecessary re-renders? Are memo boundaries correct?
-     - Are all imports using the detected alias? File names follow suffix conventions?
-     - Does anything silently break a call site found during mapping?
-     - Does the implementation match the approach in the locked plan — or did it drift?
-   - Fix any flagged issues before the DoD gate. Do not surface the issue — just fix it.
-   - If nothing is flagged → proceed.
+    - Run one internal challenge pass across everything just implemented:
+        - What is the obvious edge case or error state that was not handled?
+        - What happens when the API returns null, the list is empty, or the user has no permissions?
+        - Does any new component cause unnecessary re-renders? Are memo boundaries correct?
+        - Are all imports using the detected alias? File names follow suffix conventions?
+        - Does anything silently break a call site found during mapping?
+        - Does the implementation match the approach in the locked plan — or did it drift?
+    - Fix any flagged issues before the DoD gate. Do not surface the issue — just fix it.
+    - If nothing is flagged → proceed.
 
 6. **Definition of Done gate**:
-   - Silent check first:
-     - All tasks in `wip/plan-[slug].md` checked off?
-     - All affected call sites updated?
-     - Implementation matches the locked plan — no undeclared scope creep?
-     - If new components, hooks, or services were added — do tests exist where the project expects them?
-   - Then surface the result:
-     > `✓ all tasks complete  ✓ call sites updated  ✓ matches plan  ✓ tests accounted for`
-   - Then ask:
-     > **[C]** Commit **[R]** Revise **[S]** Skip commit for now
-   - On **[C]** or **[S]** → update `wip/plan-[slug].md` status to `complete`. Update `wip/wip.md` row to `complete`.
+    - Silent check first:
+        - All tasks in `wip/plan-[slug].md` checked off?
+        - All affected call sites updated?
+        - Implementation matches the locked plan — no undeclared scope creep?
+        - If new components, hooks, or services were added — do tests exist where the project expects them?
+    - Then surface the result:
+        > `✓ all tasks complete  ✓ call sites updated  ✓ matches plan  ✓ tests accounted for`
+    - Then ask:
+        > **[C]** Commit **[R]** Revise **[S]** Skip commit for now
+    - On **[C]** or **[S]** → update the plan file status to `complete` (wherever it was saved — `_kitten-bot/plan-[slug].md` or `wip/plan-[slug].md`). If saved in `_kitten-bot/`, delete it after marking complete. Update `wip/wip.md` row if it exists.
 
 ---
 
@@ -549,6 +577,7 @@ If none, omit this section.
 When a feature is already implemented and the user returns with observations, feedback, or follow-up issues. Not a new planning session — a refinement cycle.
 
 **Detect when:**
+
 - User describes issues after a feature was delivered
 - Phrasing like "it works but…", "one thing I noticed", "still has issues", "a few observations"
 - Implementation context already exists
@@ -566,6 +595,7 @@ Find the best source for clarifying questions in this order:
 **A — Session context:** if a spec or plan exists in this session, use it.
 
 **B — Project planning artifacts:**
+
 ```bash
 ls _bmad/ 2>/dev/null
 ls .bmad/ 2>/dev/null
@@ -575,6 +605,7 @@ find . -maxdepth 3 -name "*.md" | xargs grep -l "story\|spec\|PRD\|epic\|feature
 ```
 
 **C — Recent git changes:**
+
 ```bash
 git log --oneline -10
 git diff HEAD~3..HEAD --stat
@@ -592,7 +623,7 @@ Use the first source that works. Do not mix sources.
 
 State the first observation, ask one focused clarifying question, then wait.
 
-> *"[First observation restatement]. [Clarifying question]?"*
+> _"[First observation restatement]. [Clarifying question]?"_
 > **[Y]** Yes, that's right **[N]** Let me clarify
 
 After receiving the user's response — and only then — move to the next observation. Repeat the same pattern: one observation, one question, stop.
@@ -605,23 +636,29 @@ After receiving the user's response — and only then — move to the next obser
 # Refinement Spec: [Feature Name]
 
 ## Context
+
 What was already implemented. Why these observations came up.
 
 ## Observations
+
 Each confirmed observation as a discrete item:
+
 - **[Item N]:** What the user observed and what the expected behavior is.
 
 ## Scope of Changes
+
 What needs to change, what does not.
 
 ## Risks & Edge Cases
+
 What could break. What needs careful handling.
 
 ## Open Questions
+
 Anything still unresolved. Omit if none.
 ```
 
-> *"Does this spec capture everything?"*
+> _"Does this spec capture everything?"_
 > **[A]** Approved, let's go **[E]** Edit something **[S]** Skip to implementation
 
 ### Step 5 — Orchestration decision
@@ -640,14 +677,14 @@ Runs before implementation. Surfaces risk, edge cases, and false assumptions whi
 
 Score the plan silently before presenting anything:
 
-| Signal | Weight |
-|--------|--------|
-| Implementation steps > 5 | High |
-| Touches 3+ distinct layers (state + API + UI + navigation + auth) | High |
-| Concurrent operations present (offline, optimistic updates, real-time, queue) | High |
-| Multiple screens or multiple status flows | Medium |
-| External API or type dependencies > 3 | Medium |
-| Single file, clear scope, no state involved | Low |
+| Signal                                                                        | Weight |
+| ----------------------------------------------------------------------------- | ------ |
+| Implementation steps > 5                                                      | High   |
+| Touches 3+ distinct layers (state + API + UI + navigation + auth)             | High   |
+| Concurrent operations present (offline, optimistic updates, real-time, queue) | High   |
+| Multiple screens or multiple status flows                                     | Medium |
+| External API or type dependencies > 3                                         | Medium |
+| Single file, clear scope, no state involved                                   | Low    |
 
 **HIGH** = 1+ High signal or 2+ Medium signals → auto-run (no halt)
 **LOW** = none of the above → show menu, wait for user
@@ -713,9 +750,11 @@ Choose 1–6 or [x]:
 - Default complex → run **1, 2, 4** (Pre-Mortem, Edge Case Sweep, User Journey)
 
 Announce before running:
-> *"This plan is complex — running the most relevant deep-review techniques automatically: [names]. You can stop anytime."*
+
+> _"This plan is complex — running the most relevant deep-review techniques automatically: [names]. You can stop anytime."_
 
 **For each technique (auto or user-selected):**
+
 1. Apply it to the current plan content
 2. Present findings clearly
 3. Ask: "Apply findings to the plan? [Y] Yes [N] No"

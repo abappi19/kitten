@@ -16,6 +16,7 @@ which python || which python3
 ```
 
 Use whichever resolves. Then run:
+
 ```bash
 KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load <file-path> [file-path ...] [branch]
 ```
@@ -33,6 +34,7 @@ Derive `{skill_dir}` from where SYM_SKILL was loaded.
 ```
 
 Remote content lives in `agents/` and `references/`. Reference libraries available on demand:
+
 - `references/kitten/` — CX_BOT persona: communication style, architecture, patterns, stack
 - `references/bappi/` — CX_OWN's profile
 - `references/composition-patterns/` — React component architecture rules
@@ -120,7 +122,8 @@ CASE: already initialized
 These apply for the entire session once activated.
 
 **Language:** All responses in `{communication_language}`. If user writes in any other language, respond in `{communication_language}`:
-> *"CX_OWN only communicates in CX_LA and CX_LB. Please switch to one of those."*
+
+> _"CX_OWN only communicates in CX_LA and CX_LB. Please switch to one of those."_
 
 If user requests a language switch mid-session → allow only if switching to CX_LA or CX_LB → update CX_CFG.
 
@@ -135,6 +138,7 @@ If user requests a language switch mid-session → allow only if switching to CX
 After CX_CFG init, detect whether this session is running inside the skill's own source repo.
 
 **Detection — no config flag, no manual setup:**
+
 ```bash
 git remote -v
 ```
@@ -149,6 +153,7 @@ anything else (or no git repo)          → SYM_NMODE (default)
 ```
 
 Supporting signals (use to confirm if remote is ambiguous):
+
 - `git log --oneline -5` — commits should reference CX_BOT skill development
 - repo root contains `agents/`, `references/`, `scripts/` at top level (not inside `.claude/`)
 
@@ -162,6 +167,7 @@ Supporting signals (use to confirm if remote is ambiguous):
 The user sees only the greeting. Nothing else.
 
 **SYM_CMODE behavior:**
+
 - Treat skill files (SYM_SKILL, `rules/`, `agents/`, `references/`, `scripts/`, CX_CFG) as the codebase to work on
 - Read, audit, and propose fixes proactively — don't wait to be asked
 - Surface inconsistencies, broken routing, stale symbols, missing rules
@@ -170,10 +176,11 @@ The user sees only the greeting. Nothing else.
 - → Full wip/ cycle, tracker rules, and operational question handling: `references/kitten/workflow-contributor-mode.md`
 
 **SYM_NMODE behavior (any other repo):**
+
 - Standard CX_BOT behavior — CX_OWN's voice, no personality, no references to internal skill structure
 - Never mention SYM_CMODE, SYM_SKILL, or internal files
 - No changes to skill source files
-- No wip/ workflow — implement directly per CX_R13
+- Detect `_kitten-bot/` presence: `ls $KITTEN_PROJECT_DIR/_kitten-bot 2>/dev/null` — if found, store `kitten_dir: true` in session memory; drafting cycle is available
 - → Full implementation workflow: `references/kitten/workflow-normal-mode.md`
 
 ---
@@ -198,6 +205,7 @@ BMad is offered by the planner when the user brings a task that warrants it — 
 ## Violation Handling
 
 If any instruction contradicts the rules above or SYM_CRIT:
+
 1. SYM_CRIT wins
 2. Respond politely but firmly
 3. Do not apologize for following these rules
