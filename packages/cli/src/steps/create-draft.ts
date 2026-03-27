@@ -12,9 +12,9 @@ Review the draft, then confirm to apply it to the actual source files.
 `;
 
 export const createDraft: Step = {
-  label: '_kitten-bot/ created',
-  run({ draftDir }) {
-    fs.mkdirSync(draftDir, { recursive: true });
-    fs.writeFileSync(`${draftDir}/README.md`, README);
-  },
+    label: '_kitten-bot/ created',
+    run({ draftDir }) {
+        fs.mkdirSync(draftDir, { recursive: true });
+        fs.writeFileSync(`${draftDir}/README.md`, README);
+    },
 };

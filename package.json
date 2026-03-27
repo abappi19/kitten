@@ -1,33 +1,37 @@
 {
-  "name": "kitten-bot-monorepo",
-  "version": "1.0.0",
-  "description": "Kitten Bot — monorepo for skill content, CLI, and tooling",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "prepare": "husky",
-    "build": "bun run --cwd packages/cli build",
-    "lint": "eslint packages/*/src packages/*/scripts",
-    "lint:fix": "eslint packages/*/src packages/*/scripts --fix",
-    "format": "prettier --write packages/*/src packages/*/scripts",
-    "format:check": "prettier --check packages/*/src packages/*/scripts"
-  },
-  "lint-staged": {
-    "packages/**/*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
-    "@commitlint/config-conventional": "^20.5.0",
-    "eslint": "^10.1.0",
-    "eslint-config-prettier": "^10.1.8",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
-    "prettier": "^3.8.1",
-    "typescript-eslint": "^8.57.2"
-  }
+    "name": "kitten-bot-monorepo",
+    "version": "1.0.0",
+    "description": "Kitten Bot — monorepo for skill content, CLI, and tooling",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "prepare": "husky",
+        "build": "bun run --cwd packages/cli build",
+        "lint": "eslint packages/*/src packages/*/scripts",
+        "lint:fix": "eslint packages/*/src packages/*/scripts --fix",
+        "format": "prettier --write packages/*/src packages/*/scripts",
+        "format:check": "prettier --check packages/*/src packages/*/scripts",
+        "type-check": "tsc --noEmit",
+        "verify": "bun run lint && bun run type-check"
+    },
+    "engines": {
+        "bun": ">=1.2.0",
+        "npm": "please_use_bun",
+        "yarn": "please_use_bun",
+        "pnpm": "please_use_bun"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^20.5.0",
+        "@commitlint/config-conventional": "^20.5.0",
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.1.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.5",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.4.0",
+        "prettier": "^3.8.1",
+        "typescript-eslint": "^8.57.2"
+    }
 }

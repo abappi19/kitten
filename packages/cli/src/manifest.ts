@@ -7,8 +7,8 @@
  *   - steps/copy-files.ts (copy from public/ → target skill dir)
  */
 export const manifest = {
-  /** Whole directories — copied recursively */
-  dirs: ['agents', 'rules', 'scripts'],
-  /** Individual files at the skill root */
-  files: ['SKILL.md', 'config.template.json'],
+    /** Whole directories — copied recursively */
+    dirs: ['agents', 'rules', 'scripts'],
+    /** Individual files at the skill root */
+    files: ['SKILL.md', 'config.template.json'],
 } as const;

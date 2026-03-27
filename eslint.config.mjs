@@ -1,10 +1,13 @@
+import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
-import prettier from 'eslint-config-prettier';
+import prettier from 'eslint-plugin-prettier/recommended';
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ['**/node_modules/**', '**/dist/**', '**/public/**'],
   },
+  eslint.configs.recommended,
   tseslint.configs.recommended,
   prettier,
   {
