@@ -4,29 +4,48 @@
 
 Universal entry point for every user query. Classifies the intent and routes to the correct agent — committer, debugger, code-reviewer, identity agent, or a code implementation flow. For code tasks, it plans the next move before any file is touched. The plan may be a quick internal sequence or a full written spec — the task determines which. Output is never code.
 
+**Execution:** follows `references/kitten/execution-contract.md` (CX_R17).
+Gates: Tactical step 5 (show-and-confirm), Feature Plan approval, Feature DoD.
+Schema: `planning next move...` beat + agent-specific structure per flow.
+
+---
+
+## Pre-Classification — First Planner Entry Per Session
+
+The overviews and communication-style reference are **not** loaded at boot. On the first planner entry of the session, fetch them in one call:
+
+```bash
+KITTEN_PROJECT_DIR=$(pwd) && cd {skill_dir} && <python_bin> -m scripts.k_load agents/_overview.md references/_overview.md references/kitten/communication-style.md
+```
+
+Mark `overviews_loaded: true` in session memory. Subsequent planner entries skip this step.
+
+Why: overviews are required to route intent, and communication-style governs tone for the first response. Loading them here (instead of at boot) keeps trivial sessions ("hi", "what mode?") cheap.
+
 ---
 
 ## Entry — Classify First
 
 Every user query starts here. Classify the intent before doing anything else.
 
-| Class                               | Signals                                                                                                                                                                   | Next move                                                                                               |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **Ambiguous**                       | Code pasted with no problem stated, vague comment only ("for some reason", "something is off", "check this"), no description of expected vs actual behavior               | → [Ambiguous Request](#ambiguous-request)                                                               |
-| **Commit**                          | "commit this", "commit staged", "commit my changes", "make a commit", "save progress", "let's commit", or any message where the next action would be running `git commit` | → fetch `agents/committer.md`                                                                           |
-| **Code review**                     | "review this", "audit this", "what would Bappi think of this?", code shared explicitly for review                                                                         | → fetch `agents/code-reviewer.md` + `agents/rule-finder.md`                                             |
-| **Identity**                        | "who are you?", "who is Bappi?", "what can you help with?", "tell me about yourself"                                                                                      | → fetch `agents/identity.md`                                                                            |
-| **Patterns / architecture / stack** | "how does Bappi handle X?", "what's the pattern for X?", "which library?", "what's Bappi's opinion on X?"                                                                 | → fetch `references/_overview.md` and route to the specific reference file                              |
-| **Scaffold feature**                | "scaffold a feature", "generate the scaffold script", "run the scaffold"                                                                                                  | → fetch `scripts/scaffold-feature.sh`, show content, instruct user to run locally                       |
-| **Eval**                            | "eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval"                                                                                      | → fetch `agents/self-eval.md`                                                                           |
-| **Sync with world**                 | "sync with world", "search skills.sh", "update [topic] from community", "see how others do [topic]" — CONTRIBUTOR MODE only                                               | → fetch `references/kitten/workflow-contributor-mode.md`, run the Sync with World workflow              |
-| **Description optimizer**           | "optimize description", "improve trigger accuracy", "run description eval", "tune the description"                                                                        | → fetch `agents/description-optimizer.md` — CONTRIBUTOR MODE only (modifies SKILL.md via wip/ workflow) |
-| **BMad**                            | user explicitly says "BMad", "party mode", "quick spec", or Step 17 of project-bootstrap                                                                                  | → fetch `agents/bmad-orchestrator.md` directly                                                          |
-| **New project**                     | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir                                                                                          | → [New Project](#new-project)                                                                           |
-| **Simple / tactical**               | Single change, clear scope, contained to one file or one behavior                                                                                                         | → [Tactical Plan](#tactical-plan)                                                                       |
-| **Non-trivial feature**             | New screen, new state layer, multiple components, new API integration                                                                                                     | → BMad Scope Check, then [Feature Plan](#feature-plan)                                                  |
-| **Observation / feedback**          | "it works but…", "one thing I noticed", issues after a delivered feature                                                                                                  | → [Observation Intake](#observation-intake-flow)                                                        |
-| **Debugging**                       | Error pasted, crash described, broken behavior explicitly stated                                                                                                          | → fetch `agents/debugger.md`                                                                            |
+| Class                               | Signals                                                                                                                                                                               | Next move                                                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Ambiguous**                       | Code pasted with no problem stated, vague comment only ("for some reason", "something is off", "check this"), no description of expected vs actual behavior                           | → [Ambiguous Request](#ambiguous-request)                                                               |
+| **Commit**                          | "commit this", "commit staged", "commit my changes", "make a commit", "save progress", "let's commit", or any message where the next action would be running `git commit`             | → fetch `agents/committer.md`                                                                           |
+| **Code review**                     | "review this", "audit this", "what would Bappi think of this?", code shared explicitly for review                                                                                     | → fetch `agents/code-reviewer.md` + `agents/rule-finder.md`                                             |
+| **Identity**                        | "who are you?", "who is Bappi?", "what can you help with?", "tell me about yourself"                                                                                                  | → fetch `agents/identity.md`                                                                            |
+| **Patterns / architecture / stack** | "how does Bappi handle X?", "what's the pattern for X?", "which library?", "what's Bappi's opinion on X?"                                                                             | → fetch `references/_overview.md` and route to the specific reference file                              |
+| **Scaffold feature**                | "scaffold a feature", "generate the scaffold script", "run the scaffold"                                                                                                              | → fetch `scripts/scaffold-feature.sh`, show content, instruct user to run locally                       |
+| **Eval**                            | "eval yourself", "run evals", "test yourself", "validate the skill", "run self-eval"                                                                                                  | → fetch `agents/self-eval.md`                                                                           |
+| **Sync with world**                 | "sync with world", "search skills.sh", "update [topic] from community", "see how others do [topic]" — CONTRIBUTOR MODE only                                                           | → fetch `references/kitten/workflow-contributor-mode.md`, run the Sync with World workflow              |
+| **Description optimizer**           | "optimize description", "improve trigger accuracy", "run description eval", "tune the description"                                                                                    | → fetch `agents/description-optimizer.md` — CONTRIBUTOR MODE only (modifies SKILL.md via wip/ workflow) |
+| **BMad**                            | user explicitly says "BMad", "party mode", "quick spec", or Step 17 of project-bootstrap                                                                                              | → fetch `agents/bmad-orchestrator.md` directly                                                          |
+| **New project**                     | "new app", "from scratch", "scaffold", no `package.json` / `src/` in project dir                                                                                                      | → [New Project](#new-project)                                                                           |
+| **Creation / greenfield**           | "create a module", "build a library", "make a package", "design a design system", "build a backend service", or any request to author a new standalone artifact that isn't a full app | → [Creation Lifecycle](#creation-lifecycle)                                                             |
+| **Simple / tactical**               | Single change, clear scope, contained to one file or one behavior                                                                                                                     | → [Tactical Plan](#tactical-plan)                                                                       |
+| **Non-trivial feature**             | New screen, new state layer, multiple components, new API integration                                                                                                                 | → BMad Scope Check, then [Feature Plan](#feature-plan)                                                  |
+| **Observation / feedback**          | "it works but…", "one thing I noticed", issues after a delivered feature                                                                                                              | → [Observation Intake](#observation-intake-flow)                                                        |
+| **Debugging**                       | Error pasted, crash described, broken behavior explicitly stated                                                                                                                      | → fetch `agents/debugger.md`                                                                            |
 
 One classification. Move immediately to the right section.
 
@@ -39,12 +58,22 @@ One classification. Move immediately to the right section.
 At every step transition in every flow, without exception:
 
 1. Say `planning next move...`
-2. **Identify what references and agents apply to this step** — check `agents/_overview.md` and `references/_overview.md` (already loaded from boot). Ask: does this step touch UI, state, navigation, auth, API, storage, testing, or any domain with a reference file? If yes — fetch it now, before proceeding.
+2. **Identify what references and agents apply to this step** — check `agents/_overview.md` and `references/_overview.md` (loaded on first planner entry per session). Ask: does this step touch UI, state, navigation, auth, API, storage, testing, or any domain with a reference file? If yes — fetch it now, before proceeding.
 3. Proceed with the step.
 
 This applies to every flow — tactical, feature, observation, debug, project bootstrap, and anything else. It applies before every question, before every output, and after every user answer. "I already loaded enough" is not an exception. Each step may touch a different domain — check and load accordingly.
 
 **Why:** references capture Bappi's patterns for specific domains. Missing a reference at the wrong step produces wrong code — wrong provider structure, wrong state patterns, wrong fetch abstractions. Loading late is too late.
+
+---
+
+## Planning Directory
+
+Every plan the planner produces — Feature Plan, Creation Lifecycle, project bootstrap, refinement spec — is persisted to the `.planning/` layout defined in `references/kitten/planning-directory.md`. No "in-session only" plans.
+
+Tactical Plans do not create `.planning/` folders — they use the `_kitten-bot/` drafting gate (when present) and leave no persistent plan artifact.
+
+Load the reference once per session, on the first Feature / Creation / Bootstrap / refinement flow.
 
 ---
 
@@ -79,6 +108,18 @@ One question. Wait for the answer. Then re-classify and proceed.
 Detect signals: "new app", "new project", "from scratch", "start a new", "build a new X app", "create an X app", or no existing source files in `$KITTEN_PROJECT_DIR`.
 
 → Fetch `agents/project-bootstrap.md` and follow it completely. Skip everything else below.
+
+---
+
+## Creation Lifecycle
+
+Detect signals: "create a module", "build a library", "make a package", "write an Expo module", "design a design system", "build a backend service" — any request to author a new standalone artifact that is not a full app (apps go to New Project / project-bootstrap).
+
+→ Fetch `references/bappi/creation-lifecycle.md` and follow it completely. The lifecycle defines 12 phases with hard gates at Phases 1–3 (no code before Phase 4). It follows `references/kitten/execution-contract.md` (CX_R17).
+
+**Key distinction from New Project:** project-bootstrap is for full apps (Expo, Next.js, monorepo). Creation Lifecycle is for everything else — modules, libraries, packages, backends, design systems, shared packages.
+
+Lifecycle phases map 1:1 to phase files in `.planning/[slug]/phases/phase-XX-[name].md`. The initiative slug defaults to the artifact name (e.g., `offline-sync`, `auth-module`). Follow `references/kitten/planning-directory.md` for structure, phase numbering, and slug collision handling. WIP Continuation Check runs at the start of Phase 1.
 
 ---
 
@@ -145,26 +186,42 @@ Score the task against these signals:
 
 ## WIP Continuation Check
 
-Runs at the start of every Tactical Plan and Feature Plan — before Project Context Detection. Silent read, surfaced only when in-progress work is found.
+Runs at the start of every Tactical Plan, Feature Plan, Creation Lifecycle Phase 1, and project-bootstrap step 0 — before Project Context Detection. Silent read, surfaced only when in-progress work is found.
 
 ```bash
+cat $KITTEN_PROJECT_DIR/.planning/PLAN.md 2>/dev/null
 cat $KITTEN_PROJECT_DIR/wip/wip.md 2>/dev/null
 ```
 
-If the table has any row with status `in-progress`:
+Two sources checked:
 
-- Surface it — one line per item
-- Ask:
-    > _"There's work in progress: **[entry name]**. Resume or start fresh?"_
-    > **[R]** Resume **[F]** Fresh start **[N]** Start something new
+1. **`.planning/PLAN.md`** — any row with status `in-progress`.
+2. **`wip/wip.md`** — any row with status `in-progress` (Contributor Mode skill-file drafts only).
 
-**[R] Resume** — read the corresponding wip file. Understand the existing plan and where it left off. Skip planning steps that already ran. Continue from the last incomplete step.
+**Single in-progress row:** surface it and ask:
 
-**[F] Fresh start** — move the old wip file to `wip/archive/[filename]-[date].md`. Update its wip.md row to `archived`. Proceed normally.
+> _"There's work in progress: **[entry name]**. Resume or start fresh?"_
+> **[R]** Resume **[F]** Fresh start **[N]** Start something new
 
-**[N] Start something new** — leave in-progress item untouched. Proceed normally.
+**Multiple in-progress rows:** list them numbered, ask which to resume:
 
-If wip/wip.md is empty or has no `in-progress` entries → skip silently, proceed.
+```
+In-progress plans:
+  1. [Initiative name] (.planning/[slug]/)
+  2. [Another] (.planning/[slug]/)
+
+Resume which? Enter a number, or:
+  [F] Fresh start (archive all listed)
+  [N] Start something new (leave them in place)
+```
+
+**[R] or a numeric choice** — for a `.planning/` entry: read the corresponding `.planning/[slug]/PLAN.md` and its `phases/` directory, continue from the first phase with status `planned` or `in-progress`. For a `wip/` entry: read the wip file and continue from the last incomplete step. Skip planning steps that already ran.
+
+**[F] Fresh start** — for `wip/` entries: move the old wip file to `wip/archive/[filename]-[date].md`, update its `wip.md` row to `archived`. For `.planning/` entries: move to `.planning/archive/[slug]/` (`git mv` when tracked, plain `mv` otherwise) and update the index row to `archived`.
+
+**[N] Start something new** — leave in-progress items untouched. Proceed normally.
+
+If both sources are empty or have no `in-progress` entries → skip silently, proceed.
 
 ---
 
@@ -521,23 +578,15 @@ If none, omit this section.
 ### After Plan Approval
 
 1. Confirm the plan is locked — adjustments happen before this step
-2. **Write the plan to disk** — if `kitten_dir: true`, save as `_kitten-bot/plan-[slug].md`; otherwise save as `wip/plan-[slug].md`. Slug is a short kebab-case name derived from the feature. Update the tracker (`wip/wip.md` or nothing if no wip/ in the project) with a new row: filename, destination `(feature plan)`, status `in-progress`.
-
-    Format:
-
-    ```md
-    # Plan: [Feature Name]
-
-    status: in-progress
-
-    [Full plan content as written above]
-
-    ## Tasks
-
-    - [ ] [Step 1 from Implementation Steps]
-    - [ ] [Step 2]
-    - [ ] ...
-    ```
+2. **Write the plan to disk — `.planning/` layout is mandatory.** Follow `references/kitten/planning-directory.md`:
+    - Derive `[slug]` from the feature name (short, kebab-case). If `.planning/[slug]/` already exists, append `-v2` (or next integer) and note `(continues [original-slug])` in the index row.
+    - Create `.planning/[slug]/PLAN.md` with the locked plan content (Problem, Constraints, Approach, Risks & Edge Cases, Open Questions) plus a `**Status:** in-progress` line under the title and a `**Started:** YYYY-MM-DD` line.
+    - **Phase breakdown decision:**
+        - If implementation has **< 3 steps AND touches ≤ 2 layers** → keep steps as a `## Tasks` checkbox list in the initiative's `PLAN.md`. Do not create `phases/`.
+        - Otherwise → split Implementation Steps into `.planning/[slug]/phases/phase-01-[name].md … phase-NN-[name].md` — one file per phase, zero-padded. Add a `## Phase Index` table in the initiative `PLAN.md` linking each phase file. Each phase file uses the schema in the reference (`Goal`, `Scope`, `Steps`, `Verification`).
+    - Update (or create) `.planning/PLAN.md` — the minimal index. Add a new row: `| [Initiative name] | in-progress | [slug/PLAN.md](slug/PLAN.md) |`. If the index doesn't exist, create it with the project name (derive from `package.json` name → `src-tauri/tauri.conf.json` productName → directory basename) + a one-line tagline + the first row.
+    - **Existing `.planning/` check:** if a non-conforming `.planning/` directory exists, run the migration prompt from `references/kitten/planning-directory.md` before writing anything. Don't re-ask within the same session.
+    - Contributor Mode: `wip/wip.md` is only for skill-file drafts in `wip/` — never for `.planning/` initiatives.
 
 2a. **Deep Review gate** — before loading rule-finder or writing any code, run the [Deep Review](#deep-review) panel. This is the last checkpoint before implementation. After it completes (or user skips), continue to step 3. 3. Fetch `agents/rule-finder.md` — load rule libraries relevant to the implementation steps 4. Begin implementation — for each file change, use the draft gate:
 
@@ -560,7 +609,7 @@ If none, omit this section.
 
 6. **Definition of Done gate**:
     - Silent check first:
-        - All tasks in `wip/plan-[slug].md` checked off?
+        - All tasks in the plan checked off? (on disk or in-session)
         - All affected call sites updated?
         - Implementation matches the locked plan — no undeclared scope creep?
         - If new components, hooks, or services were added — do tests exist where the project expects them?
@@ -568,7 +617,11 @@ If none, omit this section.
         > `✓ all tasks complete  ✓ call sites updated  ✓ matches plan  ✓ tests accounted for`
     - Then ask:
         > **[C]** Commit **[R]** Revise **[S]** Skip commit for now
-    - On **[C]** or **[S]** → update the plan file status to `complete` (wherever it was saved — `_kitten-bot/plan-[slug].md` or `wip/plan-[slug].md`). If saved in `_kitten-bot/`, delete it after marking complete. Update `wip/wip.md` row if it exists.
+    - On **[C]** or **[S]**:
+        - Update `.planning/[slug]/PLAN.md` `**Status:**` → `done`.
+        - Update the matching row in `.planning/PLAN.md` → `done`.
+        - Update each completed phase file's `**Status:**` → `done`.
+        - Never delete `.planning/` folders on completion — `done` plans are the project's history. Archiving is a separate, user-requested action (`git mv .planning/[slug] .planning/archive/[slug]` when the folder is git-tracked; plain `mv` otherwise).
 
 ---
 
@@ -660,6 +713,13 @@ Anything still unresolved. Omit if none.
 
 > _"Does this spec capture everything?"_
 > **[A]** Approved, let's go **[E]** Edit something **[S]** Skip to implementation
+
+**Persistence:** the refinement spec is written to `.planning/` per `references/kitten/planning-directory.md`:
+
+- **Default** — append as a new phase to the parent initiative: `.planning/[parent-slug]/phases/phase-NN-refinement-[topic].md`. Update the parent's `## Phase Index`.
+- **Escalate to a new initiative** when the refinement touches 3+ layers, requires a new external dependency, or changes the parent's core approach. Create a sibling initiative folder and link back to the parent in its Problem section.
+
+Planner applies the default silently; surfaces the choice only when escalating.
 
 ### Step 5 — Orchestration decision
 
