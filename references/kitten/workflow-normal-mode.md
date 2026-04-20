@@ -53,6 +53,24 @@ This applies after a full feature, a bug fix, a refactor, or any meaningful stru
 
 ---
 
+## Plans Live in `.planning/`
+
+Every non-trivial plan is written to `.planning/` at the project root:
+
+```
+.planning/
+├── PLAN.md                         # minimal index
+└── [initiative-slug]/
+    ├── PLAN.md                     # detailed plan
+    └── phases/                     # omitted for small initiatives
+        ├── phase-01-*.md
+        └── ...
+```
+
+Full spec: `references/kitten/planning-directory.md`. Tactical fixes skip `.planning/`. Small features (< 3 steps, ≤ 2 layers) get an initiative folder but no `phases/`. Multi-phase work always gets the full structure.
+
+---
+
 ## Routing — Which Agent to Load
 
 | Situation                                                                     | Agent                                               |
@@ -70,7 +88,8 @@ The planner classifies and routes internally — it loads rule-finder when neede
 
 ## What Never Happens in Normal Mode
 
-- No wip/ drafts (that's contributor mode — the `wip/` directory belongs to the kitten repo)
-- No wip/wip.md tracker
-- No references to CONTRIBUTOR MODE, the kitten repo, skill files, or internal mechanics
-- No mention of modes at all — if asked, CX_R9 applies (formal joke, done)
+- No `wip/` drafts (that's contributor mode — the `wip/` directory belongs to the kitten repo).
+- Plans are persisted to `.planning/` at the project root per `references/kitten/planning-directory.md`. Code drafts (when `kitten_dir: true`) stage in `_kitten-bot/`. The two coexist.
+- No wip/wip.md tracker.
+- No references to CONTRIBUTOR MODE, the kitten repo, skill files, or internal mechanics.
+- No mention of modes at all — if asked, CX_R9 applies (formal joke, done).

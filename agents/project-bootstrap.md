@@ -2,6 +2,14 @@
 
 Bappi's step-by-step sequence for starting a new project from scratch. Each step asks one question, delegates to the relevant reference or agent for decision criteria, then moves to the next. No step is skipped. No code is written until all decisions in Phase 1 are confirmed.
 
+**Persistence:** all bootstrap output is written to `.planning/initial-setup/` per `references/kitten/planning-directory.md`. Slug defaults to `initial-setup`.
+
+---
+
+## Step 0 — WIP Continuation Check
+
+Run the WIP Continuation Check from `agents/planner.md` before anything else. If an in-progress initiative exists in `.planning/PLAN.md`, resolve it (resume / fresh start / start new) before proceeding with bootstrap.
+
 ---
 
 ## Phase 1 — Decisions
@@ -54,7 +62,7 @@ planning next move...
 
 ---
 
-### Step 4 — Navigation *(Expo/RN only — skip for Next.js or backend-only)*
+### Step 4 — Navigation _(Expo/RN only — skip for Next.js or backend-only)_
 
 planning next move...
 
@@ -114,7 +122,7 @@ planning next move...
 
 ---
 
-### Step 8 — UI Library *(Expo/RN or monorepo — skip for backend-only)*
+### Step 8 — UI Library _(Expo/RN or monorepo — skip for backend-only)_
 
 planning next move...
 
@@ -130,7 +138,7 @@ planning next move...
 
 ---
 
-### Step 9 — Fonts *(Expo/RN only)*
+### Step 9 — Fonts _(Expo/RN only)_
 
 planning next move...
 
@@ -146,7 +154,7 @@ If **[C]**: Which font family? (ask — store as `{font_family}`)
 
 ---
 
-### Step 10 — Icons *(Expo/RN only)*
+### Step 10 — Icons _(Expo/RN only)_
 
 planning next move...
 
@@ -219,7 +227,7 @@ planning next move...
 
 ---
 
-### Step 15 — Backend *(skip if project_type is backend-only — already decided)*
+### Step 15 — Backend _(skip if project_type is backend-only — already decided)_
 
 planning next move...
 
@@ -236,7 +244,7 @@ planning next move...
 
 ---
 
-### Step 16 — CI/CD & EAS *(Expo/RN only)*
+### Step 16 — CI/CD & EAS _(Expo/RN only)_
 
 planning next move...
 
@@ -299,9 +307,9 @@ Wait for confirmation before Phase 2.
 Execute in order. Reference the linked file for each step's implementation details.
 
 1. **Init project** — run the create command with `{pkg}` and `{project_name}`
-   - Expo Managed: `{pkg} create-expo-app {project_name}`
-   - Next.js: `{pkg} create-next-app {project_name}`
-   - Monorepo: `{pkg} create-turbo {project_name}`
+    - Expo Managed: `{pkg} create-expo-app {project_name}`
+    - Next.js: `{pkg} create-next-app {project_name}`
+    - Monorepo: `{pkg} create-turbo {project_name}`
 
 2. **Install canonical dependencies** — filter `references/bappi/dependency-stack.md` by the decisions made; install only what applies
 
@@ -317,17 +325,17 @@ Execute in order. Reference the linked file for each step's implementation detai
 
 8. **Set up UI library** — follow `references/bappi/ui-patterns.md`
 
-9. **Set up fonts** *(if custom)* — follow `references/bappi/ui-patterns.md`
+9. **Set up fonts** _(if custom)_ — follow `references/bappi/ui-patterns.md`
 
-10. **Set up environment config** *(if yes)* — follow `references/bappi/env-config.md`
+10. **Set up environment config** _(if yes)_ — follow `references/bappi/env-config.md`
 
-11. **Set up auth scaffolding** *(if yes)* — follow `references/bappi/auth-flow.md`
+11. **Set up auth scaffolding** _(if yes)_ — follow `references/bappi/auth-flow.md`
 
-12. **Set up testing** *(if not skipped)* — follow `references/bappi/testing.md`
+12. **Set up testing** _(if not skipped)_ — follow `references/bappi/testing.md`
 
-13. **Set up EAS + CI/CD** *(if yes)* — follow `references/bappi/cicd.md`
+13. **Set up EAS + CI/CD** _(if yes)_ — follow `references/bappi/cicd.md`
 
-14. **Install BMad** *(if yes)* — follow `agents/bmad-orchestrator.md`; skip Step 1 (package manager already known)
+14. **Install BMad** _(if yes)_ — follow `agents/bmad-orchestrator.md`; skip Step 1 (package manager already known)
 
 ---
 
