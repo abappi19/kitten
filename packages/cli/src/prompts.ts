@@ -1,5 +1,7 @@
 import readline from 'readline';
-import type { CommLang, Branch } from './types.js';
+import path from 'path';
+import os from 'os';
+import type { CommLang, Branch, Scope } from './types.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -32,6 +34,31 @@ const askSecret = (q: string): Promise<string> =>
             }
         });
     });
+
+export async function askDestination(): Promise<Scope> {
+    const localPath = path.join(
+        process.cwd(),
+        '.claude',
+        'skills',
+        'kitten-bot',
+    );
+    const globalPath = path.join(
+        os.homedir(),
+        '.claude',
+        'skills',
+        'kitten-bot',
+    );
+    console.log('');
+    console.log('  Where do you want to install kitten-bot?');
+    console.log(`    1. This project   — ${localPath}`);
+    console.log(`    2. User home      — ${globalPath}`);
+    while (true) {
+        const input = (await ask('  Choice [1]: ')).trim() || '1';
+        if (input === '1') return 'local';
+        if (input === '2') return 'global';
+        console.log('  ! Choose 1 or 2.');
+    }
+}
 
 export async function askName(): Promise<string> {
     while (true) {

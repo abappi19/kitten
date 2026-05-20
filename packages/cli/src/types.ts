@@ -1,5 +1,6 @@
 export type CommLang = 'English' | 'Bangla';
 export type Branch = 'main' | 'dev' | 'beta';
+export type Scope = 'local' | 'global';
 
 export interface InstallConfig {
     userName: string;
@@ -13,6 +14,7 @@ export interface InstallContext {
     bundleDir: string;
     skillDir: string;
     draftDir: string;
+    scope: Scope;
 }
 
 export interface Step {
