@@ -8,7 +8,12 @@
  */
 export const manifest = {
     /** Whole directories — copied recursively */
-    dirs: ['agents', 'rules', 'scripts'],
-    /** Individual files at the skill root */
-    files: ['SKILL.md', 'config.template.json'],
+    dirs: ['agents', 'rules'],
+    /** Individual files (relative paths supported) */
+    files: [
+        'SKILL.md',
+        'config.template.json',
+        'scripts/__init__.py',
+        'scripts/k_load.py',
+    ],
 } as const;
