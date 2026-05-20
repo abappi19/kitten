@@ -2,9 +2,9 @@
  * build.ts — copies local skill files into cli/public/ for bundling.
  *
  * Source: <repo>/.claude/skills/kitten-bot/
- * Dest:   <repo>/cli/public/
+ * Dest:   <repo>/packages/cli/public/
  *
- * Usage (run from cli/):  bun run build
+ * Usage (run from packages/cli/):  bun run build
  */
 import fs from 'fs';
 import path from 'path';
@@ -14,6 +14,7 @@ import { manifest } from '../src/manifest.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SKILL_ROOT = path.join(
     __dirname,
+    '..',
     '..',
     '..',
     '.claude',
